@@ -112,7 +112,30 @@
             "rotation": 0,
             "shadow": 20,
             "pos_x": -15,
-            "pos_y": 10,
+            "pos_y": 105,
+            "pos_x_mobile": 0,
+            "pos_y_mobile": 60
+          }
+        },
+        "slide_hWeRUg": {
+          "type": "slide",
+          "settings": {
+            "subheading": "Introducing",
+            "heading": "The New Standard.",
+            "description": "<p>A premium design experience built seamlessly into your store.</p>",
+            "btn_text": "Discover More",
+            "btn_url": "",
+            "bg_color": "#f4f4f4",
+            "accent_color": "#e1e1e1",
+            "text_color": "#111111",
+            "bg_type": "solid",
+            "decoration_style": "circle",
+            "floating": true,
+            "image_scale": 100,
+            "rotation": 0,
+            "shadow": 20,
+            "pos_x": 0,
+            "pos_y": 0,
             "pos_x_mobile": 0,
             "pos_y_mobile": 0
           }
@@ -145,6 +168,7 @@
       "block_order": [
         "slide-2",
         "slide-1",
+        "slide_hWeRUg",
         "slide_KXfDg3"
       ],
       "settings": {
