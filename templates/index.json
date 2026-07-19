@@ -108,13 +108,13 @@
             "bg_type": "mesh",
             "decoration_style": "none",
             "floating": true,
-            "image_scale": 155,
+            "image_scale": 200,
             "rotation": 0,
             "shadow": 20,
             "pos_x": -15,
-            "pos_y": 105,
+            "pos_y": -45,
             "pos_x_mobile": 0,
-            "pos_y_mobile": 60
+            "pos_y_mobile": 50
           }
         },
         "slide_hWeRUg": {
