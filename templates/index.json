@@ -84,11 +84,13 @@
             "bg_image": "shopify://shop_images/IMG_4679.png",
             "decoration_style": "none",
             "floating": false,
-            "image_scale": 155,
+            "image_scale": 200,
             "rotation": 4,
             "shadow": 20,
-            "pos_x": 0,
-            "pos_y": 105
+            "pos_x": -40,
+            "pos_y": -10,
+            "pos_x_mobile": 0,
+            "pos_y_mobile": 0
           }
         },
         "slide-1": {
@@ -110,7 +112,9 @@
             "rotation": 0,
             "shadow": 20,
             "pos_x": -15,
-            "pos_y": 30
+            "pos_y": 10,
+            "pos_x_mobile": 0,
+            "pos_y_mobile": 0
           }
         },
         "slide_KXfDg3": {
@@ -122,9 +126,9 @@
             "btn_text": "Discover More",
             "btn_url": "",
             "product_image": "shopify://shop_images/IMG_4679.png",
-            "bg_color": "#466D28",
-            "accent_color": "#FFDD57",
-            "text_color": "#FFCF10",
+            "bg_color": "#466d28",
+            "accent_color": "#ffdd57",
+            "text_color": "#ffcf10",
             "bg_type": "solid",
             "decoration_style": "blobs",
             "floating": true,
@@ -132,7 +136,9 @@
             "rotation": 0,
             "shadow": 20,
             "pos_x": 0,
-            "pos_y": 0
+            "pos_y": 0,
+            "pos_x_mobile": 0,
+            "pos_y_mobile": 0
           }
         }
       },
