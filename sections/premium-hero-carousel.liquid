@@ -158,7 +158,7 @@
     max-height: 90%;
     width: 100%;
     opacity: 0;
-    transform: scale(0.9) translate(var(--phc-pos-x, 0px), calc(var(--phc-pos-y, 0px) + 40px));
+    transform: scale(calc(var(--phc-image-scale, 1) * 0.9)) translate(var(--phc-pos-x, 0px), calc(var(--phc-pos-y, 0px) + 40px));
     transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     transition-delay: 0.1s;
     will-change: transform;
@@ -177,7 +177,7 @@
   
   .phc-slide.is-active .phc-stage__product {
     opacity: 1;
-    transform: scale(1) translate(var(--phc-pos-x, 0px), var(--phc-pos-y, 0px));
+    transform: scale(var(--phc-image-scale, 1)) translate(var(--phc-pos-x, 0px), var(--phc-pos-y, 0px));
   }
 
   /* Parallax and Floating */
@@ -421,7 +421,7 @@
             
             <!-- Stage / Product Layer -->
             <div class="phc-stage {% if section.settings.enable_floating_animation and block.settings.floating %}phc-is-floating{% endif %}">
-              <div class="phc-stage__product" style="--phc-pos-x: {{ block.settings.pos_x }}px; --phc-pos-y: {{ block.settings.pos_y }}px; rotate: {{ block.settings.rotation }}deg; --phc-shadow: {{ block.settings.shadow }}px;">
+              <div class="phc-stage__product" style="--phc-image-scale: {{ block.settings.image_scale | divided_by: 100.0 }}; --phc-pos-x: {{ block.settings.pos_x }}px; --phc-pos-y: {{ block.settings.pos_y }}px; rotate: {{ block.settings.rotation }}deg; --phc-shadow: {{ block.settings.shadow }}px;">
                 {% if block.settings.product_image %}
                   <img 
                     src="{{ block.settings.product_image | image_url: width: 1200 }}" 
@@ -782,6 +782,15 @@
           "id": "floating",
           "label": "Float this product",
           "default": true
+        },
+        {
+          "type": "range",
+          "id": "image_scale",
+          "label": "Image Scale (%)",
+          "min": 50,
+          "max": 200,
+          "step": 5,
+          "default": 100
         },
         {
           "type": "range",
