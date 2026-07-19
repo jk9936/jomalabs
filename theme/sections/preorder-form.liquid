@@ -1,0 +1,175 @@
+<section class="section-preorder" id="preorder">
+  <div class="preorder__card reveal">
+    <!-- Decorative corners -->
+    <div class="preorder__corner preorder__corner--tl" aria-hidden="true"></div>
+    <div class="preorder__corner preorder__corner--tr" aria-hidden="true"></div>
+    <div class="preorder__corner preorder__corner--bl" aria-hidden="true"></div>
+    <div class="preorder__corner preorder__corner--br" aria-hidden="true"></div>
+
+    <div style="text-align:center; margin-bottom: 48px;">
+      <span class="preorder__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      <h2 class="preorder__title">{{ section.settings.title | newline_to_br }}</h2>
+      {%- if section.settings.quote != blank -%}
+        <p class="preorder__quote">&ldquo;{{ section.settings.quote | escape }}&rdquo;</p>
+      {%- endif -%}
+    </div>
+
+    <div id="preorder-flash" data-preorder-flash style="display:none" role="alert"></div>
+
+    {%- form 'contact', id: 'preorder-contact-form', data-preorder-form: '' -%}
+      <input type="hidden" name="contact[tags]" value="preorder">
+
+      <div class="preorder__form">
+        <div class="preorder__form-grid">
+          <!-- Name -->
+          <div class="form-group">
+            <label class="form-label" for="preorder-name">Name</label>
+            <input
+              class="form-input"
+              type="text"
+              id="preorder-name"
+              name="contact[name]"
+              placeholder="How shall we address you?"
+              autocomplete="name"
+              required
+            >
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label class="form-label" for="preorder-email">Correspondence</label>
+            <input
+              class="form-input"
+              type="email"
+              id="preorder-email"
+              name="contact[email]"
+              placeholder="Your email address"
+              autocomplete="email"
+              required
+            >
+          </div>
+        </div>
+              <div class="form-group">
+                <label class="form-label" for="preorder-mobile">Mobile Number (WhatsApp)</label>
+                <div style="display: flex; gap: 8px;">
+                  <select class="form-input" id="preorder-country-code" name="contact[country_code]" style="width: 120px; flex-shrink: 0; cursor: pointer;" aria-label="Country Code" required>
+                    <option value="+91" selected>🇮🇳 +91</option>
+                    <option value="+1">🇺🇸 +1</option>
+                    <option value="+44">🇬🇧 +44</option>
+                    <option value="+61">🇦🇺 +61</option>
+                    <option value="+81">🇯🇵 +81</option>
+                    <option value="+49">🇩🇪 +49</option>
+                    <option value="+33">🇫🇷 +33</option>
+                    <option value="+39">🇮🇹 +39</option>
+                    <option value="+34">🇪🇸 +34</option>
+                    <option value="+55">🇧🇷 +55</option>
+                    <option value="+86">🇨🇳 +86</option>
+                  </select>
+                  <input
+                    class="form-input"
+                    type="tel"
+                    id="preorder-mobile"
+                    name="contact[mobile]"
+                    placeholder="Enter digits only"
+                    autocomplete="tel"
+                    pattern="[0-9]{7,15}"
+                    title="Please enter a valid phone number without spaces or dashes (7 to 15 digits)"
+                    required
+                    style="flex-grow: 1;"
+                  >
+                </div>
+              </div>
+        <!-- Product interest 
+        <div class="form-group" style="margin-bottom:32px">
+          <label class="form-label" for="preorder-interest">Desired Artifact</label>
+          <select
+            class="form-select"
+            id="preorder-interest"
+            name="contact[body]"
+          >
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'product_option' -%}
+                <option value="{{ block.settings.label | escape }}">
+                  {{ block.settings.label | escape }}
+                </option>
+              {%- endif -%}
+            {%- endfor -%}
+          </select>
+        </div> -->
+
+        <div class="preorder__submit-wrap">
+          <button type="submit" class="btn btn-primary" id="preorder-submit-btn">
+            {{ section.settings.submit_label | escape }}
+          </button>
+        </div> 
+      </div> 
+    {%- endform -%}
+
+    <div class="preorder__success" role="alert" aria-live="polite">
+      <p>{{ section.settings.success_message | escape }}</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Pre-order Form",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "An Invitation"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Join the Next\nPrint Run"
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote / subtext",
+      "default": "Our machines run on a deliberate schedule to ensure uncompromising quality. We invite you to reserve your place in our upcoming batch."
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit button label",
+      "default": "Seal the Request"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Your request has been received. We will be in touch soon."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_option",
+      "name": "Product option",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Option label",
+          "default": "Celestial Serpent"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pre-order Form",
+      "blocks": [
+        { "type": "product_option", "settings": { "label": "Celestial Serpent" } },
+        { "type": "product_option", "settings": { "label": "Kraken Grip" } },
+        { "type": "product_option", "settings": { "label": "Primal Echo (Skull)" } },
+        { "type": "product_option", "settings": { "label": "Custom Commission" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

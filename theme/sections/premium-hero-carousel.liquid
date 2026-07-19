@@ -1,0 +1,856 @@
+{%- style -%}
+  .phc-wrapper {
+    --phc-border-radius: {{ section.settings.border_radius }}px;
+    --phc-transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 100%;
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  
+  {% if section.settings.container_width == 'full' %}
+    .phc-wrapper { padding: 0; }
+    .phc-container { border-radius: 0 !important; }
+  {% elsif section.settings.container_width == 'narrow' %}
+    .phc-wrapper { max-width: 1200px; margin: 0 auto; }
+  {% else %}
+    .phc-wrapper { max-width: 1600px; margin: 0 auto; }
+  {% endif %}
+
+  .phc-container {
+    display: block;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--phc-border-radius);
+    {% if section.settings.height == 'small' %} min-height: 50vh; {% endif %}
+    {% if section.settings.height == 'medium' %} min-height: 70vh; {% endif %}
+    {% if section.settings.height == 'large' %} min-height: 90vh; {% endif %}
+    {% if section.settings.height == 'full' %} min-height: 100vh; {% endif %}
+    background-color: var(--color-background, #fff);
+  }
+
+  .phc-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: transform var(--phc-transition);
+  }
+
+  .phc-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  /* Split Layout */
+  .phc-slide__inner {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column-reverse; /* Mobile default */
+    position: relative;
+    z-index: 10;
+  }
+  
+  @media (min-width: 992px) {
+    .phc-slide__inner {
+      flex-direction: row;
+    }
+  }
+
+  /* Content (Left on Desktop, Bottom on Mobile) */
+  .phc-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    z-index: 2;
+    text-align: center;
+  }
+  @media (min-width: 992px) {
+    .phc-content {
+      padding: 80px 10%;
+      text-align: left;
+    }
+  }
+
+  .phc-content__subheading {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin-bottom: 16px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    transition-delay: 0.2s;
+  }
+  
+  .phc-content__heading {
+    font-size: clamp(40px, 6vw, 80px);
+    line-height: 1.1;
+    font-weight: 700;
+    margin: 0 0 24px 0;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    transition-delay: 0.3s;
+  }
+  
+  .phc-content__desc {
+    font-size: clamp(16px, 2vw, 20px);
+    line-height: 1.6;
+    margin-bottom: 40px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    transition-delay: 0.4s;
+    max-width: 500px;
+  }
+
+  .phc-content__btn {
+    display: inline-block;
+    padding: 16px 32px;
+    border-radius: 100px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
+    transition-delay: 0.5s;
+    align-self: center;
+  }
+  @media (min-width: 992px) {
+    .phc-content__btn {
+      align-self: flex-start;
+    }
+  }
+  .phc-content__btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+
+  /* Stage (Right on Desktop, Top on Mobile) */
+  .phc-stage {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    z-index: 1;
+  }
+  
+  .phc-stage__product {
+    position: relative;
+    z-index: 3;
+    max-width: 90%;
+    max-height: 90%;
+    width: 100%;
+    opacity: 0;
+    transform: scale(0.9) translate(var(--phc-pos-x, 0px), calc(var(--phc-pos-y, 0px) + 40px));
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: 0.1s;
+    will-change: transform;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .phc-slide.is-active .phc-content__subheading,
+  .phc-slide.is-active .phc-content__heading,
+  .phc-slide.is-active .phc-content__desc,
+  .phc-slide.is-active .phc-content__btn {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .phc-slide.is-active .phc-stage__product {
+    opacity: 1;
+    transform: scale(1) translate(var(--phc-pos-x, 0px), var(--phc-pos-y, 0px));
+  }
+
+  /* Parallax and Floating */
+  .phc-is-floating .phc-stage__product-img {
+    animation: phcFloat 6s ease-in-out infinite;
+  }
+  
+  @keyframes phcFloat {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
+  }
+
+  .phc-stage__product-img {
+    width: 100%;
+    height: 100%;
+    max-height: 40vh;
+    object-fit: contain;
+    filter: drop-shadow(0px var(--phc-shadow, 20px) 40px rgba(0,0,0,0.15));
+    transition: filter 0.3s ease;
+  }
+  @media (min-width: 992px) {
+    .phc-stage__product-img {
+      max-height: 70vh;
+    }
+  }
+
+  .phc-stage__badge {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 80px;
+    height: 80px;
+    z-index: 4;
+    animation: phcSpin 10s linear infinite;
+  }
+  @keyframes phcSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Backgrounds & Themes */
+  .phc-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+  
+  .phc-bg--solid { background-color: var(--phc-bg-color); }
+  .phc-bg--gradient { background: linear-gradient(135deg, var(--phc-bg-color) 0%, var(--phc-accent-color) 100%); }
+  .phc-bg--image img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+  .phc-bg--noise::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.05"/%3E%3C/svg%3E');
+    pointer-events: none;
+    z-index: 5;
+  }
+  
+  .phc-bg--mesh {
+    background-color: var(--phc-bg-color);
+    background-image: 
+      radial-gradient(at 0% 0%, var(--phc-accent-color) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, var(--phc-accent-color) 0px, transparent 50%);
+    background-size: 200% 200%;
+    animation: phcMesh 10s ease infinite alternate;
+  }
+  @keyframes phcMesh {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+  }
+
+  /* Decorations */
+  .phc-decor {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  
+  .phc-decor--circle::before {
+    content: '';
+    width: 60vh;
+    height: 60vh;
+    background: var(--phc-accent-color);
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+  }
+
+  .phc-decor--grid {
+    background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+    -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+  }
+  
+  .phc-decor--blobs::before, .phc-decor--blobs::after {
+    content: '';
+    position: absolute;
+    width: 50vh;
+    height: 50vh;
+    background: var(--phc-accent-color);
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    animation: phcBlob 8s ease-in-out infinite alternate;
+    opacity: 0.3;
+    filter: blur(40px);
+  }
+  .phc-decor--blobs::after {
+    animation-delay: -4s;
+    background: var(--phc-bg-color);
+    width: 40vh; height: 40vh;
+  }
+  @keyframes phcBlob {
+    0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: translate(10%, 10%) rotate(0deg); }
+    100% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; transform: translate(-10%, -10%) rotate(90deg); }
+  }
+
+  /* Navigation */
+  .phc-nav {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 20;
+  }
+  
+  .phc-dot {
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(0,0,0,0.1);
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease, width 0.3s ease;
+  }
+  .phc-dot.is-active {
+    background: var(--color-primary, #000);
+    width: 60px;
+  }
+
+  .phc-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.8);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    backdrop-filter: blur(4px);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .phc-arrow:hover {
+    background: #fff;
+    transform: translateY(-50%) scale(1.05);
+  }
+  .phc-arrow--prev { left: 24px; }
+  .phc-arrow--next { right: 24px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .phc-track, .phc-content__heading, .phc-content__subheading, .phc-content__desc, .phc-content__btn, .phc-stage__product {
+      transition: none !important;
+      animation: none !important;
+      transform: none !important;
+      opacity: 1 !important;
+    }
+    .phc-is-floating .phc-stage__product-img, .phc-bg--mesh, .phc-decor--blobs::before, .phc-stage__badge {
+      animation: none !important;
+    }
+  }
+{%- endstyle -%}
+
+<section class="phc-wrapper">
+  <premium-hero-carousel 
+    class="phc-container"
+    data-autoplay="{{ section.settings.autoplay }}"
+    data-speed="{{ section.settings.autoplay_speed | times: 1000 }}"
+    data-parallax="{{ section.settings.enable_mouse_parallax }}"
+    aria-roledescription="carousel"
+  >
+    <div class="phc-track">
+      {% for block in section.blocks %}
+        {%- assign bg_color = block.settings.bg_color | default: '#f4f4f4' -%}
+        {%- assign accent_color = block.settings.accent_color | default: '#e1e1e1' -%}
+        {%- assign text_color = block.settings.text_color | default: '#111111' -%}
+        
+        <div class="phc-slide {% if forloop.first %}is-active{% endif %}" 
+             data-index="{{ forloop.index0 }}"
+             aria-roledescription="slide"
+             aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}"
+             style="--phc-bg-color: {{ bg_color }}; --phc-accent-color: {{ accent_color }}; color: {{ text_color }};"
+             {{ block.shopify_attributes }}>
+          
+          <!-- Background Layer -->
+          <div class="phc-bg phc-bg--{{ block.settings.bg_type }}">
+            {% if block.settings.bg_type == 'image' and block.settings.bg_image %}
+              {{ block.settings.bg_image | image_url: width: 2000 | image_tag: loading: 'lazy' }}
+            {% endif %}
+          </div>
+          
+          <!-- Decor Layer -->
+          {% if block.settings.decoration_style != 'none' %}
+            <div class="phc-decor phc-decor--{{ block.settings.decoration_style }}"></div>
+          {% endif %}
+
+          <div class="phc-slide__inner">
+            <!-- Content Layer -->
+            <div class="phc-content">
+              {% if block.settings.subheading != blank %}
+                <div class="phc-content__subheading">{{ block.settings.subheading | escape }}</div>
+              {% endif %}
+              
+              {% if block.settings.heading != blank %}
+                <h2 class="phc-content__heading font-serif">{{ block.settings.heading | escape }}</h2>
+              {% endif %}
+              
+              {% if block.settings.description != blank %}
+                <div class="phc-content__desc">{{ block.settings.description }}</div>
+              {% endif %}
+              
+              {% if block.settings.btn_text != blank and block.settings.btn_url != blank %}
+                <a href="{{ block.settings.btn_url }}" class="phc-content__btn" style="background-color: {{ text_color }}; color: {{ bg_color }};">
+                  {{ block.settings.btn_text | escape }}
+                </a>
+              {% endif %}
+            </div>
+            
+            <!-- Stage / Product Layer -->
+            <div class="phc-stage {% if section.settings.enable_floating_animation and block.settings.floating %}phc-is-floating{% endif %}">
+              <div class="phc-stage__product" style="--phc-pos-x: {{ block.settings.pos_x }}px; --phc-pos-y: {{ block.settings.pos_y }}px; rotate: {{ block.settings.rotation }}deg; --phc-shadow: {{ block.settings.shadow }}px;">
+                {% if block.settings.product_image %}
+                  <img 
+                    src="{{ block.settings.product_image | image_url: width: 1200 }}" 
+                    alt="{{ block.settings.heading | escape }}"
+                    class="phc-stage__product-img"
+                    loading="lazy"
+                  >
+                {% else %}
+                  {{ 'product-1' | placeholder_svg_tag: 'phc-stage__product-img' }}
+                {% endif %}
+              </div>
+              
+              {% if block.settings.badge_image %}
+                <img src="{{ block.settings.badge_image | image_url: width: 160 }}" class="phc-stage__badge" alt="Badge" loading="lazy">
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Navigation -->
+    {% if section.blocks.size > 1 %}
+      {% if section.settings.show_arrows %}
+        <button class="phc-arrow phc-arrow--prev" aria-label="Previous slide">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button class="phc-arrow phc-arrow--next" aria-label="Next slide">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      {% endif %}
+      
+      {% if section.settings.show_pagination %}
+        <div class="phc-nav">
+          {% for block in section.blocks %}
+            <button class="phc-dot {% if forloop.first %}is-active{% endif %}" data-index="{{ forloop.index0 }}" aria-label="Go to slide {{ forloop.index }}"></button>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endif %}
+  </premium-hero-carousel>
+</section>
+
+<script>
+  if (!customElements.get('premium-hero-carousel')) {
+    class PremiumHeroCarousel extends HTMLElement {
+      constructor() {
+        super();
+        this.track = this.querySelector('.phc-track');
+        this.slides = Array.from(this.querySelectorAll('.phc-slide'));
+        this.dots = Array.from(this.querySelectorAll('.phc-dot'));
+        this.prevBtn = this.querySelector('.phc-arrow--prev');
+        this.nextBtn = this.querySelector('.phc-arrow--next');
+        
+        this.currentIndex = 0;
+        this.total = this.slides.length;
+        this.autoplay = this.dataset.autoplay === 'true';
+        this.speed = parseInt(this.dataset.speed) || 5000;
+        this.parallax = this.dataset.parallax === 'true';
+        this.autoplayTimer = null;
+        
+        this.init();
+      }
+      
+      init() {
+        if (this.total <= 1) return;
+        
+        if (this.prevBtn) this.prevBtn.addEventListener('click', () => this.goToPrev());
+        if (this.nextBtn) this.nextBtn.addEventListener('click', () => this.goToNext());
+        
+        this.dots.forEach((dot, index) => {
+          dot.addEventListener('click', () => this.goTo(index));
+        });
+        
+        this.initSwipe();
+        
+        if (this.autoplay) {
+          this.startAutoplay();
+          this.addEventListener('mouseenter', () => this.stopAutoplay());
+          this.addEventListener('mouseleave', () => this.startAutoplay());
+        }
+        
+        if (this.parallax && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          this.initParallax();
+        }
+      }
+      
+      goTo(index) {
+        if (index === this.currentIndex) return;
+        this.currentIndex = index;
+        
+        // Update track position
+        this.track.style.transform = `translateX(-${this.currentIndex * 100}%)`;
+        
+        // Update classes
+        this.slides.forEach((slide, i) => {
+          slide.classList.toggle('is-active', i === this.currentIndex);
+          slide.setAttribute('aria-hidden', i !== this.currentIndex);
+        });
+        
+        this.dots.forEach((dot, i) => {
+          dot.classList.toggle('is-active', i === this.currentIndex);
+        });
+      }
+      
+      goToNext() {
+        this.goTo((this.currentIndex + 1) % this.total);
+      }
+      
+      goToPrev() {
+        this.goTo((this.currentIndex - 1 + this.total) % this.total);
+      }
+      
+      startAutoplay() {
+        this.stopAutoplay();
+        this.autoplayTimer = setInterval(() => this.goToNext(), this.speed);
+      }
+      
+      stopAutoplay() {
+        if (this.autoplayTimer) clearInterval(this.autoplayTimer);
+      }
+      
+      initSwipe() {
+        let touchstartX = 0;
+        let touchendX = 0;
+        
+        this.addEventListener('touchstart', e => {
+          touchstartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        this.addEventListener('touchend', e => {
+          touchendX = e.changedTouches[0].screenX;
+          if (touchstartX - touchendX > 50) this.goToNext();
+          if (touchendX - touchstartX > 50) this.goToPrev();
+        }, { passive: true });
+      }
+
+      initParallax() {
+        this.addEventListener('mousemove', (e) => {
+          const rect = this.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
+          
+          const activeStage = this.slides[this.currentIndex].querySelector('.phc-stage');
+          const activeDecor = this.slides[this.currentIndex].querySelector('.phc-decor');
+          
+          if (activeStage) activeStage.style.transform = `translate(${x * 30}px, ${y * 30}px)`;
+          if (activeDecor) activeDecor.style.transform = `translate(${x * -20}px, ${y * -20}px)`;
+        });
+        
+        this.addEventListener('mouseleave', () => {
+          const activeStage = this.slides[this.currentIndex].querySelector('.phc-stage');
+          const activeDecor = this.slides[this.currentIndex].querySelector('.phc-decor');
+          if (activeStage) activeStage.style.transform = `translate(0, 0)`;
+          if (activeDecor) activeDecor.style.transform = `translate(0, 0)`;
+        });
+      }
+    }
+    customElements.define('premium-hero-carousel', PremiumHeroCarousel);
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Premium Hero Carousel",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        { "value": "standard", "label": "Standard (1600px)" },
+        { "value": "narrow", "label": "Narrow (1200px)" },
+        { "value": "full", "label": "Full Width" }
+      ],
+      "default": "standard"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Section Height",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "full", "label": "Full Screen" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border Radius",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Controls"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Enable Autoplay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Autoplay Speed (seconds)",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show Arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pagination",
+      "label": "Show Pagination Dots",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Effects"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_floating_animation",
+      "label": "Enable Floating Products",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_mouse_parallax",
+      "label": "Enable Mouse Parallax",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Hero Slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Text"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "Introducing"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "The New Standard."
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>A premium design experience built seamlessly into your store.</p>"
+        },
+        {
+          "type": "text",
+          "id": "btn_text",
+          "label": "Button Text",
+          "default": "Discover More"
+        },
+        {
+          "type": "url",
+          "id": "btn_url",
+          "label": "Button URL"
+        },
+        {
+          "type": "header",
+          "content": "Media"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Product Image (Transparent PNG recommended)"
+        },
+        {
+          "type": "image_picker",
+          "id": "badge_image",
+          "label": "Floating Badge Image"
+        },
+        {
+          "type": "header",
+          "content": "Theme & Colors"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background Color",
+          "default": "#f4f4f4"
+        },
+        {
+          "type": "color",
+          "id": "accent_color",
+          "label": "Accent Color",
+          "default": "#e1e1e1"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#111111"
+        },
+        {
+          "type": "select",
+          "id": "bg_type",
+          "label": "Background Style",
+          "options": [
+            { "value": "solid", "label": "Solid Color" },
+            { "value": "gradient", "label": "Linear Gradient" },
+            { "value": "mesh", "label": "Animated Mesh Gradient" },
+            { "value": "noise", "label": "Grain/Noise" },
+            { "value": "image", "label": "Background Image" }
+          ],
+          "default": "solid"
+        },
+        {
+          "type": "image_picker",
+          "id": "bg_image",
+          "label": "Background Image (if selected)"
+        },
+        {
+          "type": "select",
+          "id": "decoration_style",
+          "label": "Decoration Overlay",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "circle", "label": "Blurred Circle" },
+            { "value": "grid", "label": "Minimal Grid" },
+            { "value": "blobs", "label": "Animated Blobs" }
+          ],
+          "default": "circle"
+        },
+        {
+          "type": "header",
+          "content": "Product Presentation"
+        },
+        {
+          "type": "checkbox",
+          "id": "floating",
+          "label": "Float this product",
+          "default": true
+        },
+        {
+          "type": "range",
+          "id": "rotation",
+          "label": "Base Rotation",
+          "min": -45,
+          "max": 45,
+          "step": 1,
+          "default": 0,
+          "unit": "deg"
+        },
+        {
+          "type": "range",
+          "id": "shadow",
+          "label": "Shadow Distance",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 20,
+          "unit": "px"
+        },
+        {
+          "type": "range",
+          "id": "pos_x",
+          "label": "Horizontal Position Offset",
+          "min": -200,
+          "max": 200,
+          "step": 5,
+          "default": 0,
+          "unit": "px"
+        },
+        {
+          "type": "range",
+          "id": "pos_y",
+          "label": "Vertical Position Offset",
+          "min": -200,
+          "max": 200,
+          "step": 5,
+          "default": 0,
+          "unit": "px"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Premium Hero Carousel",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "heading": "Designed to Inspire.",
+            "bg_type": "mesh",
+            "decoration_style": "grid"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "heading": "Crafted with Precision.",
+            "bg_type": "noise",
+            "decoration_style": "circle",
+            "bg_color": "#111111",
+            "accent_color": "#333333",
+            "text_color": "#ffffff"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

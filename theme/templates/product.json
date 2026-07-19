@@ -1,0 +1,34 @@
+{
+  "sections": {
+    "main": {
+      "type": "product-detail",
+      "blocks": {
+        "vendor": { "type": "vendor" },
+        "title": { "type": "title" },
+        "price": { "type": "price" },
+        "badges": { "type": "badges" },
+        "form": { "type": "form" },
+        "description": { "type": "description" },
+        "specs": { "type": "specs" }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "price",
+        "badges",
+        "form",
+        "description",
+        "specs"
+      ],
+      "settings": {
+        "container_width": "standard",
+        "layout_split": "6040",
+        "gallery_layout": "carousel",
+        "gallery_aspect_ratio": "square",
+        "bg_color": "#fbf2eb",
+        "text_color": "#1f1b17"
+      }
+    }
+  },
+  "order": ["main"]
+}

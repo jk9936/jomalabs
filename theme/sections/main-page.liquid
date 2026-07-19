@@ -1,0 +1,18 @@
+<div class="page-section" style="max-width:var(--container-max); margin-inline:auto;">
+  <header style="margin-bottom:40px; padding-bottom:24px; border-bottom:1px solid rgba(24,36,27,0.1);">
+    <h1 style="font-family:var(--font-serif); font-size:clamp(28px,4vw,40px); font-style:italic; color:var(--color-primary);">
+      {{ page.title | escape }}
+    </h1>
+  </header>
+  <div class="product-info__desc rte">
+    {{ page.content }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Page Content",
+  "settings": [],
+  "presets": [{ "name": "Page Content" }]
+}
+{% endschema %}

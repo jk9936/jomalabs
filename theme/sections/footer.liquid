@@ -1,0 +1,117 @@
+<footer class="site-footer" role="contentinfo">
+  <div class="site-footer__inner">
+
+    <!-- Brand -->
+    <div>
+      <a href="{{ routes.root_url }}" class="site-footer__brand-logo">
+        {{ section.settings.logo_text | escape }}
+      </a>
+      {%- if section.settings.brand_description != blank -%}
+        <p class="site-footer__brand-desc">{{ section.settings.brand_description | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <!-- Connect column -->
+    <div>
+      <h4 class="site-footer__col-title">Connect</h4>
+      <nav class="site-footer__links" aria-label="Social links">
+        {%- if section.settings.social_instagram != blank -%}
+          <a href="{{ section.settings.social_instagram | escape }}" class="site-footer__link" target="_blank" rel="noopener noreferrer">Instagram</a>
+        {%- endif -%}
+        {%- if section.settings.social_twitter != blank -%}
+          <a href="{{ section.settings.social_twitter | escape }}" class="site-footer__link" target="_blank" rel="noopener noreferrer">Twitter / X</a>
+        {%- endif -%}
+        {%- if section.settings.journal_url != blank -%}
+          <a href="{{ section.settings.journal_url | escape }}" class="site-footer__link">Journal</a>
+        {%- endif -%}
+      </nav>
+    </div>
+
+    <!-- Inquiries column -->
+    <div>
+      <h4 class="site-footer__col-title">Inquiries</h4>
+      <nav class="site-footer__links" aria-label="Inquiry links">
+        {%- if section.settings.contact_url != blank -%}
+          <a href="{{ section.settings.contact_url | escape }}" class="site-footer__link">Contact Studio</a>
+        {%- else -%}
+          <a href="{{ routes.root_url }}pages/contact" class="site-footer__link">Contact Studio</a>
+        {%- endif -%}
+        {%- if section.settings.shipping_url != blank -%}
+          <a href="{{ section.settings.shipping_url | escape }}" class="site-footer__link">Shipping &amp; Care</a>
+        {%- else -%}
+          <a href="{{ routes.root_url }}policies/shipping-policy" class="site-footer__link">Shipping &amp; Care</a>
+        {%- endif -%}
+        {%- if shop.customer_accounts_enabled -%}
+          <a href="{{ routes.account_url }}" class="site-footer__link">My Account</a>
+        {%- endif -%}
+      </nav>
+    </div>
+
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="site-footer__bottom">
+    <p>
+      &copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}. All rights reserved.
+    </p>
+    <p><em>Volume I.</em></p>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Brand name",
+      "default": "Artisan3D"
+    },
+    {
+      "type": "textarea",
+      "id": "brand_description",
+      "label": "Brand description",
+      "default": "Precision crafted in our boutique studio. Where digital dreams take physical form."
+    },
+    {
+      "type": "header",
+      "content": "Social Links"
+    },
+    {
+      "type": "url",
+      "id": "social_instagram",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "social_twitter",
+      "label": "Twitter / X URL"
+    },
+    {
+      "type": "url",
+      "id": "journal_url",
+      "label": "Journal / Blog URL"
+    },
+    {
+      "type": "header",
+      "content": "Inquiry Links"
+    },
+    {
+      "type": "url",
+      "id": "contact_url",
+      "label": "Contact page URL"
+    },
+    {
+      "type": "url",
+      "id": "shipping_url",
+      "label": "Shipping & Care page URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer"
+    }
+  ]
+}
+{% endschema %}

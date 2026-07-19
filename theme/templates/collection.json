@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main": {
+      "type": "collection-grid",
+      "settings": {
+        "eyebrow": "The Gallery",
+        "show_price": true
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,78 @@
+{% comment %}
+  product-card.liquid
+  Reusable product card for collection grids.
+  @param product {object} - Shopify product object (required)
+  @param show_price {boolean} - whether to show price (default true)
+{% endcomment %}
+
+{%- liquid
+  assign card_product = product
+  assign show_price = show_price | default: true
+  assign featured_image = card_product.featured_image
+  assign product_url = card_product.url | within: collection
+  assign product_title = card_product.title | escape
+  assign product_excerpt = card_product.metafields.custom.excerpt.value | default: card_product.description | strip_html | truncate: 100
+-%}
+
+<article class="product-card reveal" data-product-id="{{ card_product.id }}">
+  <a href="{{ product_url }}" class="product-card__image-wrap" aria-label="{{ product_title }}">
+    {%- if featured_image -%}
+      <img
+        class="product-card__image"
+        src="{{ featured_image | image_url: width: 600 }}"
+        alt="{{ featured_image.alt | default: product_title | escape }}"
+        width="600"
+        height="450"
+        loading="lazy"
+      >
+    {%- else -%}
+      <img
+        class="product-card__image"
+        src="{{ 'product-placeholder.svg' | asset_url }}"
+        alt="{{ product_title }}"
+        width="600"
+        height="450"
+        loading="lazy"
+      >
+    {%- endif -%}
+  </a>
+
+  <div class="product-card__body">
+    {%- if card_product.tags.size > 0 -%}
+      <div class="product-card__chips">
+        {%- for tag in card_product.tags limit: 2 -%}
+          <span class="chip">{{ tag | escape }}</span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <h3 class="product-card__title">
+      <a href="{{ product_url }}">{{ product_title }}</a>
+    </h3>
+
+    {%- if product_excerpt != blank -%}
+      <p class="product-card__excerpt">{{ product_excerpt | escape }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="product-card__footer">
+    {%- if show_price -%}
+      <p class="product-card__price">
+        {%- if card_product.price_varies -%}
+          From {{ card_product.price_min | money }}
+        {%- else -%}
+          {{ card_product.price | money }}
+        {%- endif -%}
+      </p>
+    {%- else -%}
+      <span class="chip">Pre-order</span>
+    {%- endif -%}
+
+    <a href="{{ product_url }}" class="link-arrow" aria-label="View {{ product_title }}">
+      View Details
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+</article>

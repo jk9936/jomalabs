@@ -1,0 +1,238 @@
+<section class="section-product-showcase" id="products" aria-label="Product showcase">
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'product_item' -%}
+      {%- liquid
+        assign showcase_product = block.settings.product
+        assign is_reverse = forloop.index0 | modulo: 2 | equals: 1
+        assign title = block.settings.custom_title | default: showcase_product.title
+        assign body = block.settings.custom_description | default: showcase_product.description | strip_html | truncate: 280
+        assign image = block.settings.custom_image | default: showcase_product.featured_image
+        assign product_url = showcase_product.url | default: '#'
+      -%}
+
+      <article
+        class="product-story{% if is_reverse %} product-story--reverse{% endif %} reveal"
+        id="product-{{ block.id }}"
+        {{ block.shopify_attributes }}
+      >
+        <!-- Image -->
+        <div class="product-story__image-wrap">
+          {%- if image != blank -%}
+            <img
+              class="product-story__image"
+              src="{{ image | image_url: width: 1200 }}"
+              alt="{{ image.alt | default: title | escape }}"
+              width="1200"
+              height="900"
+              loading="lazy"
+            >
+          {%- endif -%}
+          <div class="product-story__overlay" aria-hidden="true"></div>
+        </div>
+
+        <!-- Content -->
+        <div class="product-story__content-wrap">
+          <div class="product-story__card">
+
+            <!-- Material chips -->
+            {%- assign chip_tags = block.settings.chips | split: ',' -%}
+            {%- if chip_tags.size > 0 and block.settings.chips != blank -%}
+              <div class="product-story__chips">
+                {%- for chip in chip_tags -%}
+                  <span class="chip">{{ chip | strip | escape }}</span>
+                {%- endfor -%}
+              </div>
+            {%- elsif showcase_product != blank -%}
+              <div class="product-story__chips">
+                {%- for tag in showcase_product.tags limit: 3 -%}
+                  <span class="chip">{{ tag | escape }}</span>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            <!-- Title -->
+            <h3 class="product-story__title">{{ title | escape }}</h3>
+
+            <!-- Description -->
+            {%- if body != blank -%}
+              <p class="product-story__body">{{ body | escape }}</p>
+            {%- endif -%}
+
+            <!-- Spec list (optional) -->
+            {%- if block.settings.spec_1_label != blank or block.settings.spec_2_label != blank -%}
+              <div class="spec-list">
+                {%- if block.settings.spec_1_label != blank -%}
+                  <div class="spec-item">
+                    <span class="spec-label">{{ block.settings.spec_1_label | escape }}</span>
+                    <span class="spec-value">{{ block.settings.spec_1_value | escape }}</span>
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.spec_2_label != blank -%}
+                  <div class="spec-item">
+                    <span class="spec-label">{{ block.settings.spec_2_label | escape }}</span>
+                    <span class="spec-value">{{ block.settings.spec_2_value | escape }}</span>
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.spec_3_label != blank -%}
+                  <div class="spec-item">
+                    <span class="spec-label">{{ block.settings.spec_3_label | escape }}</span>
+                    <span class="spec-value">{{ block.settings.spec_3_value | escape }}</span>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+            <!-- CTA -->
+            {%- if showcase_product != blank or block.settings.cta_url != blank -%}
+              {%- assign cta_href = block.settings.cta_url | default: product_url | escape -%}
+              <a href="{{ cta_href }}" class="link-arrow">
+                {{ block.settings.cta_label | default: 'View Details' | escape }}
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            {%- endif -%}
+
+          </div>
+        </div>
+      </article>
+    {%- endif -%}
+  {%- endfor -%}
+</section>
+
+{% schema %}
+{
+  "name": "Product Showcase",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "product_item",
+      "name": "Product Story",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product",
+          "info": "Select a Shopify product. Title, description, image and tags will be pulled automatically. Override below if needed."
+        },
+        {
+          "type": "header",
+          "content": "Override / Custom Content"
+        },
+        {
+          "type": "text",
+          "id": "custom_title",
+          "label": "Custom title (overrides product title)"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom image (overrides product image)"
+        },
+        {
+          "type": "textarea",
+          "id": "custom_description",
+          "label": "Custom description (overrides product description)"
+        },
+        {
+          "type": "text",
+          "id": "chips",
+          "label": "Material chips (comma-separated)",
+          "info": "e.g. Resin, Hand-Finished"
+        },
+        {
+          "type": "header",
+          "content": "Technical Specs (optional)"
+        },
+        {
+          "type": "text",
+          "id": "spec_1_label",
+          "label": "Spec 1 label",
+          "default": "Print Time"
+        },
+        {
+          "type": "text",
+          "id": "spec_1_value",
+          "label": "Spec 1 value",
+          "default": "24h 15m"
+        },
+        {
+          "type": "text",
+          "id": "spec_2_label",
+          "label": "Spec 2 label",
+          "default": "Resolution"
+        },
+        {
+          "type": "text",
+          "id": "spec_2_value",
+          "label": "Spec 2 value",
+          "default": "0.02mm"
+        },
+        {
+          "type": "text",
+          "id": "spec_3_label",
+          "label": "Spec 3 label"
+        },
+        {
+          "type": "text",
+          "id": "spec_3_value",
+          "label": "Spec 3 value"
+        },
+        {
+          "type": "header",
+          "content": "Call to Action"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA label",
+          "default": "View Details"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "CTA URL (overrides product URL)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Showcase",
+      "blocks": [
+        {
+          "type": "product_item",
+          "settings": {
+            "custom_title": "Celestial Serpent",
+            "chips": "Resin, Hand-Finished",
+            "custom_description": "An intricately scaled artisan dragon, printed in high-fidelity resin. Every curve is optimized to catch ambient light, revealing the depth of its design.",
+            "spec_1_label": "Print Time",
+            "spec_1_value": "24h 15m",
+            "spec_2_label": "Resolution",
+            "spec_2_value": "0.02mm",
+            "cta_label": "View Details"
+          }
+        },
+        {
+          "type": "product_item",
+          "settings": {
+            "custom_title": "Kraken Grip",
+            "chips": "PLA+",
+            "custom_description": "Functional art for your setup. Deep sea aesthetics meet ergonomic design in this sturdy, eye-catching controller stand.",
+            "cta_label": "View Details"
+          }
+        },
+        {
+          "type": "product_item",
+          "settings": {
+            "custom_title": "Primal Echo",
+            "chips": "Bone Finish",
+            "custom_description": "T-Rex Skull Series. Available in weathered bone finish. A stunning conversation piece meticulously modeled after fossil records.",
+            "cta_label": "View Details"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

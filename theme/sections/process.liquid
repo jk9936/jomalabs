@@ -1,0 +1,133 @@
+<section class="section-process" id="process">
+  <div class="section-process__inner">
+
+    <!-- Sidebar -->
+    <div class="process__sidebar reveal">
+      <span class="process__chapter">{{ section.settings.chapter_label | escape }}</span>
+      <h2 class="process__title">
+        {{ section.settings.title | escape }}
+        {%- if section.settings.title_italic != blank -%}
+          <br><em>{{ section.settings.title_italic | escape }}</em>
+        {%- endif -%}
+      </h2>
+      {%- if section.settings.description != blank -%}
+        <p class="process__description">{{ section.settings.description | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <!-- Steps -->
+    <div class="process__steps">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'step' -%}
+          <div class="process__step reveal" {{ block.shopify_attributes }}>
+            <div class="process__step-number" aria-hidden="true">
+              {{ forloop.index | prepend: '0' | slice: -2, 2 }}.
+            </div>
+            <div class="process__step-content">
+              <h3 class="process__step-title">
+                {%- if block.settings.icon != blank -%}
+                  {%- render 'icon', name: block.settings.icon -%}
+                {%- endif -%}
+                {{ block.settings.title | escape }}
+              </h3>
+              {%- if block.settings.description != blank -%}
+                <p class="process__step-body">{{ block.settings.description | escape }}</p>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Process",
+  "settings": [
+    {
+      "type": "text",
+      "id": "chapter_label",
+      "label": "Chapter label",
+      "default": "Chapter 01"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "The Artisanal"
+    },
+    {
+      "type": "text",
+      "id": "title_italic",
+      "label": "Title — italic accent",
+      "default": "Process"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "A dedication to craft in the digital age. We don't just print; we sculpt with light and resin."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Process Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Step title",
+          "default": "Precision Slicing"
+        },
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Material Symbol icon name",
+          "info": "Find icon names at fonts.google.com/icons — e.g. precision_manufacturing",
+          "default": "precision_manufacturing"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Step description",
+          "default": "Every model is meticulously prepared to balance structural integrity with flawless surface detail."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Process",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "Precision Slicing",
+            "icon": "precision_manufacturing",
+            "description": "Every model is meticulously prepared to balance structural integrity with flawless surface detail. Hours are spent orienting and supporting the digital mesh before it ever meets resin."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Layered Creation",
+            "icon": "layers",
+            "description": "Printed using high-grade resins and polymers, ensuring each micro-layer contributes to the final masterpiece. Our machines run slow and steady for maximum fidelity."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Boutique Finish",
+            "icon": "handyman",
+            "description": "The final touch is always human. Hand-cleaned, meticulously cured, and optionally painted in our studio to guarantee a premium tactile experience worthy of display."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

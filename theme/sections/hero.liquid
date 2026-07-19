@@ -1,0 +1,463 @@
+{%- liquid
+  assign bg_type = section.settings.bg_type
+  assign height = section.settings.height
+  assign horizontal_alignment = section.settings.horizontal_alignment
+  assign vertical_alignment = section.settings.vertical_alignment
+  
+  assign bg_color = section.settings.bg_color | default: 'var(--color-background)'
+  assign text_color = section.settings.text_color | default: 'var(--color-on-surface)'
+  assign overlay_color = section.settings.overlay_color | default: '#000000'
+  assign overlay_opacity = section.settings.overlay_opacity | divided_by: 100.0
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --hero-bg-color: {{ bg_color }};
+    --hero-text-color: {{ text_color }};
+    --hero-overlay: {{ overlay_color }};
+  }
+
+  .hero-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    background-color: var(--hero-bg-color);
+    color: var(--hero-text-color);
+  }
+
+  /* Height Options */
+  .hero-wrapper--small { min-height: 50vh; }
+  .hero-wrapper--medium { min-height: 70vh; }
+  .hero-wrapper--large { min-height: 90vh; }
+  .hero-wrapper--full { min-height: 100vh; }
+
+  /* Background Layer */
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .hero__bg--gradient { background: linear-gradient(135deg, var(--hero-bg-color) 0%, rgba(255,255,255,0.1) 100%); }
+  .hero__bg--mesh {
+    background-color: var(--hero-bg-color);
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(255,255,255,0.2) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(0,0,0,0.1) 0px, transparent 50%);
+    background-size: 200% 200%;
+    animation: heroMesh 15s ease infinite alternate;
+  }
+  @keyframes heroMesh { 0% { background-position: 0% 0%; } 100% { background-position: 100% 100%; } }
+  
+  .hero__media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    {% if section.settings.enable_zoom_animation %}
+    animation: heroZoomIn 20s ease-out forwards;
+    transform: scale(1.1);
+    {% endif %}
+  }
+  @keyframes heroZoomIn { to { transform: scale(1); } }
+
+  /* Overlay */
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-color: var(--hero-overlay);
+    opacity: {{ overlay_opacity }};
+    pointer-events: none;
+  }
+
+  /* Content Wrapper */
+  .hero__content-wrapper {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: {% if section.settings.container_width == 'full' %}100%{% elsif section.settings.container_width == 'narrow' %}1000px{% else %}1440px{% endif %};
+    margin: 0 auto;
+    padding: 64px 5%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Vertical Alignment */
+  .hero-wrapper.align-v-top .hero__content-wrapper { justify-content: flex-start; }
+  .hero-wrapper.align-v-center .hero__content-wrapper { justify-content: center; }
+  .hero-wrapper.align-v-bottom .hero__content-wrapper { justify-content: flex-end; }
+
+  /* Horizontal Alignment */
+  .hero-wrapper.align-h-left .hero__content-wrapper { align-items: flex-start; text-align: left; }
+  .hero-wrapper.align-h-center .hero__content-wrapper { align-items: center; text-align: center; }
+  .hero-wrapper.align-h-right .hero__content-wrapper { align-items: flex-end; text-align: right; }
+
+  /* Content Elements */
+  .hero__content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 800px;
+  }
+
+  /* Blocks */
+  .hero__eyebrow {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    opacity: 0.8;
+  }
+  
+  .hero__headline {
+    font-size: clamp(40px, 8vw, 80px);
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .hero__headline em {
+    font-style: italic;
+    font-weight: 600;
+  }
+  
+  .hero__text {
+    font-size: clamp(16px, 2vw, 20px);
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+
+  .hero__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 8px;
+  }
+  
+  .hero-wrapper.align-h-left .hero__buttons { justify-content: flex-start; }
+  .hero-wrapper.align-h-center .hero__buttons { justify-content: center; }
+  .hero-wrapper.align-h-right .hero__buttons { justify-content: flex-end; }
+
+  .hero__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px;
+    border-radius: 100px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .hero__btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+  }
+
+  /* Animations */
+  .hero-animate {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes heroFadeUp { to { opacity: 1; transform: translateY(0); } }
+  
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .hero__media { animation: none !important; transform: scale(1) !important; }
+    .hero__bg--mesh { animation: none !important; }
+    .hero-animate { animation: none !important; opacity: 1; transform: translateY(0); }
+  }
+{%- endstyle -%}
+
+<section class="hero-wrapper hero-wrapper--{{ height }} align-v-{{ vertical_alignment }} align-h-{{ horizontal_alignment }}">
+  
+  <!-- Background -->
+  <div class="hero__bg hero__bg--{{ bg_type }}">
+    {% if bg_type == 'image' and section.settings.bg_image != blank %}
+      {{ section.settings.bg_image | image_url: width: 2400 | image_tag: class: 'hero__media', loading: 'eager' }}
+    {% elsif bg_type == 'video' and section.settings.bg_video != blank %}
+      {{ section.settings.bg_video | video_tag: class: 'hero__media', autoplay: true, loop: true, muted: true, controls: false }}
+    {% endif %}
+  </div>
+
+  <div class="hero__overlay"></div>
+
+  <!-- Content -->
+  <div class="hero__content-wrapper">
+    <div class="hero__content">
+      
+      {%- assign button_count = 0 -%}
+      
+      {% for block in section.blocks %}
+        <div class="hero-animate" style="animation-delay: {{ forloop.index | times: 0.1 }}s;" {{ block.shopify_attributes }}>
+          {% case block.type %}
+            
+            {% when 'eyebrow' %}
+              <div class="hero__eyebrow">{{ block.settings.text | escape }}</div>
+              
+            {% when 'headline' %}
+              <h1 class="hero__headline font-serif">
+                {% if block.settings.text_italic != blank %}
+                  <em>{{ block.settings.text_italic | escape }}</em><br>
+                {% endif %}
+                {{ block.settings.text_plain | escape }}
+              </h1>
+              
+            {% when 'text' %}
+              <div class="hero__text">{{ block.settings.text }}</div>
+              
+            {% when 'buttons' %}
+              <div class="hero__buttons">
+                {% if block.settings.btn_1_label != blank and block.settings.btn_1_link != blank %}
+                  <a href="{{ block.settings.btn_1_link }}" class="hero__btn" style="background-color: {{ block.settings.btn_1_bg }}; color: {{ block.settings.btn_1_text }};">
+                    {{ block.settings.btn_1_label | escape }}
+                  </a>
+                {% endif %}
+                {% if block.settings.btn_2_label != blank and block.settings.btn_2_link != blank %}
+                  <a href="{{ block.settings.btn_2_link }}" class="hero__btn" style="background-color: {{ block.settings.btn_2_bg }}; color: {{ block.settings.btn_2_text }}; border: 1px solid {{ block.settings.btn_2_text }};">
+                    {{ block.settings.btn_2_label | escape }}
+                  </a>
+                {% endif %}
+              </div>
+
+          {% endcase %}
+        </div>
+      {% endfor %}
+      
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        { "value": "standard", "label": "Standard (1440px)" },
+        { "value": "narrow", "label": "Narrow (1000px)" },
+        { "value": "full", "label": "Full Width" }
+      ],
+      "default": "standard"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Section Height",
+      "options": [
+        { "value": "small", "label": "Small (50vh)" },
+        { "value": "medium", "label": "Medium (70vh)" },
+        { "value": "large", "label": "Large (90vh)" },
+        { "value": "full", "label": "Full Screen (100vh)" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "select",
+      "id": "horizontal_alignment",
+      "label": "Horizontal Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "Vertical Alignment",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "bottom", "label": "Bottom" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Background & Media"
+    },
+    {
+      "type": "select",
+      "id": "bg_type",
+      "label": "Background Type",
+      "options": [
+        { "value": "solid", "label": "Solid Color" },
+        { "value": "gradient", "label": "Gradient" },
+        { "value": "mesh", "label": "Animated Mesh" },
+        { "value": "image", "label": "Image" },
+        { "value": "video", "label": "Video" }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "video",
+      "id": "bg_video",
+      "label": "Background Video"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_zoom_animation",
+      "label": "Enable subtle zoom-in on load",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors & Overlay"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#fbf2eb"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1f1b17"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "%"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "eyebrow",
+      "name": "Eyebrow",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Studio Journal Vol. 1"
+        }
+      ]
+    },
+    {
+      "type": "headline",
+      "name": "Headline",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text_italic",
+          "label": "Italic Part",
+          "default": "Precision Craft,"
+        },
+        {
+          "type": "text",
+          "id": "text_plain",
+          "label": "Regular Part",
+          "default": "Printed to Order"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Elevate your space with intricately detailed, artisan-finished 3D models.</p>"
+        }
+      ]
+    },
+    {
+      "type": "buttons",
+      "name": "Buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "btn_1_label",
+          "label": "Primary Button Label",
+          "default": "Register for Pre-orders"
+        },
+        {
+          "type": "url",
+          "id": "btn_1_link",
+          "label": "Primary Button Link"
+        },
+        {
+          "type": "color",
+          "id": "btn_1_bg",
+          "label": "Primary Button Background",
+          "default": "#18241b"
+        },
+        {
+          "type": "color",
+          "id": "btn_1_text",
+          "label": "Primary Button Text",
+          "default": "#ffffff"
+        },
+        {
+          "type": "text",
+          "id": "btn_2_label",
+          "label": "Secondary Button Label",
+          "default": "Explore Gallery"
+        },
+        {
+          "type": "url",
+          "id": "btn_2_link",
+          "label": "Secondary Button Link"
+        },
+        {
+          "type": "color",
+          "id": "btn_2_bg",
+          "label": "Secondary Button Background",
+          "default": "transparent"
+        },
+        {
+          "type": "color",
+          "id": "btn_2_text",
+          "label": "Secondary Button Text",
+          "default": "#18241b"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner",
+      "blocks": [
+        { "type": "eyebrow" },
+        { "type": "headline" },
+        { "type": "text" },
+        { "type": "buttons" }
+      ]
+    }
+  ]
+}
+{% endschema %}

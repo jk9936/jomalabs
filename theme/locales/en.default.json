@@ -1,0 +1,38 @@
+{
+  "general": {
+    "add_to_cart": "Add to Cart",
+    "sold_out": "Sold Out",
+    "unavailable": "Unavailable",
+    "view_details": "View Details",
+    "cart": "Cart",
+    "cart_empty": "Your cart is empty.",
+    "checkout": "Proceed to Checkout",
+    "subtotal": "Subtotal",
+    "close": "Close",
+    "open_cart": "Open cart",
+    "page_of": "Page {{ current }} of {{ total }}",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "products": {
+    "from": "From",
+    "preorder": "Pre-order",
+    "print_time": "Print Time",
+    "resolution": "Resolution",
+    "material": "Material"
+  },
+  "forms": {
+    "name_label": "Name",
+    "name_placeholder": "How shall we address you?",
+    "email_label": "Correspondence",
+    "email_placeholder": "Your email address",
+    "interest_label": "Desired Artifact",
+    "submit": "Seal the Request",
+    "sending": "Sending\u2026",
+    "success": "Your request has been received. We will be in touch soon.",
+    "error": "Something went wrong. Please try again."
+  },
+  "navigation": {
+    "skip_to_content": "Skip to content"
+  }
+}

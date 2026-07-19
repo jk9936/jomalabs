@@ -1,0 +1,87 @@
+<div class="page-collection">
+  <header class="collection-header reveal">
+    <span class="collection-header__eyebrow">
+      {{ section.settings.eyebrow | default: 'The Gallery' | escape }}
+    </span>
+    <h1 class="collection-header__title">
+      {%- if collection.title != blank -%}
+        {{ collection.title | escape }}
+      {%- else -%}
+        {{ section.settings.title | escape }}
+      {%- endif -%}
+    </h1>
+    {%- assign coll_desc = collection.description | strip_html | truncate: 200 | default: section.settings.description -%}
+    {%- if coll_desc != blank -%}
+      <p class="collection-header__desc">{{ coll_desc | escape }}</p>
+    {%- endif -%}
+  </header>
+
+  {%- if collection.products.size > 0 -%}
+    <div class="product-grid" id="collection-grid">
+      {%- for product in collection.products -%}
+        {%- render 'product-card',
+          product: product,
+          show_price: section.settings.show_price
+        -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      <nav class="pagination" aria-label="Pagination" style="margin-top:64px; display:flex; justify-content:center; gap:16px; font-family:var(--font-sans); font-size:var(--text-label-sm); letter-spacing:var(--tracking-label); text-transform:uppercase;">
+        {%- if paginate.previous -%}
+          <a href="{{ paginate.previous.url }}" class="link-arrow">
+            &larr; Previous
+          </a>
+        {%- endif -%}
+        <span style="color:var(--color-on-surface-variant)">
+          Page {{ paginate.current_page }} of {{ paginate.pages }}
+        </span>
+        {%- if paginate.next -%}
+          <a href="{{ paginate.next.url }}" class="link-arrow">
+            Next &rarr;
+          </a>
+        {%- endif -%}
+      </nav>
+    {%- endif -%}
+  {%- else -%}
+    <p style="text-align:center; color:var(--color-on-surface-variant); font-family:var(--font-serif); font-style:italic; font-size:18px; padding:64px 0;">
+      No products found in this collection.
+    </p>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Collection Grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "The Gallery"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Fallback title (if no collection title)",
+      "default": "All Artifacts"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Fallback description"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show prices on cards",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Grid"
+    }
+  ]
+}
+{% endschema %}

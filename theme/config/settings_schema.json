@@ -1,0 +1,94 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Artisan Foundry",
+    "theme_version": "1.0.0",
+    "theme_author": "Artisan3D Studio",
+    "theme_documentation_url": "https://shopify.dev/docs/storefronts/themes",
+    "theme_support_url": "https://shopify.dev/docs/storefronts/themes"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "text",
+        "id": "shop_name_override",
+        "label": "Display name (overrides Shopify store name)",
+        "default": "Artisan3D"
+      },
+      {
+        "type": "image_picker",
+        "id": "share_image",
+        "label": "Default social sharing image",
+        "info": "Used as fallback for Open Graph. Recommended: 1200×630px."
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary (Forest Green)",
+        "default": "#18241b"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary (Terracotta)",
+        "default": "#974723"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background (Cream)",
+        "default": "#fff8f4"
+      },
+      {
+        "type": "color",
+        "id": "color_on_surface",
+        "label": "Body text color",
+        "default": "#1f1b17"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "select",
+        "id": "font_headline",
+        "label": "Headline font",
+        "options": [
+          { "value": "Literata", "label": "Literata (Serif — default)" },
+          { "value": "Playfair Display", "label": "Playfair Display (Serif)" },
+          { "value": "Cormorant Garamond", "label": "Cormorant Garamond (Serif)" }
+        ],
+        "default": "Literata"
+      },
+      {
+        "type": "select",
+        "id": "font_body",
+        "label": "Body font",
+        "options": [
+          { "value": "Hanken Grotesk", "label": "Hanken Grotesk (Sans — default)" },
+          { "value": "Inter", "label": "Inter (Sans)" },
+          { "value": "DM Sans", "label": "DM Sans (Sans)" }
+        ],
+        "default": "Hanken Grotesk"
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "32×32px recommended. PNG or ICO."
+      }
+    ]
+  }
+]
