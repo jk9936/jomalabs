@@ -83,11 +83,11 @@
             "bg_type": "mesh",
             "decoration_style": "none",
             "floating": true,
-            "image_scale": 200,
+            "image_scale": 155,
             "rotation": 0,
             "shadow": 20,
-            "pos_x": -5,
-            "pos_y": -10
+            "pos_x": -15,
+            "pos_y": 30
           }
         },
         "slide-2": {
@@ -105,11 +105,11 @@
             "bg_type": "solid",
             "decoration_style": "none",
             "floating": true,
-            "image_scale": 100,
-            "rotation": 0,
+            "image_scale": 155,
+            "rotation": 4,
             "shadow": 20,
             "pos_x": 0,
-            "pos_y": 175
+            "pos_y": -30
           }
         }
       },
