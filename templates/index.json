@@ -93,20 +93,21 @@
           "type": "slide",
           "settings": {
             "subheading": "Introducing",
-            "heading": "Crafted with Precision.",
-            "description": "<p>A premium design experience built seamlessly into your store.</p>",
+            "heading": "AIRPODS X TheGreatWave",
+            "description": "<p>Snappy and Snug fit designed for all airpod pro version, accepting custom request as well.</p>",
             "btn_text": "Discover More",
-            "btn_url": "",
-            "bg_color": "#111111",
-            "accent_color": "#333333",
-            "text_color": "#ffffff",
-            "bg_type": "noise",
-            "decoration_style": "circle",
+            "btn_url": "shopify://products/air-pods-case-x-the-great-wave",
+            "product_image": "shopify://shop_images/IMG_0299.png",
+            "bg_color": "#2F8DFF",
+            "accent_color": "#F0AC78",
+            "text_color": "#0B0B0B",
+            "bg_type": "solid",
+            "decoration_style": "none",
             "floating": true,
             "rotation": 0,
             "shadow": 20,
             "pos_x": 0,
-            "pos_y": 0
+            "pos_y": 175
           }
         }
       },
@@ -116,9 +117,9 @@
       ],
       "settings": {
         "container_width": "full",
-        "height": "large",
+        "height": "medium",
         "border_radius": 24,
-        "autoplay": true,
+        "autoplay": false,
         "autoplay_speed": 5,
         "show_arrows": true,
         "show_pagination": true,
