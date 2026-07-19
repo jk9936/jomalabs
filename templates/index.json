@@ -160,8 +160,8 @@
             "shadow": 20,
             "pos_x": 0,
             "pos_y": 0,
-            "pos_x_mobile": 0,
-            "pos_y_mobile": 0
+            "pos_x_mobile": 15,
+            "pos_y_mobile": 90
           }
         }
       },
