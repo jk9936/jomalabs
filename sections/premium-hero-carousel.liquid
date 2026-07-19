@@ -152,6 +152,8 @@
   }
   
   .phc-stage__product {
+    --phc-pos-x: var(--phc-pos-x-mobile, 0px);
+    --phc-pos-y: var(--phc-pos-y-mobile, 0px);
     position: relative;
     z-index: 3;
     max-width: 90%;
@@ -165,6 +167,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  @media (min-width: 992px) {
+    .phc-stage__product {
+      --phc-pos-x: var(--phc-pos-x-desktop, 0px);
+      --phc-pos-y: var(--phc-pos-y-desktop, 0px);
+    }
   }
 
   .phc-slide.is-active .phc-content__subheading,
@@ -421,7 +429,7 @@
             
             <!-- Stage / Product Layer -->
             <div class="phc-stage {% if section.settings.enable_floating_animation and block.settings.floating %}phc-is-floating{% endif %}">
-              <div class="phc-stage__product" style="--phc-image-scale: {{ block.settings.image_scale | divided_by: 100.0 }}; --phc-pos-x: {{ block.settings.pos_x }}px; --phc-pos-y: {{ block.settings.pos_y }}px; rotate: {{ block.settings.rotation }}deg; --phc-shadow: {{ block.settings.shadow }}px;">
+              <div class="phc-stage__product" style="--phc-image-scale: {{ block.settings.image_scale | divided_by: 100.0 }}; --phc-pos-x-desktop: {{ block.settings.pos_x_desktop }}px; --phc-pos-y-desktop: {{ block.settings.pos_y_desktop }}px; --phc-pos-x-mobile: {{ block.settings.pos_x_mobile }}px; --phc-pos-y-mobile: {{ block.settings.pos_y_mobile }}px; rotate: {{ block.settings.rotation }}deg; --phc-shadow: {{ block.settings.shadow }}px;">
                 {% if block.settings.product_image %}
                   <img 
                     src="{{ block.settings.product_image | image_url: width: 1200 }}" 
@@ -814,8 +822,8 @@
         },
         {
           "type": "range",
-          "id": "pos_x",
-          "label": "Horizontal Position Offset",
+          "id": "pos_x_desktop",
+          "label": "Desktop Horizontal Offset",
           "min": -200,
           "max": 200,
           "step": 5,
@@ -824,8 +832,28 @@
         },
         {
           "type": "range",
-          "id": "pos_y",
-          "label": "Vertical Position Offset",
+          "id": "pos_y_desktop",
+          "label": "Desktop Vertical Offset",
+          "min": -200,
+          "max": 200,
+          "step": 5,
+          "default": 0,
+          "unit": "px"
+        },
+        {
+          "type": "range",
+          "id": "pos_x_mobile",
+          "label": "Mobile Horizontal Offset",
+          "min": -200,
+          "max": 200,
+          "step": 5,
+          "default": 0,
+          "unit": "px"
+        },
+        {
+          "type": "range",
+          "id": "pos_y_mobile",
+          "label": "Mobile Vertical Offset",
           "min": -200,
           "max": 200,
           "step": 5,
