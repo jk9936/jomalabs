@@ -15,20 +15,20 @@
         "eyebrow": {
           "type": "eyebrow",
           "settings": {
-            "text": "JOMA LABS     A 3D Print CREATIVE"
+            "text": "JOMA LABS"
           }
         },
         "headline": {
           "type": "headline",
           "settings": {
-            "text_italic": "Precision Craft,",
-            "text_plain": "Printed to Order"
+            "text_italic": "Manifesting Ideas in real time,",
+            "text_plain": ""
           }
         },
         "text": {
           "type": "text",
           "settings": {
-            "text": "<p>Elevate your space with intricately detailed, artisan-finished 3D models. Merging cutting-edge technology with traditional workshop warmth.</p>"
+            "text": "<p>Bring main charecter engery to your life with custom and limited 3D prints</p>"
           }
         },
         "buttons": {
@@ -71,21 +71,22 @@
         "slide-1": {
           "type": "slide",
           "settings": {
-            "subheading": "Introducing",
-            "heading": "Designed to Inspire.",
-            "description": "<p>A premium design experience built seamlessly into your store.</p>",
+            "subheading": "The Fossil Collection",
+            "heading": "DF-1 : TREX",
+            "description": "<p>Scaled from real skull of a TREX to fit in your home space, clean and crisp print</p>",
             "btn_text": "Discover More",
-            "btn_url": "",
-            "bg_color": "#f4f4f4",
-            "accent_color": "#e1e1e1",
+            "btn_url": "shopify://products/fossil-t-rex-skull",
+            "product_image": "shopify://shop_images/IMG_4663.png",
+            "bg_color": "#F0AC78",
+            "accent_color": "#DF8601",
             "text_color": "#111111",
             "bg_type": "mesh",
-            "decoration_style": "grid",
+            "decoration_style": "none",
             "floating": true,
             "rotation": 0,
             "shadow": 20,
             "pos_x": 0,
-            "pos_y": 0
+            "pos_y": 60
           }
         },
         "slide-2": {
