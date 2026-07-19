@@ -1,1 +1,411 @@
-{"sections":{"hero":{"type":"hero","blocks":{"eyebrow":{"type":"eyebrow","settings":{"text":"JOMA LABS     A 3D Print CREATIVE"}},"headline":{"type":"headline","settings":{"text_italic":"Precision Craft,","text_plain":"Printed to Order"}},"text":{"type":"text","settings":{"text":"<p>Elevate your space with intricately detailed, artisan-finished 3D models. Merging cutting-edge technology with traditional workshop warmth.</p>"}},"buttons":{"type":"buttons","settings":{"btn_1_label":"Register for Pre-orders","btn_1_link":"#preorder","btn_2_label":"Explore Gallery","btn_2_link":"#products"}}},"block_order":["eyebrow","headline","text","buttons"],"settings":{"bg_type":"solid","height":"large","horizontal_alignment":"center","vertical_alignment":"center"}},"premium-hero":{"type":"premium-hero-carousel","blocks":{"slide-1":{"type":"slide","settings":{"heading":"Designed to Inspire.","bg_type":"mesh","decoration_style":"grid"}},"slide-2":{"type":"slide","settings":{"heading":"Crafted with Precision.","bg_type":"noise","decoration_style":"circle","bg_color":"#111111","accent_color":"#333333","text_color":"#ffffff"}}},"block_order":["slide-1","slide-2"],"settings":{}},"print-carousel":{"type":"print-carousel","blocks":{"print-1":{"type":"print","settings":{"product":"air-pods-case-x-the-great-wave"}},"print-2":{"type":"print","settings":{"product":"fossil-t-rex-skull"}},"print-3":{"type":"print","settings":{}}},"block_order":["print-1","print-2","print-3"],"settings":{"heading":"Hot Off the Nozzle 🔥"}},"product-showcase":{"type":"product-showcase","blocks":{"item-1":{"type":"product_item","settings":{"product":"air-pods-case-x-the-great-wave","custom_title":"Air Pods X The Great Wave","custom_image":"shopify:\/\/shop_images\/IMG_0299.heic","custom_description":"","chips":"Hand-Finished","spec_1_label":"Print Time","spec_1_value":"4 Hrs","spec_2_label":"Resolution","spec_2_value":"0.02mm","spec_3_label":"","spec_3_value":"","cta_label":"View Details","cta_url":""}},"item-2":{"type":"product_item","settings":{"product":"","custom_title":"The Kraken","custom_image":"shopify:\/\/shop_images\/IMG_4679.heic","custom_description":"Making Daily Objects fun! Deep sea aesthetics meet ergonomic design in this sturdy, eye-catching controller stand.","chips":"PLA+","spec_1_label":"Material","spec_1_value":"PLA+","spec_2_label":"Resolution","spec_2_value":"0.02mm","spec_3_label":"","spec_3_value":"","cta_label":"View Details","cta_url":""}},"item-3":{"type":"product_item","settings":{"product":"fossil-t-rex-skull","custom_title":"Primal Echo","custom_description":"T-Rex Skull Series. Available in weathered bone finish. A stunning conversation piece meticulously modeled after fossil records.","chips":"Bone Finish","spec_1_label":"Finish","spec_1_value":"Weathered Bone","spec_2_label":"Resolution","spec_2_value":"0.02mm","spec_3_label":"","spec_3_value":"","cta_label":"View Details","cta_url":""}}},"block_order":["item-1","item-2","item-3"],"settings":{}},"product-story":{"type":"product-story","blocks":{"media":{"type":"media"},"story":{"type":"story","settings":{"eyebrow":"Behind the Design","headline":"Form Meets Function.","description":"<p>A timeless creation that blends modern aesthetics with functional durability.</p>","btn_text":"Discover"}},"features":{"type":"feature_list","settings":{"feature_1":"Hand Finished","feature_2":"Precision Printed","feature_3":"Lightweight","feature_4":"Eco Friendly"}},"metrics":{"type":"metrics_container","settings":{"metric_val_1":"4 Hrs","metric_label_1":"Print Time","metric_val_2":"0.02 mm","metric_label_2":"Layer Height"}}},"block_order":["media","story","features","metrics"],"settings":{"bg_type":"mesh","decoration_style":"grid"}},"preorder":{"type":"preorder-form","settings":{"eyebrow":"An Invitation","title":"Join the NextPrint Run","quote":"Our machines run on a deliberate schedule to ensure uncompromising quality. We invite you to reserve your place in our upcoming batch.","submit_label":"Seal the Request","success_message":"Your request has been received. We will be in touch soon."}},"process":{"type":"process","blocks":{"step-1":{"type":"step","settings":{"title":"Precision Slicing","icon":"precision_manufacturing","description":"Every model is meticulously prepared to balance structural integrity with flawless surface detail. Hours are spent orienting and supporting the digital mesh before it ever meets the printing bed."}},"step-2":{"type":"step","settings":{"title":"Layered Creation","icon":"layers","description":"Printed using high-grade PLA and polymers, ensuring each micro-layer contributes to the final masterpiece. Our machines run slow and steady for maximum fidelity with high infills for sturdy prints."}},"step-3":{"type":"step","settings":{"title":"Boutique","icon":"handyman","description":"The final touch is always human. Hand-cleaned, meticulously buffed, and optionally painted in our studio for finishing touches."}}},"block_order":["step-1","step-2","step-3"],"disabled":true,"settings":{"chapter_label":"","title":"Our Story","title_italic":"Art and Process","description":"A dedication to craft in the digital age. We don't just print; we sculpt with light and resin."}},"178424473202d0d67b":{"type":"_blocks","blocks":{"ai_gen_block_8678c47_9eM9i8":{"type":"ai_gen_block_8678c47","settings":{"video_url":"https:\/\/cdn.shopify.com\/videos\/c\/vp\/b6da383bf765422c863ef229d2f60910\/b6da383bf765422c863ef229d2f60910.HD-1080p-7.2Mbps-89150810.mp4","section_height":400,"overlay_color":"#C2B6AF","overlay_opacity":0.5,"desktop_width_percent":100,"heading":"The Art of Process","heading_size":60,"heading_color":"#FFFFFF","heading_spacing":40,"columns_desktop":"1","columns_mobile":"1","text_alignment":"right","content_max_width":1200,"step_spacing":32,"padding_vertical":60,"padding_horizontal":40,"number_size":28,"number_color":"#974723","title_size":20,"title_color":"#18251C","description_size":16,"description_color":"#FFFFFF","step_1_enabled":true,"step_1_number":"","step_1_title":"Consultation","step_1_description":"We begin by understanding your vision and requirements","step_2_enabled":true,"step_2_number":"","step_2_title":"Design","step_2_description":"Our team creates detailed designs tailored to your needs","step_3_enabled":true,"step_3_number":"","step_3_title":"Production","step_3_description":"We bring your vision to life with expert craftsmanship","step_4_enabled":false,"step_4_number":"04","step_4_title":"","step_4_description":"","step_5_enabled":false,"step_5_number":"05","step_5_title":"","step_5_description":"","step_6_enabled":false,"step_6_number":"06","step_6_title":"","step_6_description":""},"blocks":{}}},"block_order":["ai_gen_block_8678c47_9eM9i8"],"settings":{}}},"order":["hero","premium-hero","print-carousel","product-showcase","product-story","preorder","process","178424473202d0d67b"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "eyebrow": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "JOMA LABS     A 3D Print CREATIVE"
+          }
+        },
+        "headline": {
+          "type": "headline",
+          "settings": {
+            "text_italic": "Precision Craft,",
+            "text_plain": "Printed to Order"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Elevate your space with intricately detailed, artisan-finished 3D models. Merging cutting-edge technology with traditional workshop warmth.</p>"
+          }
+        },
+        "buttons": {
+          "type": "buttons",
+          "settings": {
+            "btn_1_label": "Register for Pre-orders",
+            "btn_1_link": "#preorder",
+            "btn_1_bg": "#18241b",
+            "btn_1_text": "#ffffff",
+            "btn_2_label": "Explore Gallery",
+            "btn_2_link": "#products",
+            "btn_2_bg": "rgba(0,0,0,0)",
+            "btn_2_text": "#18241b"
+          }
+        }
+      },
+      "block_order": [
+        "eyebrow",
+        "headline",
+        "text",
+        "buttons"
+      ],
+      "settings": {
+        "container_width": "standard",
+        "height": "large",
+        "horizontal_alignment": "center",
+        "vertical_alignment": "center",
+        "bg_type": "solid",
+        "enable_zoom_animation": true,
+        "bg_color": "#fbf2eb",
+        "text_color": "#1f1b17",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "premium-hero": {
+      "type": "premium-hero-carousel",
+      "blocks": {
+        "slide-1": {
+          "type": "slide",
+          "settings": {
+            "subheading": "Introducing",
+            "heading": "Designed to Inspire.",
+            "description": "<p>A premium design experience built seamlessly into your store.</p>",
+            "btn_text": "Discover More",
+            "btn_url": "",
+            "bg_color": "#f4f4f4",
+            "accent_color": "#e1e1e1",
+            "text_color": "#111111",
+            "bg_type": "mesh",
+            "decoration_style": "grid",
+            "floating": true,
+            "rotation": 0,
+            "shadow": 20,
+            "pos_x": 0,
+            "pos_y": 0
+          }
+        },
+        "slide-2": {
+          "type": "slide",
+          "settings": {
+            "subheading": "Introducing",
+            "heading": "Crafted with Precision.",
+            "description": "<p>A premium design experience built seamlessly into your store.</p>",
+            "btn_text": "Discover More",
+            "btn_url": "",
+            "bg_color": "#111111",
+            "accent_color": "#333333",
+            "text_color": "#ffffff",
+            "bg_type": "noise",
+            "decoration_style": "circle",
+            "floating": true,
+            "rotation": 0,
+            "shadow": 20,
+            "pos_x": 0,
+            "pos_y": 0
+          }
+        }
+      },
+      "block_order": [
+        "slide-1",
+        "slide-2"
+      ],
+      "settings": {
+        "container_width": "full",
+        "height": "large",
+        "border_radius": 24,
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "show_arrows": true,
+        "show_pagination": true,
+        "enable_floating_animation": true,
+        "enable_mouse_parallax": true
+      }
+    },
+    "print-carousel": {
+      "type": "print-carousel",
+      "blocks": {
+        "print-1": {
+          "type": "print",
+          "settings": {
+            "product": "air-pods-case-x-the-great-wave"
+          }
+        },
+        "print-2": {
+          "type": "print",
+          "settings": {
+            "product": "fossil-t-rex-skull"
+          }
+        },
+        "print-3": {
+          "type": "print",
+          "settings": {
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "print-1",
+        "print-2",
+        "print-3"
+      ],
+      "settings": {
+        "heading": "Hot Off the Nozzle 🔥"
+      }
+    },
+    "product-showcase": {
+      "type": "product-showcase",
+      "blocks": {
+        "item-1": {
+          "type": "product_item",
+          "settings": {
+            "product": "air-pods-case-x-the-great-wave",
+            "custom_title": "Air Pods X The Great Wave",
+            "custom_image": "shopify://shop_images/IMG_0299.heic",
+            "custom_description": "",
+            "chips": "Hand-Finished",
+            "spec_1_label": "Print Time",
+            "spec_1_value": "4 Hrs",
+            "spec_2_label": "Resolution",
+            "spec_2_value": "0.02mm",
+            "spec_3_label": "",
+            "spec_3_value": "",
+            "cta_label": "View Details",
+            "cta_url": ""
+          }
+        },
+        "item-2": {
+          "type": "product_item",
+          "settings": {
+            "product": "",
+            "custom_title": "The Kraken",
+            "custom_image": "shopify://shop_images/IMG_4679.heic",
+            "custom_description": "Making Daily Objects fun! Deep sea aesthetics meet ergonomic design in this sturdy, eye-catching controller stand.",
+            "chips": "PLA+",
+            "spec_1_label": "Material",
+            "spec_1_value": "PLA+",
+            "spec_2_label": "Resolution",
+            "spec_2_value": "0.02mm",
+            "spec_3_label": "",
+            "spec_3_value": "",
+            "cta_label": "View Details",
+            "cta_url": ""
+          }
+        },
+        "item-3": {
+          "type": "product_item",
+          "settings": {
+            "product": "fossil-t-rex-skull",
+            "custom_title": "Primal Echo",
+            "custom_description": "T-Rex Skull Series. Available in weathered bone finish. A stunning conversation piece meticulously modeled after fossil records.",
+            "chips": "Bone Finish",
+            "spec_1_label": "Finish",
+            "spec_1_value": "Weathered Bone",
+            "spec_2_label": "Resolution",
+            "spec_2_value": "0.02mm",
+            "spec_3_label": "",
+            "spec_3_value": "",
+            "cta_label": "View Details",
+            "cta_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "item-1",
+        "item-2",
+        "item-3"
+      ],
+      "settings": {}
+    },
+    "product-story": {
+      "type": "product-story",
+      "blocks": {
+        "media": {
+          "type": "media",
+          "settings": {}
+        },
+        "story": {
+          "type": "story",
+          "settings": {
+            "eyebrow": "Behind the Design",
+            "headline": "Form Meets Function.",
+            "description": "<p>A timeless creation that blends modern aesthetics with functional durability.</p>",
+            "btn_text": "Discover",
+            "btn_url": ""
+          }
+        },
+        "features": {
+          "type": "feature_list",
+          "settings": {
+            "feature_1": "Hand Finished",
+            "feature_2": "Precision Printed",
+            "feature_3": "Lightweight",
+            "feature_4": "Eco Friendly",
+            "feature_5": "",
+            "feature_6": ""
+          }
+        },
+        "metrics": {
+          "type": "metrics_container",
+          "settings": {
+            "metric_emoji_1": "⚡",
+            "metric_val_1": "4 Hrs",
+            "metric_label_1": "Print Time",
+            "metric_emoji_2": "📐",
+            "metric_val_2": "0.02 mm",
+            "metric_label_2": "Layer Height",
+            "metric_emoji_3": "🧱",
+            "metric_val_3": "PLA+",
+            "metric_label_3": "Material",
+            "metric_emoji_4": "",
+            "metric_val_4": "",
+            "metric_label_4": ""
+          }
+        }
+      },
+      "block_order": [
+        "media",
+        "story",
+        "features",
+        "metrics"
+      ],
+      "settings": {
+        "container_width": "standard",
+        "border_radius": false,
+        "padding_y": 80,
+        "bg_color": "#fbf2eb",
+        "accent_color": "#e1d8d2",
+        "text_color": "#1f1b17",
+        "bg_type": "mesh",
+        "decoration_style": "grid",
+        "enable_scroll_animations": true,
+        "enable_floating_image": true,
+        "enable_mouse_parallax": true
+      }
+    },
+    "preorder": {
+      "type": "preorder-form",
+      "settings": {
+        "eyebrow": "An Invitation",
+        "title": "Join the NextPrint Run",
+        "quote": "Our machines run on a deliberate schedule to ensure uncompromising quality. We invite you to reserve your place in our upcoming batch.",
+        "submit_label": "Seal the Request",
+        "success_message": "Your request has been received. We will be in touch soon."
+      }
+    },
+    "process": {
+      "type": "process",
+      "blocks": {
+        "step-1": {
+          "type": "step",
+          "settings": {
+            "title": "Precision Slicing",
+            "icon": "precision_manufacturing",
+            "description": "Every model is meticulously prepared to balance structural integrity with flawless surface detail. Hours are spent orienting and supporting the digital mesh before it ever meets the printing bed."
+          }
+        },
+        "step-2": {
+          "type": "step",
+          "settings": {
+            "title": "Layered Creation",
+            "icon": "layers",
+            "description": "Printed using high-grade PLA and polymers, ensuring each micro-layer contributes to the final masterpiece. Our machines run slow and steady for maximum fidelity with high infills for sturdy prints."
+          }
+        },
+        "step-3": {
+          "type": "step",
+          "settings": {
+            "title": "Boutique",
+            "icon": "handyman",
+            "description": "The final touch is always human. Hand-cleaned, meticulously buffed, and optionally painted in our studio for finishing touches."
+          }
+        }
+      },
+      "block_order": [
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "disabled": true,
+      "settings": {
+        "chapter_label": "",
+        "title": "Our Story",
+        "title_italic": "Art and Process",
+        "description": "A dedication to craft in the digital age. We don't just print; we sculpt with light and resin."
+      }
+    },
+    "178424473202d0d67b": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_8678c47_9eM9i8": {
+          "type": "ai_gen_block_8678c47",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/vp/b6da383bf765422c863ef229d2f60910/b6da383bf765422c863ef229d2f60910.HD-1080p-7.2Mbps-89150810.mp4",
+            "section_height": 400,
+            "overlay_color": "#c2b6af",
+            "overlay_opacity": 0.5,
+            "desktop_width_percent": 100,
+            "heading": "The Art of Process",
+            "heading_size": 60,
+            "heading_color": "#ffffff",
+            "heading_spacing": 40,
+            "columns_desktop": "1",
+            "columns_mobile": "1",
+            "text_alignment": "right",
+            "content_max_width": 1200,
+            "step_spacing": 32,
+            "padding_vertical": 60,
+            "padding_horizontal": 40,
+            "number_size": 28,
+            "number_color": "#974723",
+            "title_size": 20,
+            "title_color": "#18251c",
+            "description_size": 16,
+            "description_color": "#ffffff",
+            "step_1_enabled": true,
+            "step_1_number": "",
+            "step_1_title": "Consultation",
+            "step_1_description": "We begin by understanding your vision and requirements",
+            "step_2_enabled": true,
+            "step_2_number": "",
+            "step_2_title": "Design",
+            "step_2_description": "Our team creates detailed designs tailored to your needs",
+            "step_3_enabled": true,
+            "step_3_number": "",
+            "step_3_title": "Production",
+            "step_3_description": "We bring your vision to life with expert craftsmanship",
+            "step_4_enabled": false,
+            "step_4_number": "04",
+            "step_4_title": "",
+            "step_4_description": "",
+            "step_5_enabled": false,
+            "step_5_number": "05",
+            "step_5_title": "",
+            "step_5_description": "",
+            "step_6_enabled": false,
+            "step_6_number": "06",
+            "step_6_title": "",
+            "step_6_description": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_8678c47_9eM9i8"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "premium-hero",
+    "print-carousel",
+    "product-showcase",
+    "product-story",
+    "preorder",
+    "process",
+    "178424473202d0d67b"
+  ]
+}
