@@ -56,12 +56,13 @@
         "height": "large",
         "horizontal_alignment": "center",
         "vertical_alignment": "center",
-        "bg_type": "solid",
+        "bg_type": "video",
+        "bg_video": "shopify://files/videos/Create_a_cinematic_ultra_real.mp4",
         "enable_zoom_animation": true,
         "bg_color": "#fbf2eb",
         "text_color": "#1f1b17",
-        "overlay_color": "#000000",
-        "overlay_opacity": 0
+        "overlay_color": "#C4A981",
+        "overlay_opacity": 30
       }
     },
     "premium-hero": {
