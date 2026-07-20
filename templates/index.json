@@ -78,7 +78,7 @@
         "button_2"
       ],
       "settings": {
-        "overlay_opacity": 30,
+        "overlay_opacity": 0,
         "window_bg": "#fbf2eb",
         "window_width": 990,
         "border_color": "#111111",
@@ -87,7 +87,7 @@
         "header_bg": "#111111",
         "header_text": "#fbf2eb",
         "transparent_window": false,
-        "window_rotation": -1
+        "window_rotation": 0
       }
     },
     "premium-hero": {
@@ -162,7 +162,7 @@
             "btn_url": "",
             "product_image": "shopify://shop_images/IMG_4679.png",
             "bg_color": "#83169c",
-            "accent_color": "#ffdd57",
+            "accent_color": "#E83EA4",
             "text_color": "#ffcf10",
             "image_scale": 100,
             "rotation": 0,
