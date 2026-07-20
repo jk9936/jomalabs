@@ -90,21 +90,21 @@
         "slide-2": {
           "type": "slide",
           "settings": {
-            "subheading": "Introducing",
+            "subheading": "",
             "heading": "Air Pods X TheGreatWave",
             "description": "<p>Snappy and Snug fit designed for all airpod pro version, accepting custom request as well.</p>",
             "btn_text": "Discover More",
             "btn_url": "shopify://products/air-pods-case-x-the-great-wave",
             "product_image": "shopify://shop_images/IMG_0299.png",
             "bg_color": "#2f8dff",
-            "accent_color": "#f0ac78",
+            "accent_color": "#FCFCFC",
             "text_color": "#0b0b0b",
             "image_scale": 200,
             "rotation": 4,
             "pos_x": -40,
-            "pos_y": -10,
-            "pos_x_mobile": 0,
-            "pos_y_mobile": 70
+            "pos_y": -40,
+            "pos_x_mobile": -5,
+            "pos_y_mobile": 25
           }
         },
         "slide-1": {
@@ -155,7 +155,7 @@
             "btn_text": "Discover More",
             "btn_url": "",
             "product_image": "shopify://shop_images/IMG_4679.png",
-            "bg_color": "#83169C",
+            "bg_color": "#83169c",
             "accent_color": "#ffdd57",
             "text_color": "#ffcf10",
             "image_scale": 100,
