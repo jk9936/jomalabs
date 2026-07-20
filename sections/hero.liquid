@@ -1,4 +1,15 @@
-<section class="relative w-full min-h-[90vh] flex items-center justify-center p-4 overflow-hidden bg-transparent">
+<style>
+  .section-{{ section.id }}-padding {
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+</style>
+
+<section class="relative w-full min-h-[90vh] flex items-center justify-center p-4 overflow-hidden bg-transparent section-{{ section.id }}-padding">
   
   <!-- Hero Window -->
   <div class="rounded-sm relative z-20 mx-auto mt-16 text-text-dark flex flex-col overflow-hidden{% if section.settings.transparent_window %} bg-transparent{% endif %}"
@@ -25,32 +36,32 @@
           
         {%- when 'headline' -%}
           <!-- Headline Block -->
-          <div class="px-8 pt-8 pb-4" {{ block.shopify_attributes }}>
-            <h2 class="font-display font-bold text-5xl md:text-7xl uppercase leading-none tracking-tight" style="color: {{ block.settings.text_color }}; text-align: {{ block.settings.alignment }};">
+          <div class="px-4 sm:px-8 pt-6 sm:pt-8 pb-4" {{ block.shopify_attributes }}>
+            <h2 class="font-display font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl uppercase leading-none tracking-tight" style="color: {{ block.settings.text_color }}; text-align: {{ block.settings.alignment }};">
               {{ block.settings.text | newline_to_br }}
             </h2>
           </div>
 
         {%- when 'subheading' -%}
           <!-- Subheading Block -->
-          <div class="px-8 py-2 flex" style="justify-content: {% if block.settings.alignment == 'center' %}center{% elsif block.settings.alignment == 'right' %}flex-end{% else %}flex-start{% endif %};" {{ block.shopify_attributes }}>
-            <span class="font-mono text-xs font-bold uppercase tracking-widest border-2 border-text-dark px-3 py-1 bg-background-light">
+          <div class="px-4 sm:px-8 py-2 flex" style="justify-content: {% if block.settings.alignment == 'center' %}center{% elsif block.settings.alignment == 'right' %}flex-end{% else %}flex-start{% endif %};" {{ block.shopify_attributes }}>
+            <span class="font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest border-2 border-text-dark px-2 sm:px-3 py-1 bg-background-light">
               {{ block.settings.text | escape }}
             </span>
           </div>
 
         {%- when 'text' -%}
           <!-- Text Block -->
-          <div class="px-8 py-2" {{ block.shopify_attributes }}>
-            <p class="font-mono text-sm md:text-base font-bold text-text-dark" style="text-align: {{ block.settings.alignment }};">
+          <div class="px-4 sm:px-8 py-2" {{ block.shopify_attributes }}>
+            <p class="font-mono text-xs sm:text-sm md:text-base font-bold text-text-dark" style="text-align: {{ block.settings.alignment }};">
               {% if block.settings.show_prefix %}>>> {% endif %}{{ block.settings.text | escape }}
             </p>
           </div>
 
         {%- when 'marquee' -%}
           <!-- Marquee Block -->
-          <div class="w-full overflow-hidden border-y-3 border-text-dark py-2 my-4 flex whitespace-nowrap shrink-0" style="background-color: {{ block.settings.bg_color }}; color: {{ block.settings.text_color }};" {{ block.shopify_attributes }}>
-            <div class="animate-marquee inline-block font-display font-bold text-xl uppercase tracking-wider shrink-0">
+          <div class="w-full overflow-hidden border-y-3 border-text-dark py-2 my-2 sm:my-4 flex whitespace-nowrap shrink-0" style="background-color: {{ block.settings.bg_color }}; color: {{ block.settings.text_color }};" {{ block.shopify_attributes }}>
+            <div class="animate-marquee inline-block font-display font-bold text-lg sm:text-xl uppercase tracking-wider shrink-0">
               {{ block.settings.text | escape }} &nbsp;&bull;&nbsp; {{ block.settings.text | escape }} &nbsp;&bull;&nbsp; {{ block.settings.text | escape }} &nbsp;&bull;&nbsp; {{ block.settings.text | escape }} &nbsp;&bull;&nbsp;
             </div>
           </div>
@@ -61,7 +72,7 @@
     <!-- Buttons Container (Group all button blocks together at the bottom if present) -->
     {%- assign button_blocks = section.blocks | where: "type", "button" -%}
     {%- if button_blocks.size > 0 -%}
-      <div class="px-8 pb-8 pt-4 flex flex-wrap gap-4 mt-auto">
+      <div class="px-4 sm:px-8 pb-6 sm:pb-8 pt-4 flex flex-wrap gap-2 sm:gap-4 mt-auto">
         {%- for block in button_blocks -%}
           <a href="{{ block.settings.link }}" class="btn-brutalist inline-block border-3 border-text-dark shadow-brutalist rounded-sm px-6 py-3 font-display font-bold uppercase tracking-wider transition-colors hover:brightness-90"
              style="background-color: {{ block.settings.bg_color }}; color: {{ block.settings.text_color }};"
@@ -165,6 +176,20 @@
       "id": "transparent_window",
       "label": "Transparent Window Background",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 0
     },
     {
       "type": "range",
