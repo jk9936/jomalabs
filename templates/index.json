@@ -80,6 +80,12 @@
       "settings": {
         "overlay_opacity": 30,
         "window_bg": "#fbf2eb",
+        "window_width": 990,
+        "border_color": "#111111",
+        "border_width": 0,
+        "shadow_color": "#0C0B0B",
+        "header_bg": "#111111",
+        "header_text": "#fbf2eb",
         "transparent_window": false,
         "window_rotation": -1
       }
@@ -97,7 +103,7 @@
             "btn_url": "shopify://products/air-pods-case-x-the-great-wave",
             "product_image": "shopify://shop_images/IMG_0299.png",
             "bg_color": "#2f8dff",
-            "accent_color": "#FCFCFC",
+            "accent_color": "#fcfcfc",
             "text_color": "#0b0b0b",
             "image_scale": 200,
             "rotation": 4,
@@ -182,6 +188,19 @@
         "show_pagination": true
       }
     },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "LATEST DROPS",
+        "title": "FEATURED PRINTS",
+        "collection": "test1",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "show_view_all": true,
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    },
     "preorder": {
       "type": "preorder-form",
       "settings": {
@@ -189,17 +208,9 @@
         "title": "Join the NextPrint Run",
         "quote": "Our machines run on a deliberate schedule to ensure uncompromising quality. We invite you to reserve your place in our upcoming batch.",
         "submit_label": "Seal the Request",
-        "success_message": "Your request has been received. We will be in touch soon."
-      }
-    },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "eyebrow": "LATEST DROPS",
-        "title": "FEATURED PRINTS",
-        "products_to_show": 4,
-        "columns_desktop": 4,
-        "show_view_all": true
+        "success_message": "Your request has been received. We will be in touch soon.",
+        "padding_top": 64,
+        "padding_bottom": 144
       }
     },
     "178424473202d0d67b": {
