@@ -1,4 +1,17 @@
-<section class="max-w-7xl mx-auto px-4 py-16 md:py-24">
+<style>
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+</style>
+
+<section class="max-w-7xl mx-auto px-4 section-{{ section.id }}-padding">
   <div class="flex flex-col items-center gap-12">
     {% if section.settings.heading != blank %}
       <div class="w-full h-8 bg-text-dark flex items-center px-3 border-b-3 border-text-dark justify-between max-w-[800px]">
@@ -153,6 +166,30 @@
       "id": "heading",
       "label": "Heading",
       "default": "Hot Off the Nozzle 🔥"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 96
     }
   ],
   "blocks": [

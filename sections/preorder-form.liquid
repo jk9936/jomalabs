@@ -1,4 +1,17 @@
-<section class="max-w-4xl mx-auto px-4 py-16 mb-20 relative z-20" id="preorder">
+<style>
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+</style>
+
+<section class="max-w-4xl mx-auto px-4 section-{{ section.id }}-padding relative z-20" id="preorder">
   <div class="bg-surface brutalist-border rounded-sm shadow-brutalist p-8 md:p-12 relative overflow-hidden">
     <!-- UI Window Bar -->
     <div class="absolute top-0 left-0 w-full h-8 bg-text-dark flex items-center px-3 border-b-3 border-text-dark justify-between">
@@ -127,6 +140,30 @@
       "id": "success_message",
       "label": "Success message",
       "default": "Your request has been received. We will be in touch soon."
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 144
     }
   ],
   "blocks": [

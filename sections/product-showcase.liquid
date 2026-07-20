@@ -1,4 +1,17 @@
-<section class="max-w-7xl mx-auto px-4 py-16 md:py-24" id="products" aria-label="Product showcase">
+<style>
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+</style>
+
+<section class="max-w-7xl mx-auto px-4 section-{{ section.id }}-padding" id="products" aria-label="Product showcase">
   <div class="flex flex-col gap-16 md:gap-24">
     {%- for block in section.blocks -%}
       {%- if block.type == 'product_item' -%}
@@ -124,7 +137,32 @@
 {% schema %}
 {
   "name": "Product Showcase",
-  "settings": [],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 96
+    }
+  ],
   "blocks": [
     {
       "type": "product_item",

@@ -1,0 +1,168 @@
+<style>
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+</style>
+
+<section class="max-w-7xl mx-auto px-4 section-{{ section.id }}-padding" id="collection-{{ section.id }}">
+  <div class="border-3 border-text-dark bg-surface shadow-brutalist overflow-hidden relative">
+    
+    <!-- System Bar -->
+    <div class="w-full h-8 bg-text-dark flex items-center px-3 border-b-3 border-text-dark justify-between">
+      <span class="font-mono text-xs font-bold text-surface">SYS.COLLECTION_VIEWER</span>
+      <div class="flex gap-2">
+        <div class="w-3 h-3 bg-cyan-accent border-2 border-text-dark"></div>
+        <div class="w-3 h-3 bg-magenta-accent border-2 border-text-dark"></div>
+        <div class="w-3 h-3 bg-primary border-2 border-text-dark"></div>
+      </div>
+    </div>
+
+    <div class="p-6 md:p-10 bg-background-light">
+      
+      <div class="flex flex-col md:flex-row justify-between items-end mb-8 md:mb-12 gap-6">
+        <div>
+          {%- if section.settings.eyebrow != blank -%}
+            <span class="font-mono text-xs font-bold uppercase tracking-widest border-2 border-text-dark px-3 py-1 bg-yellow-accent text-text-dark inline-block mb-4">
+              [{{ section.settings.eyebrow | escape }}]
+            </span>
+          {%- endif -%}
+          <h2 class="font-display font-bold text-4xl md:text-5xl uppercase leading-none text-text-dark">
+            {{ section.settings.title | escape }}
+          </h2>
+        </div>
+        
+        {%- if section.settings.show_view_all and section.settings.collection != blank -%}
+          <a href="{{ section.settings.collection.url }}" class="btn-brutalist inline-block border-3 border-text-dark shadow-brutalist rounded-sm px-6 py-3 font-display font-bold text-sm uppercase tracking-wider text-text-dark bg-cyan-accent hover:bg-surface transition-colors whitespace-nowrap">
+            View All &rarr;
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- assign collection = section.settings.collection -%}
+      {%- assign desktop_cols = section.settings.columns_desktop -%}
+      
+      <style>
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        @media (min-width: 1024px) {
+          #collection-{{ section.id }} .desktop-grid {
+            grid-template-columns: repeat({{ desktop_cols }}, minmax(0, 1fr));
+          }
+        }
+      </style>
+
+      <div class="flex lg:grid overflow-x-auto lg:overflow-x-visible snap-x snap-mandatory lg:snap-none gap-4 lg:gap-6 pb-6 lg:pb-0 hide-scrollbar desktop-grid">
+        {%- if collection != blank and collection.products_count > 0 -%}
+          {%- for product in collection.products limit: section.settings.products_to_show -%}
+            <div class="w-[calc(50%-8px)] md:w-[calc(33.333%-11px)] lg:w-auto flex-none snap-start relative">
+              {% render 'product-card', product: product %}
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          <!-- Placeholder State -->
+          {%- for i in (1..section.settings.products_to_show) -%}
+            <div class="w-[calc(50%-8px)] md:w-[calc(33.333%-11px)] lg:w-auto flex-none snap-start border-3 border-text-dark bg-surface shadow-brutalist flex flex-col">
+              <div class="w-full h-6 border-b-3 border-text-dark flex items-center justify-between px-2 bg-text-dark">
+                <span class="font-mono text-[10px] text-white">KEYBOARD.EXE</span>
+              </div>
+              <div class="w-full aspect-square bg-background-light flex items-center justify-center border-b-3 border-text-dark">
+                <span class="font-mono text-sm text-text-dark font-bold">NO_DATA</span>
+              </div>
+              <div class="p-4 flex flex-col gap-2">
+                <span class="font-display font-bold uppercase text-text-dark">Placeholder Print</span>
+                <span class="font-mono text-sm font-bold text-text-dark">$0.00</span>
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Text",
+      "default": "Latest Drops"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured Prints"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Maximum products to show",
+      "min": 4,
+      "max": 24,
+      "step": 4,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Number of columns on desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Enable 'View All' button if collection has more products than shown",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 96
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brutal Featured Collection"
+    }
+  ]
+}
+{% endschema %}

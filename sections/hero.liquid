@@ -1,20 +1,8 @@
-<section class="relative w-full min-h-[90vh] flex items-center justify-center p-4 overflow-hidden border-b-3 border-text-dark bg-background-dark">
+<section class="relative w-full min-h-[90vh] flex items-center justify-center p-4 overflow-hidden bg-transparent">
   
-  <!-- Background Layer -->
-  <div class="absolute inset-0 z-0">
-    {% if section.settings.bg_video != blank %}
-      {{ section.settings.bg_video | video_tag: class: 'w-full h-full object-cover', autoplay: true, loop: true, muted: true, controls: false }}
-    {% elsif section.settings.bg_image != blank %}
-      {{ section.settings.bg_image | image_url: width: 2400 | image_tag: class: 'w-full h-full object-cover', loading: 'eager' }}
-    {% else %}
-      <div class="w-full h-full bg-background-light"></div>
-    {% endif %}
-    <div class="absolute inset-0 bg-text-dark" style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }}"></div>
-  </div>
-
   <!-- Hero Window -->
-  <div class="brutalist-border rounded-sm shadow-brutalist max-w-2xl w-full relative z-20 mx-auto mt-16 text-text-dark flex flex-col overflow-hidden"
-       style="transform: rotate({{ section.settings.window_rotation }}deg); background-color: {{ section.settings.window_bg }};">
+  <div class="brutalist-border rounded-sm shadow-brutalist max-w-2xl w-full relative z-20 mx-auto mt-16 text-text-dark flex flex-col overflow-hidden{% if section.settings.transparent_window %} bg-transparent{% endif %}"
+       style="transform: rotate({{ section.settings.window_rotation }}deg); {% unless section.settings.transparent_window %}background-color: {{ section.settings.window_bg }};{% endunless %}">
     
     {%- for block in section.blocks -%}
       {%- case block.type -%}
@@ -101,14 +89,8 @@
       "content": "Canvas Settings"
     },
     {
-      "type": "video",
-      "id": "bg_video",
-      "label": "Background Video (Cinematic Loop)"
-    },
-    {
-      "type": "image_picker",
-      "id": "bg_image",
-      "label": "Fallback Background Image"
+      "type": "header",
+      "content": "Overlay Settings"
     },
     {
       "type": "range",
@@ -129,6 +111,12 @@
       "id": "window_bg",
       "label": "Window Background Color",
       "default": "#f4f4f4"
+    },
+    {
+      "type": "checkbox",
+      "id": "transparent_window",
+      "label": "Transparent Window Background",
+      "default": true
     },
     {
       "type": "range",

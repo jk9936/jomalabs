@@ -5,11 +5,7 @@
 
 body {
     font-family: 'JetBrains Mono', monospace;
-    background-color: #EAEAEA;
-    background-image: 
-        linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
-    background-size: 32px 32px;
+    background-color: transparent;
     color: #000000;
     overflow-x: hidden;
 }

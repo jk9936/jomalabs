@@ -1,4 +1,17 @@
-<div class="max-w-7xl mx-auto px-4 py-16">
+<style>
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+</style>
+
+<div class="max-w-7xl mx-auto px-4 section-{{ section.id }}-padding">
   <header class="border-b-3 border-text-dark pb-8 mb-12 flex flex-col items-start gap-4">
     <span class="font-mono text-xs font-bold uppercase tracking-widest border-2 border-text-dark px-3 py-1 bg-background-light">SYSTEM.DIR // {{ section.settings.eyebrow | default: 'COLLECTION' | escape }}</span>
     <h1 class="font-display font-bold text-5xl md:text-7xl uppercase leading-none tracking-tight text-text-dark">
@@ -71,6 +84,30 @@
       "id": "show_price",
       "label": "Show Price",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
     }
   ],
   "presets": [
