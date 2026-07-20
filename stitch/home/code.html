@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>JOMA_LABS - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#f2cc0d",
+          "background-light": "#EAEAEA",
+          "background-dark": "#221f10",
+          "surface": "#FFFFFF",
+          "text-dark": "#000000",
+          "cyan-accent": "#00FFFF",
+          "magenta-accent": "#FF00FF",
+        },
+        fontFamily: {
+          "display": ["Space Grotesk", "sans-serif"],
+          "mono": ["JetBrains Mono", "monospace"]
+        },
+        borderRadius: {"DEFAULT": "0.125rem", "sm": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+        boxShadow: {
+          'brutalist': '4px 4px 0px 0px #000000',
+          'brutalist-hover': '2px 2px 0px 0px #000000',
+          'brutalist-active': '0px 0px 0px 0px #000000',
+        }
+      },
+    },
+  }
+</script>
+<style>
+    body {
+        font-family: 'JetBrains Mono', monospace;
+        background-color: #EAEAEA;
+        color: #000000;
+        overflow-x: hidden;
+    }
+    h1, h2, h3, h4, .font-display {
+        font-family: 'Space Grotesk', sans-serif;
+    }
+    
+    .brutalist-border {
+        border: 3px solid #000000;
+    }
+    
+    .btn-brutalist {
+        transition: all 0.1s ease-in-out;
+    }
+    
+    .btn-brutalist:active {
+        transform: translate(4px, 4px);
+        box-shadow: 0px 0px 0px 0px #000000 !important;
+    }
+
+    .threshold-filter {
+        filter: grayscale(100%) contrast(150%) brightness(90%);
+    }
+
+    /* Simulate a messy stack */
+    .stack-item {
+        position: relative;
+    }
+    .stack-item:nth-child(1) { z-index: 10; }
+    .stack-item:nth-child(2) { z-index: 9; margin-top: -16px; transform: rotate(-1deg); }
+    .stack-item:nth-child(3) { z-index: 8; margin-top: -16px; transform: rotate(1deg); }
+    .stack-item:nth-child(4) { z-index: 7; margin-top: -16px; transform: rotate(-0.5deg); }
+
+    .cursor-blink {
+        animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+        50% { opacity: 0; }
+    }
+</style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light min-h-screen flex flex-col pt-16">
+<!-- OS-Style Header -->
+<header class="fixed top-0 left-0 right-0 h-16 bg-surface brutalist-border border-b-3 z-50 flex items-center justify-between px-4 shadow-brutalist">
+<div class="flex items-center gap-2">
+<h1 class="font-display font-bold text-xl uppercase tracking-tighter">JOMA_LABS</h1>
+</div>
+<div class="flex items-center justify-end">
+<button class="relative flex items-center justify-center p-2 cursor-pointer btn-brutalist rounded-sm bg-surface brutalist-border shadow-brutalist">
+<span class="material-symbols-outlined text-text-dark font-bold" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+<span class="absolute -top-2 -right-2 w-4 h-4 bg-magenta-accent brutalist-border rounded-full animate-pulse"></span>
+</button>
+</div>
+</header>
+<main class="flex-1 w-full max-w-md mx-auto px-4 pb-20 mt-6 relative z-10">
+<!-- Hero Window -->
+<section class="bg-primary brutalist-border rounded-sm shadow-brutalist p-6 mb-10 transform -rotate-1 relative z-20">
+<div class="absolute top-2 right-2 flex gap-1">
+<div class="w-3 h-3 border-2 border-text-dark bg-surface"></div>
+<div class="w-3 h-3 border-2 border-text-dark bg-text-dark"></div>
+</div>
+<h2 class="font-display font-bold text-3xl uppercase leading-none mt-2 mb-4 tracking-tight">TOOLS FOR<br/>THE 10X<br/>ENGINEER.</h2>
+<p class="text-sm font-mono font-bold">&gt;&gt;&gt; EXECUTE UPGRADE_WORKSPACE.SH</p>
+</section>
+<!-- Product Stack -->
+<div class="flex flex-col relative w-full">
+<!-- Card 1 -->
+<article class="stack-item bg-surface brutalist-border rounded-sm shadow-brutalist flex flex-col overflow-hidden">
+<div class="bg-text-dark text-surface px-2 py-1 flex justify-between items-center border-b-3 border-text-dark">
+<span class="font-mono text-xs font-bold">KEYBOARD.EXE</span>
+<span class="material-symbols-outlined text-sm">close</span>
+</div>
+<div class="p-3">
+<div class="brutalist-border rounded-sm overflow-hidden mb-3 aspect-video bg-background-light">
+<img class="w-full h-full object-cover threshold-filter" data-alt="A stark, high-contrast black and white close-up of a mechanical keyboard on a cluttered desk. Heavy shadows, geometric shapes, raw industrial aesthetic, top-down view." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVmu5nChFB8jBonKBNGa13UJlHBux0VpznEPi5Crf1abkif6R9i_E-MrllICZWnSeAzl6gwYWAFjcKY0IDEkGKeu7umxiMXbatzfJOjUvuv_VcaVIM02kPjT_FHOpkbc7CvGQWwGptUpcMyKsgbVKVddITb_Hj3ZX95Y7hT7m06O4ZNLGMkEcWusl4EKnmVHFxlWMxf714OS8Y5DP7wKsGuDRirTikqn0i1YBr2VcqIO8V0bui8avZpuT_AVv1jhGox3ZVojrCkpU"/>
+</div>
+<div class="flex justify-between items-end mb-4">
+<div>
+<h3 class="font-display font-bold text-lg uppercase leading-tight">JOMA V1 TACTILE</h3>
+<p class="font-mono text-xs text-text-dark mt-1">STATUS: IN_STOCK</p>
+</div>
+<span class="font-mono font-bold text-lg">$199</span>
+</div>
+<button class="btn-brutalist w-full bg-cyan-accent brutalist-border shadow-brutalist rounded-sm py-3 font-display font-bold uppercase tracking-wider">
+                        VIEW_SPECS
+                    </button>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="stack-item bg-surface brutalist-border rounded-sm shadow-brutalist flex flex-col overflow-hidden">
+<div class="bg-text-dark text-surface px-2 py-1 flex justify-between items-center border-b-3 border-text-dark">
+<span class="font-mono text-xs font-bold">HOODIE.EXE</span>
+<span class="material-symbols-outlined text-sm">close</span>
+</div>
+<div class="p-3">
+<div class="brutalist-border rounded-sm overflow-hidden mb-3 aspect-video bg-background-light">
+<img class="w-full h-full object-cover threshold-filter" data-alt="A stark, high-contrast black and white photo of a heavy, oversized black hoodie laying flat on a concrete surface. Raw texture, geometric folds, brutalist streetwear aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwuH6ZkWNB64ZU21VgqppFPYsW9Cx73Tc9MaZBvDMnqcltzeSg852hPGtH2TaFcpHSfY62LVPjSNUHU-eLmyNZ1pl92obmRk1BLofrgrIjXBu7zVq_ieyw_-bxWBSrXMqFLJTD_FidjYLxzutMw6cPSmaNz72dNDA5IOASO58qnuPiswUoFMVi5gyeRGjDq9pFsvBM43Wqou-s7NwN8XqBsWPhSDs3_ok_ZEFUXc8zd_cInhrBVevAb4Kubpj5-Uo3J8BJe4Me_jA"/>
+</div>
+<div class="flex justify-between items-end mb-4">
+<div>
+<h3 class="font-display font-bold text-lg uppercase leading-tight">DEBUGGER HOODIE</h3>
+<p class="font-mono text-xs text-text-dark mt-1">STATUS: LOW_STOCK</p>
+</div>
+<span class="font-mono font-bold text-lg">$85</span>
+</div>
+<button class="btn-brutalist w-full bg-cyan-accent brutalist-border shadow-brutalist rounded-sm py-3 font-display font-bold uppercase tracking-wider">
+                        VIEW_SPECS
+                    </button>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="stack-item bg-surface brutalist-border rounded-sm shadow-brutalist flex flex-col overflow-hidden">
+<div class="bg-text-dark text-surface px-2 py-1 flex justify-between items-center border-b-3 border-text-dark">
+<span class="font-mono text-xs font-bold">MAT.EXE</span>
+<span class="material-symbols-outlined text-sm">close</span>
+</div>
+<div class="p-3">
+<div class="brutalist-border rounded-sm overflow-hidden mb-3 aspect-video bg-background-light">
+<img class="w-full h-full object-cover threshold-filter" data-alt="A stark, high-contrast black and white top-down view of a large, textured desk mat covered in faint architectural wireframes. Sharp edges, harsh lighting, industrial desk setup." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIdVkE8RXsfe-Teg5c1aTpoNkAoBIBv6JidPBou_-Yov1vDnxMoABw17YdgH-_S8K1hzCee6ArhnwLUrfWvw4mFYj9XEa3rYiGw5JD_53i_prTHdJfbuWZYOUMFGj19l7lfht6odF5hI-w-fK2PSyiwC57p1Flxzh9C2zjKemKyx0Ui7ApnNxEeKqJ6Zc02xEVd1H0bOnuf1u0SCXV7FggTvTOQN9LEl5n79uwZFAr_nRF-JE-ZaMEnF_IEPappWdVTsY0Vhxmo-c"/>
+</div>
+<div class="flex justify-between items-end mb-4">
+<div>
+<h3 class="font-display font-bold text-lg uppercase leading-tight">TERMINAL DESK MAT</h3>
+<p class="font-mono text-xs text-text-dark mt-1">STATUS: IN_STOCK</p>
+</div>
+<span class="font-mono font-bold text-lg">$35</span>
+</div>
+<button class="btn-brutalist w-full bg-cyan-accent brutalist-border shadow-brutalist rounded-sm py-3 font-display font-bold uppercase tracking-wider">
+                        VIEW_SPECS
+                    </button>
+</div>
+</article>
+</div>
+<!-- System States (Demonstration purposes, normally hidden via logic) -->
+<div class="mt-12 space-y-4 opacity-75">
+<!-- Loading State -->
+<div class="bg-text-dark text-surface p-4 brutalist-border rounded-sm">
+<p class="font-mono text-sm uppercase">&gt; FETCHING_INVENTORY <span class="cursor-blink inline-block w-2 h-4 bg-surface ml-1 align-middle"></span></p>
+</div>
+<!-- Empty State -->
+<div class="bg-background-light brutalist-border border-dashed p-6 rounded-sm text-center">
+<p class="font-mono text-sm uppercase text-text-dark font-bold">NO DEPLOYMENTS FOUND.</p>
+</div>
+<!-- Error State -->
+<div class="bg-magenta-accent brutalist-border shadow-brutalist rounded-sm p-4 relative">
+<div class="absolute top-1 right-1">
+<span class="material-symbols-outlined text-text-dark cursor-pointer text-sm">close</span>
+</div>
+<h4 class="font-display font-bold uppercase flex items-center gap-2 text-text-dark">
+<span class="material-symbols-outlined">warning</span>
+                    CRITICAL ERROR
+                </h4>
+<p class="font-mono text-xs mt-2 text-text-dark font-bold">ERR_CONNECTION_REFUSED</p>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,461 +1,305 @@
-{%- liquid
-  assign bg_type = section.settings.bg_type
-  assign height = section.settings.height
-  assign horizontal_alignment = section.settings.horizontal_alignment
-  assign vertical_alignment = section.settings.vertical_alignment
+<section class="relative w-full min-h-[90vh] flex items-center justify-center p-4 overflow-hidden border-b-3 border-text-dark bg-background-dark">
   
-  assign bg_color = section.settings.bg_color | default: 'var(--color-background)'
-  assign text_color = section.settings.text_color | default: 'var(--color-on-surface)'
-  assign overlay_color = section.settings.overlay_color | default: '#000000'
-  assign overlay_opacity = section.settings.overlay_opacity | divided_by: 100.0
--%}
-
-{%- style -%}
-  #shopify-section-{{ section.id }} {
-    --hero-bg-color: {{ bg_color }};
-    --hero-text-color: {{ text_color }};
-    --hero-overlay: {{ overlay_color }};
-  }
-
-  .hero-wrapper {
-    position: relative;
-    width: 100%;
-    display: flex;
-    overflow: hidden;
-    background-color: var(--hero-bg-color);
-    color: var(--hero-text-color);
-  }
-
-  /* Height Options */
-  .hero-wrapper--small { min-height: 50vh; }
-  .hero-wrapper--medium { min-height: 70vh; }
-  .hero-wrapper--large { min-height: 90vh; }
-  .hero-wrapper--full { min-height: 100vh; }
-
-  /* Background Layer */
-  .hero__bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-  }
-  .hero__bg--gradient { background: linear-gradient(135deg, var(--hero-bg-color) 0%, rgba(255,255,255,0.1) 100%); }
-  .hero__bg--mesh {
-    background-color: var(--hero-bg-color);
-    background-image: 
-      radial-gradient(at 0% 0%, rgba(255,255,255,0.2) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(0,0,0,0.1) 0px, transparent 50%);
-    background-size: 200% 200%;
-    animation: heroMesh 15s ease infinite alternate;
-  }
-  @keyframes heroMesh { 0% { background-position: 0% 0%; } 100% { background-position: 100% 100%; } }
-  
-  .hero__media {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    {% if section.settings.enable_zoom_animation %}
-    animation: heroZoomIn 20s ease-out forwards;
-    transform: scale(1.1);
+  <!-- Background Layer -->
+  <div class="absolute inset-0 z-0">
+    {% if section.settings.bg_video != blank %}
+      {{ section.settings.bg_video | video_tag: class: 'w-full h-full object-cover', autoplay: true, loop: true, muted: true, controls: false }}
+    {% elsif section.settings.bg_image != blank %}
+      {{ section.settings.bg_image | image_url: width: 2400 | image_tag: class: 'w-full h-full object-cover', loading: 'eager' }}
+    {% else %}
+      <div class="w-full h-full bg-background-light"></div>
     {% endif %}
-  }
-  @keyframes heroZoomIn { to { transform: scale(1); } }
-
-  /* Overlay */
-  .hero__overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background-color: var(--hero-overlay);
-    opacity: {{ overlay_opacity }};
-    pointer-events: none;
-  }
-
-  /* Content Wrapper */
-  .hero__content-wrapper {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    max-width: {% if section.settings.container_width == 'full' %}100%{% elsif section.settings.container_width == 'narrow' %}1000px{% else %}1440px{% endif %};
-    margin: 0 auto;
-    padding: 64px 5%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* Vertical Alignment */
-  .hero-wrapper.align-v-top .hero__content-wrapper { justify-content: flex-start; }
-  .hero-wrapper.align-v-center .hero__content-wrapper { justify-content: center; }
-  .hero-wrapper.align-v-bottom .hero__content-wrapper { justify-content: flex-end; }
-
-  /* Horizontal Alignment */
-  .hero-wrapper.align-h-left .hero__content-wrapper { align-items: flex-start; text-align: left; }
-  .hero-wrapper.align-h-center .hero__content-wrapper { align-items: center; text-align: center; }
-  .hero-wrapper.align-h-right .hero__content-wrapper { align-items: flex-end; text-align: right; }
-
-  /* Content Elements */
-  .hero__content {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    max-width: 800px;
-  }
-
-  /* Blocks */
-  .hero__eyebrow {
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    font-weight: 600;
-    opacity: 0.8;
-  }
-  
-  .hero__headline {
-    font-size: clamp(40px, 8vw, 80px);
-    line-height: 1.1;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin: 0;
-  }
-  .hero__headline em {
-    font-style: italic;
-    font-weight: 600;
-  }
-  
-  .hero__text {
-    font-size: clamp(16px, 2vw, 20px);
-    line-height: 1.6;
-    opacity: 0.9;
-  }
-
-  .hero__buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-top: 8px;
-  }
-  
-  .hero-wrapper.align-h-left .hero__buttons { justify-content: flex-start; }
-  .hero-wrapper.align-h-center .hero__buttons { justify-content: center; }
-  .hero-wrapper.align-h-right .hero__buttons { justify-content: flex-end; }
-
-  .hero__btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px 32px;
-    border-radius: 100px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-  }
-  .hero__btn:hover {
-    transform: translateY(-2px);
-    opacity: 0.9;
-  }
-
-  /* Animations */
-  .hero-animate {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-  @keyframes heroFadeUp { to { opacity: 1; transform: translateY(0); } }
-  
-  /* Reduced Motion */
-  @media (prefers-reduced-motion: reduce) {
-    .hero__media { animation: none !important; transform: scale(1) !important; }
-    .hero__bg--mesh { animation: none !important; }
-    .hero-animate { animation: none !important; opacity: 1; transform: translateY(0); }
-  }
-{%- endstyle -%}
-
-<section class="hero-wrapper hero-wrapper--{{ height }} align-v-{{ vertical_alignment }} align-h-{{ horizontal_alignment }}">
-  
-  <!-- Background -->
-  <div class="hero__bg hero__bg--{{ bg_type }}">
-    {% if bg_type == 'image' and section.settings.bg_image != blank %}
-      {{ section.settings.bg_image | image_url: width: 2400 | image_tag: class: 'hero__media', loading: 'eager' }}
-    {% elsif bg_type == 'video' and section.settings.bg_video != blank %}
-      {{ section.settings.bg_video | video_tag: class: 'hero__media', autoplay: true, loop: true, muted: true, controls: false }}
-    {% endif %}
+    <div class="absolute inset-0 bg-text-dark" style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }}"></div>
   </div>
 
-  <div class="hero__overlay"></div>
+  <!-- Hero Window -->
+  <div class="brutalist-border rounded-sm shadow-brutalist max-w-2xl w-full relative z-20 mx-auto mt-16 text-text-dark flex flex-col overflow-hidden"
+       style="transform: rotate({{ section.settings.window_rotation }}deg); background-color: {{ section.settings.window_bg }};">
+    
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'window_header' -%}
+          <!-- Window Header Block -->
+          <div class="w-full h-8 bg-text-dark flex items-center px-3 border-b-3 border-text-dark justify-between shrink-0" {{ block.shopify_attributes }}>
+            <span class="font-mono text-xs font-bold text-surface">{{ block.settings.title | escape }}</span>
+            <div class="flex gap-2">
+              <div class="w-3 h-3 bg-cyan-accent border-2 border-text-dark"></div>
+              <div class="w-3 h-3 bg-magenta-accent border-2 border-text-dark"></div>
+              <div class="w-3 h-3 bg-primary border-2 border-text-dark"></div>
+            </div>
+          </div>
+          
+        {%- when 'headline' -%}
+          <!-- Headline Block -->
+          <div class="px-8 pt-8 pb-4" {{ block.shopify_attributes }}>
+            <h2 class="font-display font-bold text-5xl md:text-7xl uppercase leading-none tracking-tight" style="color: {{ block.settings.text_color }}; text-align: {{ block.settings.alignment }};">
+              {{ block.settings.text | newline_to_br }}
+            </h2>
+          </div>
 
-  <!-- Content -->
-  <div class="hero__content-wrapper">
-    <div class="hero__content">
-      
-      {%- assign button_count = 0 -%}
-      
-      {% for block in section.blocks %}
-        <div class="hero-animate" style="animation-delay: {{ forloop.index | times: 0.1 }}s;" {{ block.shopify_attributes }}>
-          {% case block.type %}
-            
-            {% when 'eyebrow' %}
-              <div class="hero__eyebrow">{{ block.settings.text | escape }}</div>
-              
-            {% when 'headline' %}
-              <h1 class="hero__headline font-serif">
-                {% if block.settings.text_italic != blank %}
-                  <em>{{ block.settings.text_italic | escape }}</em><br>
-                {% endif %}
-                {{ block.settings.text_plain | escape }}
-              </h1>
-              
-            {% when 'text' %}
-              <div class="hero__text">{{ block.settings.text }}</div>
-              
-            {% when 'buttons' %}
-              <div class="hero__buttons">
-                {% if block.settings.btn_1_label != blank and block.settings.btn_1_link != blank %}
-                  <a href="{{ block.settings.btn_1_link }}" class="hero__btn" style="background-color: {{ block.settings.btn_1_bg }}; color: {{ block.settings.btn_1_text }};">
-                    {{ block.settings.btn_1_label | escape }}
-                  </a>
-                {% endif %}
-                {% if block.settings.btn_2_label != blank and block.settings.btn_2_link != blank %}
-                  <a href="{{ block.settings.btn_2_link }}" class="hero__btn" style="background-color: {{ block.settings.btn_2_bg }}; color: {{ block.settings.btn_2_text }}; border: 1px solid {{ block.settings.btn_2_text }};">
-                    {{ block.settings.btn_2_label | escape }}
-                  </a>
-                {% endif %}
-              </div>
+        {%- when 'subheading' -%}
+          <!-- Subheading Block -->
+          <div class="px-8 py-2 flex" style="justify-content: {% if block.settings.alignment == 'center' %}center{% elsif block.settings.alignment == 'right' %}flex-end{% else %}flex-start{% endif %};" {{ block.shopify_attributes }}>
+            <span class="font-mono text-xs font-bold uppercase tracking-widest border-2 border-text-dark px-3 py-1 bg-background-light">
+              {{ block.settings.text | escape }}
+            </span>
+          </div>
 
-          {% endcase %}
-        </div>
-      {% endfor %}
-      
-    </div>
+        {%- when 'text' -%}
+          <!-- Text Block -->
+          <div class="px-8 py-2" {{ block.shopify_attributes }}>
+            <p class="font-mono text-sm md:text-base font-bold text-text-dark" style="text-align: {{ block.settings.alignment }};">
+              {% if block.settings.show_prefix %}>>> {% endif %}{{ block.settings.text | escape }}
+            </p>
+          </div>
+
+        {%- when 'marquee' -%}
+          <!-- Marquee Block -->
+          <div class="w-full overflow-hidden border-y-3 border-text-dark py-2 my-4 flex whitespace-nowrap shrink-0" style="background-color: {{ block.settings.bg_color }}; color: {{ block.settings.text_color }};" {{ block.shopify_attributes }}>
+            <div class="animate-marquee inline-block font-display font-bold text-xl uppercase tracking-wider shrink-0">
+              {{ block.settings.text | escape }} &nbsp;&bull;&nbsp; {{ block.settings.text | escape }} &nbsp;&bull;&nbsp; {{ block.settings.text | escape }} &nbsp;&bull;&nbsp; {{ block.settings.text | escape }} &nbsp;&bull;&nbsp;
+            </div>
+          </div>
+
+      {%- endcase -%}
+    {%- endfor -%}
+
+    <!-- Buttons Container (Group all button blocks together at the bottom if present) -->
+    {%- assign button_blocks = section.blocks | where: "type", "button" -%}
+    {%- if button_blocks.size > 0 -%}
+      <div class="px-8 pb-8 pt-4 flex flex-wrap gap-4 mt-auto">
+        {%- for block in button_blocks -%}
+          <a href="{{ block.settings.link }}" class="btn-brutalist inline-block border-3 border-text-dark shadow-brutalist rounded-sm px-6 py-3 font-display font-bold uppercase tracking-wider transition-colors hover:brightness-90"
+             style="background-color: {{ block.settings.bg_color }}; color: {{ block.settings.text_color }};"
+             {{ block.shopify_attributes }}>
+            {{ block.settings.label | escape }}
+          </a>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
   </div>
 </section>
 
+<style>
+  .animate-marquee {
+    animation: marquee 10s linear infinite;
+    min-width: 200%;
+  }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+</style>
+
 {% schema %}
 {
-  "name": "Hero Banner",
+  "name": "Customizable Hero Window",
   "settings": [
     {
       "type": "header",
-      "content": "Layout"
-    },
-    {
-      "type": "select",
-      "id": "container_width",
-      "label": "Container Width",
-      "options": [
-        { "value": "standard", "label": "Standard (1440px)" },
-        { "value": "narrow", "label": "Narrow (1000px)" },
-        { "value": "full", "label": "Full Width" }
-      ],
-      "default": "standard"
-    },
-    {
-      "type": "select",
-      "id": "height",
-      "label": "Section Height",
-      "options": [
-        { "value": "small", "label": "Small (50vh)" },
-        { "value": "medium", "label": "Medium (70vh)" },
-        { "value": "large", "label": "Large (90vh)" },
-        { "value": "full", "label": "Full Screen (100vh)" }
-      ],
-      "default": "large"
-    },
-    {
-      "type": "select",
-      "id": "horizontal_alignment",
-      "label": "Horizontal Alignment",
-      "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right", "label": "Right" }
-      ],
-      "default": "center"
-    },
-    {
-      "type": "select",
-      "id": "vertical_alignment",
-      "label": "Vertical Alignment",
-      "options": [
-        { "value": "top", "label": "Top" },
-        { "value": "center", "label": "Center" },
-        { "value": "bottom", "label": "Bottom" }
-      ],
-      "default": "center"
-    },
-    {
-      "type": "header",
-      "content": "Background & Media"
-    },
-    {
-      "type": "select",
-      "id": "bg_type",
-      "label": "Background Type",
-      "options": [
-        { "value": "solid", "label": "Solid Color" },
-        { "value": "gradient", "label": "Gradient" },
-        { "value": "mesh", "label": "Animated Mesh" },
-        { "value": "image", "label": "Image" },
-        { "value": "video", "label": "Video" }
-      ],
-      "default": "solid"
-    },
-    {
-      "type": "image_picker",
-      "id": "bg_image",
-      "label": "Background Image"
+      "content": "Canvas Settings"
     },
     {
       "type": "video",
       "id": "bg_video",
-      "label": "Background Video"
+      "label": "Background Video (Cinematic Loop)"
     },
     {
-      "type": "checkbox",
-      "id": "enable_zoom_animation",
-      "label": "Enable subtle zoom-in on load",
-      "default": true
-    },
-    {
-      "type": "header",
-      "content": "Colors & Overlay"
-    },
-    {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Background Color",
-      "default": "#fbf2eb"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#1f1b17"
-    },
-    {
-      "type": "color",
-      "id": "overlay_color",
-      "label": "Overlay Color",
-      "default": "#000000"
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Fallback Background Image"
     },
     {
       "type": "range",
       "id": "overlay_opacity",
-      "label": "Overlay Opacity",
+      "label": "Video Overlay Opacity",
       "min": 0,
       "max": 100,
       "step": 5,
-      "default": 0,
+      "default": 30,
       "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "Window Settings"
+    },
+    {
+      "type": "color",
+      "id": "window_bg",
+      "label": "Window Background Color",
+      "default": "#f4f4f4"
+    },
+    {
+      "type": "range",
+      "id": "window_rotation",
+      "label": "Window Rotation (deg)",
+      "min": -10,
+      "max": 10,
+      "step": 1,
+      "default": -1
     }
   ],
   "blocks": [
     {
-      "type": "eyebrow",
-      "name": "Eyebrow",
+      "type": "window_header",
+      "name": "Window Header Bar",
       "limit": 1,
       "settings": [
         {
           "type": "text",
-          "id": "text",
-          "label": "Text",
-          "default": "Studio Journal Vol. 1"
+          "id": "title",
+          "label": "Terminal Title",
+          "default": "SYSTEM.EXE"
         }
       ]
     },
     {
       "type": "headline",
       "name": "Headline",
-      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "TOOLS FOR\nTHE 10X\nENGINEER."
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#111111"
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        }
+      ]
+    },
+    {
+      "type": "subheading",
+      "name": "Subheading Box",
       "settings": [
         {
           "type": "text",
-          "id": "text_italic",
-          "label": "Italic Part",
-          "default": "Precision Craft,"
+          "id": "text",
+          "label": "Text",
+          "default": "JOMA LABS"
         },
         {
-          "type": "text",
-          "id": "text_plain",
-          "label": "Regular Part",
-          "default": "Printed to Order"
+          "type": "select",
+          "id": "alignment",
+          "label": "Alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
         }
       ]
     },
     {
       "type": "text",
-      "name": "Text",
-      "limit": 1,
+      "name": "Terminal Text",
       "settings": [
         {
-          "type": "richtext",
+          "type": "text",
           "id": "text",
           "label": "Text",
-          "default": "<p>Elevate your space with intricately detailed, artisan-finished 3D models.</p>"
+          "default": "EXECUTE UPGRADE_WORKSPACE.SH"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_prefix",
+          "label": "Show '>>>' prefix",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
         }
       ]
     },
     {
-      "type": "buttons",
-      "name": "Buttons",
-      "limit": 1,
+      "type": "button",
+      "name": "Button",
       "settings": [
         {
           "type": "text",
-          "id": "btn_1_label",
-          "label": "Primary Button Label",
-          "default": "Register for Pre-orders"
+          "id": "label",
+          "label": "Button Label",
+          "default": "INITIALIZE"
         },
         {
           "type": "url",
-          "id": "btn_1_link",
-          "label": "Primary Button Link"
+          "id": "link",
+          "label": "Button Link"
         },
         {
           "type": "color",
-          "id": "btn_1_bg",
-          "label": "Primary Button Background",
-          "default": "#18241b"
+          "id": "bg_color",
+          "label": "Background Color",
+          "default": "#2f8dff"
         },
         {
           "type": "color",
-          "id": "btn_1_text",
-          "label": "Primary Button Text",
-          "default": "#ffffff"
-        },
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#111111"
+        }
+      ]
+    },
+    {
+      "type": "marquee",
+      "name": "Scrolling Marquee",
+      "settings": [
         {
           "type": "text",
-          "id": "btn_2_label",
-          "label": "Secondary Button Label",
-          "default": "Explore Gallery"
-        },
-        {
-          "type": "url",
-          "id": "btn_2_link",
-          "label": "Secondary Button Link"
+          "id": "text",
+          "label": "Marquee Text",
+          "default": "WARNING // SYSTEM OVERRIDE //"
         },
         {
           "type": "color",
-          "id": "btn_2_bg",
-          "label": "Secondary Button Background",
-          "default": "transparent"
+          "id": "bg_color",
+          "label": "Background Color",
+          "default": "#ffdd57"
         },
         {
           "type": "color",
-          "id": "btn_2_text",
-          "label": "Secondary Button Text",
-          "default": "#18241b"
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#111111"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Hero Banner",
+      "name": "Customizable Hero Window",
       "blocks": [
-        { "type": "eyebrow" },
-        { "type": "headline" },
-        { "type": "text" },
-        { "type": "buttons" }
+        { "type": "window_header", "settings": { "title": "JOMA_OS.EXE" } },
+        { "type": "subheading", "settings": { "text": "LIMITED RUN" } },
+        { "type": "headline", "settings": { "text": "Manifesting\nIdeas in\nreal time," } },
+        { "type": "text", "settings": { "text": "Bring main charecter engery to your life with custom and limited 3D prints", "show_prefix": true } },
+        { "type": "marquee", "settings": { "text": "WARNING // STOCK EXTREMELY LOW //" } },
+        { "type": "button", "settings": { "label": "INITIALIZE", "bg_color": "#2f8dff" } },
+        { "type": "button", "settings": { "label": "VIEW SPECS", "bg_color": "#f4f4f4" } }
       ]
     }
   ]

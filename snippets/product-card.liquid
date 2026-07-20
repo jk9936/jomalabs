@@ -1,6 +1,6 @@
 {% comment %}
   product-card.liquid
-  Reusable product card for collection grids.
+  Reusable product card for collection grids (Brutalist).
   @param product {object} - Shopify product object (required)
   @param show_price {boolean} - whether to show price (default true)
 {% endcomment %}
@@ -11,68 +11,67 @@
   assign featured_image = card_product.featured_image
   assign product_url = card_product.url | within: collection
   assign product_title = card_product.title | escape
-  assign product_excerpt = card_product.metafields.custom.excerpt.value | default: card_product.description | strip_html | truncate: 100
+  
+  assign handle_exe = card_product.handle | append: ".EXE" | upcase
+  assign stock_status = "IN_STOCK"
+  if card_product.available == false
+    assign stock_status = "OUT_OF_STOCK"
+  elsif card_product.inventory_quantity < 5
+    assign stock_status = "LOW_STOCK"
+  endif
 -%}
 
-<article class="product-card reveal" data-product-id="{{ card_product.id }}">
-  <a href="{{ product_url }}" class="product-card__image-wrap" aria-label="{{ product_title }}">
-    {%- if featured_image -%}
-      <img
-        class="product-card__image"
-        src="{{ featured_image | image_url: width: 600 }}"
-        alt="{{ featured_image.alt | default: product_title | escape }}"
-        width="600"
-        height="450"
-        loading="lazy"
-      >
-    {%- else -%}
-      <img
-        class="product-card__image"
-        src="{{ 'product-placeholder.svg' | asset_url }}"
-        alt="{{ product_title }}"
-        width="600"
-        height="450"
-        loading="lazy"
-      >
-    {%- endif -%}
-  </a>
-
-  <div class="product-card__body">
-    {%- if card_product.tags.size > 0 -%}
-      <div class="product-card__chips">
-        {%- for tag in card_product.tags limit: 2 -%}
-          <span class="chip">{{ tag | escape }}</span>
-        {%- endfor -%}
-      </div>
-    {%- endif -%}
-
-    <h3 class="product-card__title">
-      <a href="{{ product_url }}">{{ product_title }}</a>
-    </h3>
-
-    {%- if product_excerpt != blank -%}
-      <p class="product-card__excerpt">{{ product_excerpt | escape }}</p>
-    {%- endif -%}
+<article class="stack-item bg-surface brutalist-border rounded-sm shadow-brutalist flex flex-col overflow-hidden reveal" data-product-id="{{ card_product.id }}">
+  <!-- Top Bar -->
+  <div class="bg-text-dark text-surface px-2 py-1 flex justify-between items-center border-b-3 border-text-dark">
+    <span class="font-mono text-xs font-bold">{{ handle_exe | truncate: 20 }}</span>
+    <span class="material-symbols-outlined text-sm">close</span>
   </div>
 
-  <div class="product-card__footer">
-    {%- if show_price -%}
-      <p class="product-card__price">
-        {%- if card_product.price_varies -%}
-          From {{ card_product.price_min | money }}
-        {%- else -%}
-          {{ card_product.price | money }}
-        {%- endif -%}
-      </p>
-    {%- else -%}
-      <span class="chip">Pre-order</span>
-    {%- endif -%}
+  <div class="p-3 flex flex-col flex-1">
+    <!-- Image Window -->
+    <a href="{{ product_url }}" class="block brutalist-border rounded-sm overflow-hidden mb-3 aspect-square md:aspect-video bg-background-light relative group" aria-label="{{ product_title }}">
+      {%- if featured_image -%}
+        <img
+          class="w-full h-full object-cover threshold-filter transition-transform duration-300 group-hover:scale-105"
+          src="{{ featured_image | image_url: width: 600 }}"
+          alt="{{ featured_image.alt | default: product_title | escape }}"
+          width="600"
+          height="600"
+          loading="lazy"
+        >
+      {%- else -%}
+        <div class="w-full h-full flex items-center justify-center text-text-dark font-mono font-bold">NO_IMAGE</div>
+      {%- endif -%}
+    </a>
 
-    <a href="{{ product_url }}" class="link-arrow" aria-label="View {{ product_title }}">
-      View Details
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-        <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+    <!-- Details -->
+    <div class="flex justify-between items-start mb-4 gap-4 flex-1">
+      <div>
+        <h3 class="font-display font-bold text-lg uppercase leading-tight">
+          <a href="{{ product_url }}" class="hover:underline">{{ product_title }}</a>
+        </h3>
+        <p class="font-mono text-xs mt-1 {% if stock_status == 'OUT_OF_STOCK' %}text-error{% else %}text-text-dark{% endif %}">
+          STATUS: {{ stock_status }}
+        </p>
+      </div>
+      
+      {%- if show_price -%}
+        <span class="font-mono font-bold text-lg shrink-0">
+          {%- if card_product.price_varies -%}
+            From {{ card_product.price_min | money }}
+          {%- else -%}
+            {{ card_product.price | money }}
+          {%- endif -%}
+        </span>
+      {%- else -%}
+        <span class="font-mono font-bold text-xs shrink-0 bg-primary px-1 brutalist-border">PREORDER</span>
+      {%- endif -%}
+    </div>
+
+    <!-- Action -->
+    <a href="{{ product_url }}" class="btn-brutalist w-full text-center block bg-cyan-accent brutalist-border shadow-brutalist rounded-sm py-3 font-display font-bold uppercase tracking-wider text-text-dark hover:bg-surface transition-colors mt-auto">
+      VIEW_SPECS
     </a>
   </div>
 </article>

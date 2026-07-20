@@ -101,8 +101,8 @@
       if (!btn) return;
       var key = btn.dataset.key;
       var delta = parseInt(btn.dataset.cartQty, 10);
-      var qtyEl = btn.closest('.cart-item')
-        ? btn.closest('.cart-item').querySelector('.cart-item__qty-value')
+      var qtyEl = btn.closest('.flex')
+        ? btn.closest('.flex').querySelector('span.font-mono')
         : null;
       if (!qtyEl) return;
       var newQty = Math.max(0, parseInt(qtyEl.textContent, 10) + delta);
@@ -148,24 +148,33 @@
 
     if (!cart.items || cart.items.length === 0) {
       itemsWrap.innerHTML =
-        '<p class="cart-drawer__empty">Your cart is empty.</p>';
+        '<div class="bg-background-light brutalist-border border-dashed p-6 rounded-sm text-center m-4"><p class="font-mono text-sm uppercase text-text-dark font-bold">NO DEPLOYMENTS FOUND.</p></div>';
       return;
     }
 
     var html = cart.items.map(function (item) {
       return [
-        '<div class="cart-item">',
-        '  <img class="cart-item__image" src="' + escapeHtml(item.image || '') + '" alt="' + escapeHtml(item.product_title) + '" loading="lazy" width="80" height="80">',
-        '  <div>',
-        '    <p class="cart-item__title">' + escapeHtml(item.product_title) + '</p>',
-        item.variant_title ? '    <p class="cart-item__variant">' + escapeHtml(item.variant_title) + '</p>' : '',
-        '    <div class="cart-item__qty">',
-        '      <button class="cart-item__qty-btn" data-key="' + escapeHtml(item.key) + '" data-cart-qty="-1" aria-label="Decrease quantity">−</button>',
-        '      <span class="cart-item__qty-value">' + item.quantity + '</span>',
-        '      <button class="cart-item__qty-btn" data-key="' + escapeHtml(item.key) + '" data-cart-qty="1" aria-label="Increase quantity">+</button>',
+        '<div class="stack-item bg-surface brutalist-border rounded-sm shadow-brutalist flex flex-col overflow-hidden m-4">',
+        '  <div class="bg-text-dark text-surface px-2 py-1 flex justify-between items-center border-b-3 border-text-dark">',
+        '    <span class="font-mono text-xs font-bold">' + escapeHtml(item.product_title).substring(0, 15).toUpperCase() + '.EXE</span>',
+        '  </div>',
+        '  <div class="p-3 flex gap-4">',
+        '    <div class="brutalist-border rounded-sm overflow-hidden w-20 h-20 shrink-0 bg-background-light">',
+        '      <img class="w-full h-full object-cover threshold-filter" src="' + escapeHtml(item.image || '') + '" alt="' + escapeHtml(item.product_title) + '" loading="lazy">',
+        '    </div>',
+        '    <div class="flex flex-col flex-1">',
+        '      <h4 class="font-display font-bold uppercase leading-tight">' + escapeHtml(item.product_title) + '</h4>',
+        item.variant_title ? '      <p class="font-mono text-xs mt-1 text-text-dark">' + escapeHtml(item.variant_title) + '</p>' : '',
+        '      <div class="flex justify-between items-center mt-auto pt-2">',
+        '        <div class="flex items-center gap-2 font-mono font-bold">',
+        '          <button class="btn-brutalist bg-surface brutalist-border px-2 py-1 leading-none hover:bg-background-light" data-key="' + escapeHtml(item.key) + '" data-cart-qty="-1">−</button>',
+        '          <span>' + item.quantity + '</span>',
+        '          <button class="btn-brutalist bg-surface brutalist-border px-2 py-1 leading-none hover:bg-background-light" data-key="' + escapeHtml(item.key) + '" data-cart-qty="1">+</button>',
+        '        </div>',
+        '        <p class="font-mono font-bold">' + formatMoney(item.line_price) + '</p>',
+        '      </div>',
         '    </div>',
         '  </div>',
-        '  <p class="cart-item__price">' + formatMoney(item.line_price) + '</p>',
         '</div>',
       ].join('');
     });

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Checkout Terminal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#f2cc0d",
+              "background-light": "#f8f8f5",
+              "background-dark": "#221f10",
+              "neubrutal-magenta": "#FF00FF",
+              "neubrutal-cyan": "#00FFFF",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"],
+              "mono": ["JetBrains Mono", "monospace"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+            boxShadow: {
+              'neubrutal': '4px 4px 0px 0px rgba(0,0,0,1)',
+              'neubrutal-focus': '6px 6px 0px 0px rgba(0,0,0,1)',
+              'neubrutal-active': '0px 0px 0px 0px rgba(0,0,0,1)',
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #EAEAEA;
+        }
+        
+        /* Custom Input Styling */
+        .neubrutal-input {
+            border: 3px solid #000000;
+            box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+            transition: all 0.1s ease-in-out;
+            border-radius: 0;
+        }
+        
+        .neubrutal-input:focus {
+            outline: none;
+            border-color: #FF00FF;
+            box-shadow: 6px 6px 0px 0px rgba(0,0,0,1);
+        }
+        
+        .neubrutal-input.error {
+            border-color: #FF00FF;
+            animation: blink-border 1s step-end infinite;
+        }
+        
+        @keyframes blink-border {
+            0%, 100% { border-color: #FF00FF; }
+            50% { border-color: #000000; }
+        }
+
+        .neubrutal-button {
+            border: 3px solid #000000;
+            box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+            transition: all 0.1s ease-in-out;
+            border-radius: 0;
+        }
+        
+        .neubrutal-button:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px 0px rgba(0,0,0,1);
+        }
+
+        .terminal-header {
+            border-bottom: 3px solid #000000;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen flex flex-col text-black pb-24">
+<!-- Header Section -->
+<header class="bg-white terminal-header fixed top-0 w-full z-50 h-12 flex items-center justify-between px-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined font-bold" data-icon="terminal">terminal</span>
+<span class="font-bold text-sm tracking-widest uppercase">checkout.exe</span>
+</div>
+<a class="text-xs uppercase hover:bg-black hover:text-white px-2 py-1 border-2 border-transparent transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_back">arrow_back</span>
+            Abort
+        </a>
+</header>
+<!-- Main Content -->
+<main class="mt-16 px-4 flex flex-col gap-8 max-w-lg mx-auto w-full">
+<!-- Header Text -->
+<div>
+<h1 class="text-2xl font-bold uppercase tracking-tight mb-2">&gt; INIT_CHECKOUT</h1>
+<p class="text-sm font-mono opacity-70">Enter variables for secure transaction...</p>
+</div>
+<!-- Form Form -->
+<form class="flex flex-col gap-8">
+<!-- Shipping Info -->
+<section class="flex flex-col gap-4">
+<div class="bg-black text-neubrutal-cyan p-2 border-3 border-black uppercase font-bold text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="local_shipping">local_shipping</span>
+                    var shipping_info = {
+                </div>
+<div class="flex flex-col gap-4 pl-4 border-l-2 border-black border-dashed">
+<div class="flex flex-col gap-1">
+<label class="text-xs font-bold uppercase" for="fullName">"fullName":</label>
+<input class="w-full p-3 neubrutal-input bg-white text-sm font-bold uppercase placeholder:opacity-50 placeholder:text-xs" id="fullName" placeholder="Enter full name" type="text"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-xs font-bold uppercase" for="address">"addressLine1":</label>
+<input class="w-full p-3 neubrutal-input bg-white text-sm font-bold uppercase placeholder:opacity-50 placeholder:text-xs" id="address" placeholder="123 Main St" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-1">
+<label class="text-xs font-bold uppercase" for="city">"city":</label>
+<input class="w-full p-3 neubrutal-input bg-white text-sm font-bold uppercase placeholder:opacity-50 placeholder:text-xs" id="city" placeholder="City" type="text"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-xs font-bold uppercase text-neubrutal-magenta" for="zip">"zipCode": <span class="text-[10px] lowercase font-mono">&gt; Error on line 4</span></label>
+<!-- Error state input -->
+<input class="w-full p-3 neubrutal-input error bg-white text-sm font-bold uppercase text-neubrutal-magenta" id="zip" placeholder="ZIP" type="text" value="INVALID"/>
+</div>
+</div>
+</div>
+<div class="font-bold text-sm p-2 uppercase">}</div>
+</section>
+<!-- Payment Info -->
+<section class="flex flex-col gap-4">
+<div class="bg-black text-neubrutal-cyan p-2 border-3 border-black uppercase font-bold text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="credit_card">credit_card</span>
+                    var payment_info = {
+                </div>
+<div class="flex flex-col gap-4 pl-4 border-l-2 border-black border-dashed">
+<div class="flex flex-col gap-1">
+<label class="text-xs font-bold uppercase" for="cardNumber">"cardNumber":</label>
+<div class="relative">
+<input class="w-full p-3 pl-10 neubrutal-input bg-white text-sm font-bold uppercase placeholder:opacity-50 placeholder:text-xs" id="cardNumber" placeholder="0000 0000 0000 0000" type="number"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 opacity-50 text-sm" data-icon="credit_card">credit_card</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-1">
+<label class="text-xs font-bold uppercase" for="expiry">"expiryDate":</label>
+<input class="w-full p-3 neubrutal-input bg-white text-sm font-bold uppercase placeholder:opacity-50 placeholder:text-xs text-center" id="expiry" placeholder="MM/YY" type="text"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-xs font-bold uppercase" for="cvc">"cvc":</label>
+<input class="w-full p-3 neubrutal-input bg-white text-sm font-bold uppercase placeholder:opacity-50 placeholder:text-xs text-center" id="cvc" placeholder="123" type="number"/>
+</div>
+</div>
+</div>
+<div class="font-bold text-sm p-2 uppercase">}</div>
+</section>
+<!-- Receipt Summary -->
+<section class="bg-primary p-4 border-3 border-black shadow-neubrutal flex flex-col gap-3 mt-4 relative">
+<!-- Receipt Jagged Edge -->
+<div class="absolute -top-3 left-0 w-full h-3 bg-repeat-x" style="background-image: radial-gradient(circle at 10px 0, transparent 10px, #f2cc0d 11px); background-size: 20px 10px;"></div>
+<h3 class="font-bold uppercase border-b-2 border-black pb-2 flex justify-between">
+<span>Summary.log</span>
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+</h3>
+<div class="flex flex-col gap-2 text-sm font-mono">
+<div class="flex justify-between">
+<span>&gt; Subtotal</span>
+<span>$199.00</span>
+</div>
+<div class="flex justify-between">
+<span>&gt; Shipping</span>
+<span>$15.00</span>
+</div>
+<div class="flex justify-between">
+<span>&gt; Tax</span>
+<span>$18.15</span>
+</div>
+</div>
+<div class="border-t-2 border-dashed border-black pt-3 flex justify-between font-bold text-lg mt-2">
+<span>&gt; TOTAL_OUT:</span>
+<span>$232.15</span>
+</div>
+</section>
+<!-- Submit Button (Fixed Bottom) -->
+<div class="fixed bottom-0 left-0 w-full p-4 bg-white/90 backdrop-blur-sm border-t-3 border-black z-40">
+<button class="w-full bg-black text-white p-4 font-bold text-lg uppercase tracking-widest neubrutal-button flex items-center justify-center gap-2 group" type="button">
+<span class="material-symbols-outlined group-active:text-neubrutal-magenta transition-colors" data-icon="keyboard_return">keyboard_return</span>
+                    Execute_Payment
+                </button>
+</div>
+</form>
+</main>
+<script>
+        // Simple script to handle form visual interactions
+        document.querySelectorAll('.neubrutal-input').forEach(input => {
+            input.addEventListener('focus', () => {
+                // Focus styling handled by CSS, could add sound effect here for 'clack'
+            });
+        });
+    </script>
+</body></html>

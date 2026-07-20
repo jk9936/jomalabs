@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cart Window - Neubrutalist Layers</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#f2cc0d",
+          "background-light": "#EAEAEA",
+          "background-dark": "#221f10",
+          "cyan-accent": "#00FFFF",
+          "magenta-accent": "#FF00FF",
+        },
+        fontFamily: {
+          "display": ["Space Grotesk", "sans-serif"],
+          "mono": ["JetBrains Mono", "monospace"]
+        },
+        borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+        boxShadow: {
+          'brutal': '4px 4px 0px 0px #000000',
+          'brutal-sm': '2px 2px 0px 0px #000000',
+        }
+      },
+    },
+  }
+</script>
+<style>
+  body {
+    background-color: theme('colors.background-light');
+    font-family: theme('fontFamily.display');
+    margin: 0;
+    overflow: hidden; /* Prevent background scrolling when modal is open */
+  }
+  
+  /* Brutalist button active state */
+  .btn-brutal:active {
+    box-shadow: 0px 0px 0px 0px #000000;
+    transform: translate(4px, 4px);
+  }
+  
+  .btn-brutal-sm:active {
+    box-shadow: 0px 0px 0px 0px #000000;
+    transform: translate(2px, 2px);
+  }
+
+  /* Custom scrollbar for brutalist look */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #FFFFFF;
+    border-left: 3px solid #000000;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #000000;
+    border: 2px solid #FFFFFF;
+  }
+</style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen relative flex items-end justify-center">
+<!-- Background overlay (simulating the page behind) -->
+<div class="absolute inset-0 bg-black/40 z-0"></div>
+<!-- Cart Modal Container -->
+<div class="relative z-10 w-full max-w-md bg-white border-[3px] border-black shadow-brutal rounded-t-sm flex flex-col max-h-[751px] transition-transform duration-200 translate-y-0" id="cart-modal">
+<!-- OS Header Bar -->
+<div class="bg-cyan-accent border-b-[3px] border-black p-3 flex justify-between items-center rounded-t-sm">
+<h2 class="text-black font-display font-bold text-xl uppercase tracking-wider">CART.EXE</h2>
+<button class="btn-brutal-sm bg-white border-[3px] border-black shadow-brutal-sm w-10 h-10 flex items-center justify-center rounded-sm transition-all" onclick="document.getElementById('cart-modal').style.display='none'">
+<span class="material-symbols-outlined font-bold text-xl" data-icon="close">close</span>
+</button>
+</div>
+<!-- Cart Items Scrollable Area -->
+<div class="p-4 flex-1 overflow-y-auto bg-white flex flex-col gap-4">
+<!-- Item 1 -->
+<div class="flex items-center gap-4 border-[3px] border-black p-3 shadow-brutal-sm rounded-sm bg-white">
+<div class="w-16 h-16 border-[3px] border-black rounded-sm overflow-hidden shrink-0 bg-gray-200 relative">
+<img alt="Switch Set" class="w-full h-full object-cover filter grayscale contrast-125" data-alt="Close up black and white threshold filtered image of a mechanical keyboard switch set on a solid background, harsh lighting, stark contrast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3a-lzTvTdjgBxFVKSgC_yGiudtkaV1NvO2R2nnUEy7RO-6LRpDmMCP37bcU8JhV8HzR1AygWS3m3v5PpU3LAB43dRyh5gwe8iTK6rPR10Cnal3ObwxD16kIusIxfJ7lZBV1OmCqBvHlJKcTH_FfEkxynNXLzeYdn2xgnufjF5jOVczkkioYft72M-iQxM_zD0E-m8oW6Qamgn1eVaP-p87XUDi_vPV97soqw2DSaPLUauBZFIS2S3aFEnZZIv7L0wQzXn49i8ffs"/>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="text-black font-display font-bold text-lg uppercase truncate">MECHANICAL SWITCH SET</h3>
+<p class="text-black font-mono text-sm font-bold">$45.00</p>
+</div>
+<div class="flex items-center gap-2 font-mono text-lg font-bold shrink-0">
+<button class="w-8 h-8 flex items-center justify-center active:scale-95 transition-transform">[ - ]</button>
+<span class="w-6 text-center">1</span>
+<button class="w-8 h-8 flex items-center justify-center active:scale-95 transition-transform">[ + ]</button>
+</div>
+</div>
+<!-- Item 2 (To demonstrate scrolling if needed) -->
+<div class="flex items-center gap-4 border-[3px] border-black p-3 shadow-brutal-sm rounded-sm bg-white">
+<div class="w-16 h-16 border-[3px] border-black rounded-sm overflow-hidden shrink-0 bg-gray-200 relative">
+<img alt="Aviator Cable" class="w-full h-full object-cover filter grayscale contrast-125" data-alt="Close up black and white threshold filtered image of a custom mechanical keyboard coiled aviator cable, harsh lighting, high contrast stark shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvyMdwK36B8WcLKXb0yMpQUWrnfUIoZ2_i0xsnDz-P_L9S9Qu3sKeYSK3_t0oyJfjP2PrOAA7EE1ohB3H5pKkX8vnAi_9j_07t5B_36bypkZdaaAV8AYdS7C7qL8ZpWGlYpcUBOamfvjiJrNR2CiSq--EmcRTfRi7NcO0dF9XSQ6xFsJVcyh9aJHQA8rMHI-MRV0sfOFtuXmGFUhgi_VFlx_iZMlNx67gbH7npq_v7fe6I3wIXmH43v6-8SJUSZOCHlkITQAtSsvQ"/>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="text-black font-display font-bold text-lg uppercase truncate">AVIATOR CABLE v2</h3>
+<p class="text-black font-mono text-sm font-bold">$30.00</p>
+</div>
+<div class="flex items-center gap-2 font-mono text-lg font-bold shrink-0">
+<button class="w-8 h-8 flex items-center justify-center active:scale-95 transition-transform">[ - ]</button>
+<span class="w-6 text-center">2</span>
+<button class="w-8 h-8 flex items-center justify-center active:scale-95 transition-transform">[ + ]</button>
+</div>
+</div>
+</div>
+<!-- Total & Checkout Fixed Bottom -->
+<div class="bg-white p-4 flex flex-col gap-4">
+<div class="border-t-[4px] border-dotted border-black pt-4 flex justify-between items-center">
+<span class="font-mono font-bold text-lg uppercase text-black">TOTAL</span>
+<span class="font-mono font-bold text-xl text-black">$105.00</span>
+</div>
+<button class="btn-brutal w-full bg-primary text-black font-display font-bold text-xl uppercase py-4 border-[3px] border-black shadow-brutal rounded-sm transition-all flex items-center justify-center gap-2">
+        EXECUTE_CHECKOUT
+        <span class="material-symbols-outlined font-bold text-2xl" data-icon="terminal">terminal</span>
+</button>
+</div>
+</div>
+</body></html>

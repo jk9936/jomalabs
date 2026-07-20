@@ -1,60 +1,58 @@
-<footer class="site-footer" role="contentinfo">
-  <div class="site-footer__inner">
-
+<footer class="bg-surface brutalist-border border-t-3 mt-12 py-12 px-4 shadow-brutalist relative z-20" role="contentinfo">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
     <!-- Brand -->
-    <div>
-      <a href="{{ routes.root_url }}" class="site-footer__brand-logo">
+    <div class="flex flex-col gap-4">
+      <a href="{{ routes.root_url }}" class="font-display font-bold text-3xl uppercase tracking-tighter text-text-dark hover:text-magenta-accent transition-colors">
         {{ section.settings.logo_text | escape }}
       </a>
       {%- if section.settings.brand_description != blank -%}
-        <p class="site-footer__brand-desc">{{ section.settings.brand_description | escape }}</p>
+        <p class="font-mono text-sm font-bold text-text-dark">{{ section.settings.brand_description | escape }}</p>
       {%- endif -%}
     </div>
 
     <!-- Connect column -->
-    <div>
-      <h4 class="site-footer__col-title">Connect</h4>
-      <nav class="site-footer__links" aria-label="Social links">
+    <div class="flex flex-col gap-4">
+      <h4 class="font-mono text-xs font-bold uppercase tracking-widest text-text-dark border-b-2 border-text-dark pb-2 mb-2 inline-block self-start">Connect</h4>
+      <nav class="flex flex-col gap-3" aria-label="Social links">
         {%- if section.settings.social_instagram != blank -%}
-          <a href="{{ section.settings.social_instagram | escape }}" class="site-footer__link" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="{{ section.settings.social_instagram | escape }}" class="font-mono text-sm font-bold uppercase tracking-wider text-text-dark hover:text-cyan-accent hover:underline underline-offset-4 decoration-2 self-start" target="_blank" rel="noopener noreferrer">Instagram</a>
         {%- endif -%}
         {%- if section.settings.social_twitter != blank -%}
-          <a href="{{ section.settings.social_twitter | escape }}" class="site-footer__link" target="_blank" rel="noopener noreferrer">Twitter / X</a>
+          <a href="{{ section.settings.social_twitter | escape }}" class="font-mono text-sm font-bold uppercase tracking-wider text-text-dark hover:text-cyan-accent hover:underline underline-offset-4 decoration-2 self-start" target="_blank" rel="noopener noreferrer">Twitter / X</a>
         {%- endif -%}
         {%- if section.settings.journal_url != blank -%}
-          <a href="{{ section.settings.journal_url | escape }}" class="site-footer__link">Journal</a>
+          <a href="{{ section.settings.journal_url | escape }}" class="font-mono text-sm font-bold uppercase tracking-wider text-text-dark hover:text-cyan-accent hover:underline underline-offset-4 decoration-2 self-start">Journal</a>
         {%- endif -%}
       </nav>
     </div>
 
     <!-- Inquiries column -->
-    <div>
-      <h4 class="site-footer__col-title">Inquiries</h4>
-      <nav class="site-footer__links" aria-label="Inquiry links">
+    <div class="flex flex-col gap-4">
+      <h4 class="font-mono text-xs font-bold uppercase tracking-widest text-text-dark border-b-2 border-text-dark pb-2 mb-2 inline-block self-start">Inquiries</h4>
+      <nav class="flex flex-col gap-3" aria-label="Inquiry links">
         {%- if section.settings.contact_url != blank -%}
-          <a href="{{ section.settings.contact_url | escape }}" class="site-footer__link">Contact Studio</a>
+          <a href="{{ section.settings.contact_url | escape }}" class="font-mono text-sm font-bold uppercase tracking-wider text-text-dark hover:text-cyan-accent hover:underline underline-offset-4 decoration-2 self-start">Contact Studio</a>
         {%- else -%}
-          <a href="{{ routes.root_url }}pages/contact" class="site-footer__link">Contact Studio</a>
+          <a href="{{ routes.root_url }}pages/contact" class="font-mono text-sm font-bold uppercase tracking-wider text-text-dark hover:text-cyan-accent hover:underline underline-offset-4 decoration-2 self-start">Contact Studio</a>
         {%- endif -%}
         {%- if section.settings.shipping_url != blank -%}
-          <a href="{{ section.settings.shipping_url | escape }}" class="site-footer__link">Shipping &amp; Care</a>
+          <a href="{{ section.settings.shipping_url | escape }}" class="font-mono text-sm font-bold uppercase tracking-wider text-text-dark hover:text-cyan-accent hover:underline underline-offset-4 decoration-2 self-start">Shipping &amp; Care</a>
         {%- else -%}
-          <a href="{{ routes.root_url }}policies/shipping-policy" class="site-footer__link">Shipping &amp; Care</a>
+          <a href="{{ routes.root_url }}policies/shipping-policy" class="font-mono text-sm font-bold uppercase tracking-wider text-text-dark hover:text-cyan-accent hover:underline underline-offset-4 decoration-2 self-start">Shipping &amp; Care</a>
         {%- endif -%}
         {%- if shop.customer_accounts_enabled -%}
-          <a href="{{ routes.account_url }}" class="site-footer__link">My Account</a>
+          <a href="{{ routes.account_url }}" class="font-mono text-sm font-bold uppercase tracking-wider text-text-dark hover:text-cyan-accent hover:underline underline-offset-4 decoration-2 self-start">My Account</a>
         {%- endif -%}
       </nav>
     </div>
-
   </div>
 
   <!-- Bottom bar -->
-  <div class="site-footer__bottom">
-    <p>
+  <div class="max-w-7xl mx-auto mt-12 pt-8 border-t-3 border-text-dark flex flex-col md:flex-row justify-between items-center gap-4">
+    <p class="font-mono text-xs font-bold uppercase tracking-wider text-text-dark">
       &copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}. All rights reserved.
     </p>
-    <p><em>Volume I.</em></p>
+    <p class="font-mono text-xs font-bold text-text-dark">>>> SYSTEM.HALT()</p>
   </div>
 </footer>
 
@@ -66,13 +64,13 @@
       "type": "text",
       "id": "logo_text",
       "label": "Brand name",
-      "default": "Artisan3D"
+      "default": "JOMA_LABS"
     },
     {
       "type": "textarea",
       "id": "brand_description",
       "label": "Brand description",
-      "default": "Precision crafted in our boutique studio. Where digital dreams take physical form."
+      "default": "Precision tools for the 10x engineer."
     },
     {
       "type": "header",

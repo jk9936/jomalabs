@@ -1,123 +1,76 @@
-<header class="site-header" role="banner">
-  <div class="container site-header__inner">
-
-    <!-- Logo -->
-    <a
-      href="{{ routes.root_url }}"
-      class="site-header__logo"
-      aria-label="{{ section.settings.logo_text | escape }} — Home"
-    >
-      {%- if section.settings.logo_image != blank -%}
-        <img
-          src="{{ section.settings.logo_image | image_url: height: 48 }}"
-          alt="{{ section.settings.logo_text | escape }}"
-          height="48"
-          loading="eager"
-        >
-      {%- else -%}
+<header class="fixed top-0 left-0 right-0 h-16 bg-surface brutalist-border border-b-3 z-50 flex items-center justify-between px-4 shadow-brutalist">
+  <div class="flex items-center gap-2">
+    <a href="{{ routes.root_url }}" class="font-display font-bold text-xl uppercase tracking-tighter text-text-dark hover:opacity-80 transition-opacity">
+      {%- if section.settings.logo_text != blank -%}
         {{ section.settings.logo_text | escape }}
+      {%- else -%}
+        JOMA_LABS
       {%- endif -%}
     </a>
+  </div>
 
+  <div class="flex items-center justify-end gap-6">
     <!-- Desktop Nav -->
-    <nav class="site-header__nav" aria-label="Primary navigation">
+    <nav class="hidden md:flex items-center gap-6" aria-label="Primary navigation">
       {%- for block in section.blocks -%}
         {%- if block.type == 'nav_link' -%}
           <a
             href="{{ block.settings.url | escape }}"
-            class="site-header__nav-link{% if block.settings.accent %} site-header__nav-link--accent{% endif %}"
-            {{ block.shopify_attributes }}
+            class="font-mono text-sm font-bold uppercase tracking-wider text-text-dark hover:text-magenta-accent hover:underline underline-offset-4 decoration-2 transition-all {% if block.settings.accent %}text-cyan-accent{% endif %}"
           >
             {{ block.settings.label | escape }}
           </a>
         {%- endif -%}
       {%- endfor -%}
+      {%- if shop.customer_accounts_enabled -%}
+        <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="font-mono text-sm font-bold uppercase tracking-wider text-text-dark hover:text-magenta-accent transition-colors">
+          <span class="material-symbols-outlined align-middle text-lg">person</span>
+        </a>
+      {%- endif -%}
     </nav>
 
-    <!-- Actions -->
-    <div class="site-header__actions">
-      <!-- Cart -->
-      <button
-        class="site-header__action-btn"
-        aria-label="Open cart"
-        data-cart-open
-        id="cart-toggle-btn"
-      >
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-          <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-10 2a2 2 0 100 4 2 2 0 000-4z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span class="cart-count" aria-live="polite" aria-label="Cart item count">
-          {{ cart.item_count }}
-        </span>
-      </button>
-
-      <!-- Account -->
-      {%- if shop.customer_accounts_enabled -%}
-        <a
-          href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
-          class="site-header__action-btn"
-          aria-label="{%- if customer -%}My account{%- else -%}Log in{%- endif -%}"
-        >
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-            <path d="M20 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2M11 11a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
-      {%- endif -%}
-
-      <!-- Mobile Hamburger -->
-      <button
-        class="site-header__hamburger"
-        aria-label="Toggle menu"
-        aria-expanded="false"
-        aria-controls="mobile-nav"
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    </div>
+    <!-- Cart Button -->
+    <button class="relative flex items-center justify-center p-2 cursor-pointer btn-brutalist rounded-sm bg-surface brutalist-border shadow-brutalist" data-cart-open aria-label="Open cart">
+      <span class="material-symbols-outlined text-text-dark font-bold" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+      <span class="cart-count absolute -top-2 -right-2 w-5 h-5 bg-magenta-accent brutalist-border rounded-full flex items-center justify-center text-[10px] font-bold text-text-dark {% if cart.item_count == 0 %}hidden{% endif %}">
+        {{ cart.item_count }}
+      </span>
+    </button>
+    
+    <!-- Mobile Hamburger -->
+    <button class="md:hidden flex items-center justify-center p-2 cursor-pointer btn-brutalist rounded-sm bg-surface brutalist-border shadow-brutalist site-header__hamburger">
+      <span class="material-symbols-outlined text-text-dark font-bold">menu</span>
+    </button>
   </div>
+</header>
 
-  <!-- Mobile Nav -->
-  <nav class="site-header__mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
-    {%- for block in section.blocks -%}
-      {%- if block.type == 'nav_link' -%}
-        <a
-          href="{{ block.settings.url | escape }}"
-          class="site-header__nav-link{% if block.settings.accent %} site-header__nav-link--accent{% endif %}"
-        >
-          {{ block.settings.label | escape }}
-        </a>
-      {%- endif -%}
-    {%- endfor -%}
-
-    {%- if shop.customer_accounts_enabled -%}
-      <a
-        href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
-        class="site-header__nav-link"
-      >
-        {%- if customer -%}My Account{%- else -%}Log In{%- endif -%}
+<!-- Mobile Nav Drawer -->
+<nav class="site-header__mobile-nav fixed top-16 left-0 w-full bg-surface brutalist-border border-b-3 z-40 hidden flex-col divide-y-3 divide-text-dark shadow-brutalist">
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'nav_link' -%}
+      <a href="{{ block.settings.url | escape }}" class="font-mono text-sm font-bold uppercase tracking-wider text-text-dark p-4 hover:bg-background-light">
+        {{ block.settings.label | escape }}
       </a>
     {%- endif -%}
-  </nav>
-</header>
+  {%- endfor -%}
+  {%- if shop.customer_accounts_enabled -%}
+    <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="font-mono text-sm font-bold uppercase tracking-wider text-text-dark p-4 hover:bg-background-light">
+      {%- if customer -%}My Account{%- else -%}Log In{%- endif -%}
+    </a>
+  {%- endif -%}
+</nav>
 
 {% schema %}
 {
   "name": "Header",
-  "tag": "header",
-  "class": "site-header-section",
+  "tag": "div",
+  "class": "site-header-section relative z-50",
   "settings": [
     {
       "type": "text",
       "id": "logo_text",
       "label": "Logo text",
-      "default": "Artisan3D"
-    },
-    {
-      "type": "image_picker",
-      "id": "logo_image",
-      "label": "Logo image (overrides text if set)"
+      "default": "JOMA_LABS"
     }
   ],
   "blocks": [
@@ -129,7 +82,7 @@
           "type": "text",
           "id": "label",
           "label": "Label",
-          "default": "Our Process"
+          "default": "Tools"
         },
         {
           "type": "url",
@@ -139,7 +92,7 @@
         {
           "type": "checkbox",
           "id": "accent",
-          "label": "Accent style (Terracotta)",
+          "label": "Accent style",
           "default": false
         }
       ]
@@ -149,9 +102,9 @@
     {
       "name": "Header",
       "blocks": [
-        { "type": "nav_link", "settings": { "label": "Our Process", "url": "#process", "accent": false } },
-        { "type": "nav_link", "settings": { "label": "The Gallery", "url": "#products", "accent": false } },
-        { "type": "nav_link", "settings": { "label": "Pre-order", "url": "#preorder", "accent": true } }
+        { "type": "nav_link", "settings": { "label": "Hardware", "url": "#hardware", "accent": false } },
+        { "type": "nav_link", "settings": { "label": "Apparel", "url": "#apparel", "accent": false } },
+        { "type": "nav_link", "settings": { "label": "Workspace", "url": "#workspace", "accent": true } }
       ]
     }
   ]

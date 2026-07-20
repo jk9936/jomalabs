@@ -12,57 +12,76 @@
     "hero": {
       "type": "hero",
       "blocks": {
-        "eyebrow": {
-          "type": "eyebrow",
+        "window_header": {
+          "type": "window_header",
           "settings": {
-            "text": "JOMALABS"
+            "title": "JOMA_OS.EXE"
+          }
+        },
+        "subheading": {
+          "type": "subheading",
+          "settings": {
+            "text": "LIMITED RUN",
+            "alignment": "left"
           }
         },
         "headline": {
           "type": "headline",
           "settings": {
-            "text_italic": "Manifesting Ideas in real time,",
-            "text_plain": ""
+            "text": "Manifesting\nIdeas in\nreal time,",
+            "text_color": "#111111",
+            "alignment": "left"
           }
         },
         "text": {
           "type": "text",
           "settings": {
-            "text": "<p>Bring main charecter engery to your life with custom and limited 3D prints</p>"
+            "text": "Bring main charecter engery to your life with custom and limited 3D prints",
+            "show_prefix": true,
+            "alignment": "left"
           }
         },
-        "buttons": {
-          "type": "buttons",
+        "marquee": {
+          "type": "marquee",
           "settings": {
-            "btn_1_label": "Register for Pre-orders",
-            "btn_1_link": "#preorder",
-            "btn_1_bg": "#18241b",
-            "btn_1_text": "#ffffff",
-            "btn_2_label": "Explore Gallery",
-            "btn_2_link": "#products",
-            "btn_2_bg": "rgba(0,0,0,0)",
-            "btn_2_text": "#18241b"
+            "text": "WARNING // STOCK EXTREMELY LOW //",
+            "bg_color": "#ffdd57",
+            "text_color": "#111111"
+          }
+        },
+        "button_1": {
+          "type": "button",
+          "settings": {
+            "label": "INITIALIZE",
+            "link": "#products",
+            "bg_color": "#2f8dff",
+            "text_color": "#111111"
+          }
+        },
+        "button_2": {
+          "type": "button",
+          "settings": {
+            "label": "VIEW SPECS",
+            "link": "#preorder",
+            "bg_color": "#f4f4f4",
+            "text_color": "#111111"
           }
         }
       },
       "block_order": [
-        "eyebrow",
+        "window_header",
+        "subheading",
         "headline",
         "text",
-        "buttons"
+        "marquee",
+        "button_1",
+        "button_2"
       ],
       "settings": {
-        "container_width": "standard",
-        "height": "large",
-        "horizontal_alignment": "center",
-        "vertical_alignment": "center",
-        "bg_type": "video",
         "bg_video": "shopify://files/videos/Create_a_cinematic_ultra_real.mp4",
-        "enable_zoom_animation": true,
-        "bg_color": "#fbf2eb",
-        "text_color": "#1f1b17",
-        "overlay_color": "#c4a981",
-        "overlay_opacity": 30
+        "overlay_opacity": 30,
+        "window_bg": "#fbf2eb",
+        "window_rotation": -1
       }
     },
     "premium-hero": {
@@ -80,13 +99,8 @@
             "bg_color": "#2f8dff",
             "accent_color": "#f0ac78",
             "text_color": "#0b0b0b",
-            "bg_type": "solid",
-            "bg_image": "shopify://shop_images/IMG_4679.png",
-            "decoration_style": "none",
-            "floating": false,
             "image_scale": 200,
             "rotation": 4,
-            "shadow": 20,
             "pos_x": -40,
             "pos_y": -10,
             "pos_x_mobile": 0,
@@ -105,12 +119,8 @@
             "bg_color": "#f0ac78",
             "accent_color": "#df8601",
             "text_color": "#111111",
-            "bg_type": "mesh",
-            "decoration_style": "none",
-            "floating": true,
             "image_scale": 200,
             "rotation": 0,
-            "shadow": 20,
             "pos_x": -15,
             "pos_y": -45,
             "pos_x_mobile": 0,
@@ -128,12 +138,8 @@
             "bg_color": "#f4f4f4",
             "accent_color": "#e1e1e1",
             "text_color": "#111111",
-            "bg_type": "solid",
-            "decoration_style": "circle",
-            "floating": true,
             "image_scale": 100,
             "rotation": 0,
-            "shadow": 20,
             "pos_x": 0,
             "pos_y": 0,
             "pos_x_mobile": 0,
@@ -152,12 +158,8 @@
             "bg_color": "#83169C",
             "accent_color": "#ffdd57",
             "text_color": "#ffcf10",
-            "bg_type": "solid",
-            "decoration_style": "blobs",
-            "floating": true,
             "image_scale": 100,
             "rotation": 0,
-            "shadow": 20,
             "pos_x": 0,
             "pos_y": 0,
             "pos_x_mobile": 15,
@@ -174,13 +176,10 @@
       "settings": {
         "container_width": "full",
         "height": "medium",
-        "border_radius": 24,
         "autoplay": false,
         "autoplay_speed": 5,
         "show_arrows": true,
-        "show_pagination": true,
-        "enable_floating_animation": true,
-        "enable_mouse_parallax": true
+        "show_pagination": true
       }
     },
     "preorder": {

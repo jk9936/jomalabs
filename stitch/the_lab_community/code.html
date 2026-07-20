@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Lab (Community) - Joma Labs</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#f2cc0d",
+                "background-light": "#f8f8f5",
+                "background-dark": "#221f10",
+                "cyan": "#00FFFF",
+                "magenta": "#FF00FF",
+              },
+              fontFamily: {
+                "display": ["Space Grotesk"]
+              },
+              borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+              boxShadow: {
+                'brutal': '4px 4px 0px 0px #000000',
+                'brutal-sm': '2px 2px 0px 0px #000000',
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #f8f8f5;
+        }
+        .brutal-border {
+            border: 3px solid #000000;
+        }
+        .brutal-shadow {
+            box-shadow: 4px 4px 0px 0px #000000;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        .brutal-shadow:active {
+            box-shadow: 0px 0px 0px 0px #000000;
+            transform: translate(4px, 4px);
+        }
+        .terminal-text {
+            font-family: 'JetBrains Mono', monospace; /* Fallback to Space Grotesk if not loaded, but simulates the look */
+        }
+        
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+        
+        .shake-animation {
+            animation: shake 0.5s;
+            animation-iteration-count: 1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen flex flex-col text-black pb-24">
+<!-- OS Header -->
+<div class="sticky top-0 z-50 flex items-center bg-white p-4 justify-between brutal-border border-b-4 border-black mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined font-bold" style="font-variation-settings: 'FILL' 1;">terminal</span>
+<h1 class="text-xl font-bold uppercase tracking-tight">THE_LAB.EXE</h1>
+</div>
+<button aria-label="Close" class="flex items-center justify-center size-8 bg-black text-white rounded-sm brutal-shadow hover:bg-magenta hover:text-black transition-colors">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<main class="flex-1 px-4 flex flex-col gap-8 max-w-lg mx-auto w-full relative z-10">
+<!-- Manifesto Window -->
+<div class="bg-black text-white p-6 rounded-sm brutal-border brutal-shadow relative">
+<!-- Window Title Bar -->
+<div class="absolute top-0 left-0 w-full h-8 bg-white brutal-border border-x-0 border-t-0 flex items-center px-2 justify-between">
+<span class="text-xs font-bold text-black uppercase">manifesto.txt</span>
+<div class="flex gap-1">
+<div class="size-3 bg-black rounded-full"></div>
+<div class="size-3 bg-black rounded-full"></div>
+<div class="size-3 bg-black rounded-full"></div>
+</div>
+</div>
+<div class="mt-8">
+<h2 class="text-primary text-2xl font-bold mb-4 uppercase leading-tight">We write code.<br/>We clack switches.<br/>We deploy on Fridays.</h2>
+<p class="terminal-text text-sm text-gray-300 leading-relaxed mb-4">
+                    &gt; This is not a minimalist safe space.<br/>
+                    &gt; This is for the 10x engineers who prefer their CLI dark and their coffee black.<br/>
+                    &gt; Reject modern corporate blandness. Embrace the raw build.
+                </p>
+<div class="flex items-center gap-2 text-cyan font-bold terminal-text">
+<span>$</span>
+<span class="animate-pulse">_</span>
+</div>
+</div>
+</div>
+<!-- Animation Feature -->
+<div class="bg-white rounded-sm brutal-border brutal-shadow p-2 h-48 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-full h-6 bg-primary brutal-border border-x-0 border-t-0 flex items-center px-2 z-10">
+<span class="text-xs font-bold text-black uppercase">visualizer.exe</span>
+</div>
+<div class="absolute inset-0 mt-6 pt-2">
+<webgl-shader class="w-full h-full object-cover" src="{{DATA:ANIMATION:ANIMATION_1}}"></webgl-shader>
+</div>
+</div>
+<!-- Social Links Stack -->
+<div class="flex flex-col gap-4 relative z-20">
+<a class="block w-full bg-white p-4 rounded-sm brutal-border brutal-shadow flex items-center justify-between group active:bg-primary transition-colors" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-2xl group-active:text-black text-magenta" style="font-variation-settings: 'FILL' 1;">forum</span>
+<span class="font-bold uppercase text-lg">JOIN_DISCORD</span>
+</div>
+<span class="material-symbols-outlined">arrow_forward</span>
+</a>
+<a class="block w-full bg-white p-4 rounded-sm brutal-border brutal-shadow flex items-center justify-between group active:bg-cyan transition-colors" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-2xl group-active:text-black text-black">code</span>
+<span class="font-bold uppercase text-lg">FORK_ON_GITHUB</span>
+</div>
+<span class="material-symbols-outlined">arrow_forward</span>
+</a>
+<a class="block w-full bg-white p-4 rounded-sm brutal-border brutal-shadow flex items-center justify-between group active:bg-black active:text-white transition-colors" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-2xl">tag</span>
+<span class="font-bold uppercase text-lg">FOLLOW_X</span>
+</div>
+<span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+<!-- Easter Egg -->
+<div class="mt-8 text-center" id="easter-egg-container">
+<button class="terminal-text text-xs text-gray-400 hover:text-magenta transition-colors focus:outline-none" id="easter-egg-btn">
+                &gt; sudo rm -rf /
+            </button>
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" id="error-modal">
+<div class="bg-magenta p-6 rounded-sm brutal-border brutal-shadow max-w-sm w-full">
+<h3 class="font-bold text-2xl text-white mb-2 uppercase">CRITICAL_FAULT</h3>
+<p class="text-black font-bold mb-4">SYSTEM DESTRUCTION INITIATED. JUST KIDDING, YOU'RE COOL.</p>
+<button class="w-full bg-black text-white py-2 font-bold uppercase rounded-sm brutal-border hover:bg-white hover:text-black transition-colors" id="close-modal">
+                        ABORT
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (Shared Component Logic: Destination Screen -> Show Nav) -->
+<div class="fixed bottom-0 left-0 w-full z-50">
+<div class="relative flex w-full flex-col bg-white border-t-4 border-black group/design-root overflow-x-hidden" style='font-family: "Space Grotesk", sans-serif;'>
+<div class="flex gap-2 px-4 pb-4 pt-2">
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-black opacity-50 hover:opacity-100" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined text-2xl">house</span>
+</div>
+<p class="text-xs font-bold leading-normal tracking-wider">HOME</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-black opacity-50 hover:opacity-100" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined text-2xl">package</span>
+</div>
+<p class="text-xs font-bold leading-normal tracking-wider">PRODUCTS</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-black opacity-50 hover:opacity-100" href="#">
+<div class="flex h-8 items-center justify-center relative">
+<span class="material-symbols-outlined text-2xl">shopping_cart</span>
+</div>
+<p class="text-xs font-bold leading-normal tracking-wider">CART</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-black bg-primary rounded-sm brutal-border brutal-shadow transform -translate-y-2 p-1" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<p class="text-xs font-bold leading-normal tracking-wider">THE_LAB</p>
+</a>
+</div>
+</div>
+</div>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const eggBtn = document.getElementById('easter-egg-btn');
+            const modal = document.getElementById('error-modal');
+            const closeBtn = document.getElementById('close-modal');
+
+            eggBtn.addEventListener('click', () => {
+                document.body.classList.add('shake-animation');
+                
+                setTimeout(() => {
+                    modal.classList.remove('hidden');
+                    document.body.classList.remove('shake-animation');
+                }, 500);
+            });
+
+            closeBtn.addEventListener('click', () => {
+                modal.classList.add('hidden');
+            });
+        });
+    </script>
+</body></html>
