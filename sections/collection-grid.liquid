@@ -1,9 +1,7 @@
-<div class="page-collection">
-  <header class="collection-header reveal">
-    <span class="collection-header__eyebrow">
-      {{ section.settings.eyebrow | default: 'The Gallery' | escape }}
-    </span>
-    <h1 class="collection-header__title">
+<div class="max-w-7xl mx-auto px-4 py-16">
+  <header class="border-b-3 border-text-dark pb-8 mb-12 flex flex-col items-start gap-4">
+    <span class="font-mono text-xs font-bold uppercase tracking-widest border-2 border-text-dark px-3 py-1 bg-background-light">SYSTEM.DIR // {{ section.settings.eyebrow | default: 'COLLECTION' | escape }}</span>
+    <h1 class="font-display font-bold text-5xl md:text-7xl uppercase leading-none tracking-tight text-text-dark">
       {%- if collection.title != blank -%}
         {{ collection.title | escape }}
       {%- else -%}
@@ -12,12 +10,12 @@
     </h1>
     {%- assign coll_desc = collection.description | strip_html | truncate: 200 | default: section.settings.description -%}
     {%- if coll_desc != blank -%}
-      <p class="collection-header__desc">{{ coll_desc | escape }}</p>
+      <p class="font-mono text-sm md:text-base font-bold text-text-dark max-w-2xl mt-4">>>> {{ coll_desc | escape }}</p>
     {%- endif -%}
   </header>
 
   {%- if collection.products.size > 0 -%}
-    <div class="product-grid" id="collection-grid">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="collection-grid">
       {%- for product in collection.products -%}
         {%- render 'product-card',
           product: product,
@@ -27,26 +25,23 @@
     </div>
 
     {%- if paginate.pages > 1 -%}
-      <nav class="pagination" aria-label="Pagination" style="margin-top:64px; display:flex; justify-content:center; gap:16px; font-family:var(--font-sans); font-size:var(--text-label-sm); letter-spacing:var(--tracking-label); text-transform:uppercase;">
+      <nav class="mt-16 flex justify-center items-center gap-4 font-mono font-bold uppercase text-sm" aria-label="Pagination">
         {%- if paginate.previous -%}
-          <a href="{{ paginate.previous.url }}" class="link-arrow">
-            &larr; Previous
-          </a>
+          <a href="{{ paginate.previous.url }}" class="border-3 border-text-dark px-4 py-2 hover:bg-text-dark hover:text-white transition-colors">&larr; PREV</a>
         {%- endif -%}
-        <span style="color:var(--color-on-surface-variant)">
-          Page {{ paginate.current_page }} of {{ paginate.pages }}
+        <span class="px-4 py-2 bg-text-dark text-white border-3 border-text-dark">
+          PAGE {{ paginate.current_page }} / {{ paginate.pages }}
         </span>
         {%- if paginate.next -%}
-          <a href="{{ paginate.next.url }}" class="link-arrow">
-            Next &rarr;
-          </a>
+          <a href="{{ paginate.next.url }}" class="border-3 border-text-dark px-4 py-2 hover:bg-text-dark hover:text-white transition-colors">NEXT &rarr;</a>
         {%- endif -%}
       </nav>
     {%- endif -%}
   {%- else -%}
-    <p style="text-align:center; color:var(--color-on-surface-variant); font-family:var(--font-serif); font-style:italic; font-size:18px; padding:64px 0;">
-      No products found in this collection.
-    </p>
+    <div class="border-3 border-text-dark bg-yellow-accent p-12 text-center shadow-brutalist mt-12">
+      <p class="font-mono text-xl font-bold uppercase tracking-widest text-text-dark">ERR: NO_RECORDS_FOUND</p>
+      <p class="font-mono text-sm font-bold mt-2">No products exist in this directory.</p>
+    </div>
   {%- endif -%}
 </div>
 
@@ -63,18 +58,18 @@
     {
       "type": "text",
       "id": "title",
-      "label": "Fallback title (if no collection title)",
-      "default": "All Artifacts"
+      "label": "Fallback Title",
+      "default": "All Products"
     },
     {
       "type": "textarea",
       "id": "description",
-      "label": "Fallback description"
+      "label": "Fallback Description"
     },
     {
       "type": "checkbox",
       "id": "show_price",
-      "label": "Show prices on cards",
+      "label": "Show Price",
       "default": true
     }
   ],

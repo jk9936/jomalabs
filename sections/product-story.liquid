@@ -1,683 +1,212 @@
-{%- liquid
-  assign bg_type = section.settings.bg_type
-  assign bg_color = section.settings.bg_color | default: 'var(--color-background)'
-  assign accent_color = section.settings.accent_color | default: 'var(--color-secondary)'
-  assign text_color = section.settings.text_color | default: 'var(--color-on-surface)'
-  assign decor_style = section.settings.decoration_style
-  
-  assign media_block = section.blocks | where: "type", "media" | first
--%}
-
-{%- style -%}
-  /* Scoped CSS for Product Story Section */
-  #shopify-section-{{ section.id }} {
-    --ps-bg-color: {{ bg_color }};
-    --ps-accent-color: {{ accent_color }};
-    --ps-text-color: {{ text_color }};
-    --ps-border-radius: {% if section.settings.border_radius %}24px{% else %}0px{% endif %};
-    --ps-padding-y: {{ section.settings.padding_y }}px;
-    background-color: var(--color-background);
-  }
-
-  .ps-container {
-    display: block;
-    position: relative;
-    width: 100%;
-    max-width: {% if section.settings.container_width == 'full' %}100%{% elsif section.settings.container_width == 'narrow' %}1000px{% else %}1440px{% endif %};
-    margin: 0 auto;
-    border-radius: var(--ps-border-radius);
-    background-color: var(--ps-bg-color);
-    color: var(--ps-text-color);
-    overflow: hidden;
-    padding: var(--ps-padding-y) 5%;
-  }
-
-  /* Backgrounds */
-  .ps-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-  }
-  .ps-bg--gradient { background: linear-gradient(135deg, var(--ps-bg-color) 0%, var(--ps-accent-color) 100%); }
-  .ps-bg--mesh {
-    background-color: var(--ps-bg-color);
-    background-image: 
-      radial-gradient(at 0% 0%, var(--ps-accent-color) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, var(--ps-accent-color) 0px, transparent 50%);
-    background-size: 200% 200%;
-    animation: psMesh 10s ease infinite alternate;
-  }
-  @keyframes psMesh { 0% { background-position: 0% 0%; } 100% { background-position: 100% 100%; } }
-  .ps-bg--noise::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.05"/%3E%3C/svg%3E');
-    opacity: 0.5;
-  }
-
-  /* Decorations */
-  .ps-decor {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .ps-decor--circle::before {
-    content: '';
-    width: 60vh;
-    height: 60vh;
-    background: var(--ps-accent-color);
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.3;
-  }
-  .ps-decor--grid {
-    background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
-    background-size: 40px 40px;
-    mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
-    -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
-  }
-
-  /* Layout */
-  .ps-layout {
-    position: relative;
-    z-index: 5;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-  }
-  @media (min-width: 992px) {
-    .ps-layout {
-      flex-direction: row;
-      gap: 80px;
-    }
-  }
-
-  /* Media Column */
-  .ps-media-col {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-  @media (min-width: 992px) {
-    .ps-media-col {
-      position: sticky;
-      top: 100px;
-      height: calc(100vh - 200px);
-      align-items: flex-start;
-    }
-  }
-
-  .ps-media-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 500px;
-    will-change: transform;
-    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-
-  .ps-media__image {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    filter: drop-shadow(0px 20px 40px rgba(0,0,0,0.15));
-  }
-  .ps-media-wrapper.is-floating {
-    animation: psFloat 6s ease-in-out infinite;
-  }
-  @keyframes psFloat {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-    100% { transform: translateY(0); }
-  }
-
-  /* Content Column */
-  .ps-content-col {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 64px;
-    padding-bottom: 40px;
-  }
-
-  /* Story Block */
-  .ps-story {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  .ps-story__eyebrow {
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-weight: 600;
-    opacity: 0.7;
-  }
-  .ps-story__heading {
-    font-size: clamp(32px, 5vw, 64px);
-    line-height: 1.1;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin: 0;
-  }
-  .ps-story__desc {
-    font-size: clamp(16px, 2vw, 20px);
-    line-height: 1.6;
-    opacity: 0.85;
-    max-width: 500px;
-  }
-
-  /* Features Container */
-  .ps-features {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .ps-feature-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    border-radius: 100px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(0,0,0,0.05);
-    font-size: 14px;
-    font-weight: 500;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-  .ps-feature-chip svg {
-    width: 16px;
-    height: 16px;
-    opacity: 0.7;
-  }
-
-  /* Metrics Container */
-  .ps-metrics {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 16px;
-  }
-  .ps-metric-card {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(0,0,0,0.05);
-    padding: 24px;
-    border-radius: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-  .ps-metric-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-  }
-  .ps-metric__icon {
-    font-size: 24px;
-    margin-bottom: 8px;
-  }
-  .ps-metric__value {
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 1;
-  }
-  .ps-metric__label {
-    font-size: 13px;
-    opacity: 0.7;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  /* Process / Timeline */
-  .ps-process {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-    position: relative;
-    padding-left: 24px;
-  }
-  .ps-process::before {
-    content: '';
-    position: absolute;
-    left: 7px;
-    top: 8px;
-    bottom: 8px;
-    width: 2px;
-    background: var(--ps-text-color);
-    opacity: 0.1;
-  }
-  .ps-process-step {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .ps-process-step::before {
-    content: '';
-    position: absolute;
-    left: -22px;
-    top: 6px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--ps-bg-color);
-    border: 2px solid var(--ps-text-color);
-    z-index: 2;
-  }
-  .ps-process-step__title {
-    font-size: 18px;
-    font-weight: 600;
-  }
-  .ps-process-step__desc {
-    font-size: 14px;
-    opacity: 0.7;
-    line-height: 1.5;
-  }
-
-  /* Reveal Animations */
-  .ps-reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform, opacity;
-  }
-  .ps-reveal.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Handle Presets */
-  .ps-preset-dark {
-    .ps-feature-chip { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); }
-    .ps-metric-card { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.1); }
-  }
-  
-  /* Reduced Motion */
-  @media (prefers-reduced-motion: reduce) {
-    .ps-reveal { opacity: 1; transform: none; transition: none; }
-    .ps-media-wrapper.is-floating { animation: none; }
-    .ps-bg--mesh { animation: none; }
-  }
-{%- endstyle -%}
-
-<product-story-section 
-  class="ps-container {% if bg_color == '#000000' or bg_color == '#111111' %}ps-preset-dark{% endif %}"
-  data-parallax="{{ section.settings.enable_mouse_parallax }}"
->
-  <div class="ps-bg ps-bg--{{ bg_type }}"></div>
-  {% if decor_style != 'none' %}
-    <div class="ps-decor ps-decor--{{ decor_style }}"></div>
-  {% endif %}
-
-  <div class="ps-layout">
+<section class="max-w-7xl mx-auto px-4 py-16 md:py-24" id="story-{{ section.id }}">
+  <div class="border-3 border-text-dark bg-surface shadow-brutalist overflow-hidden relative">
     
-    <!-- Media Column (Sticky) -->
-    <div class="ps-media-col">
-      {% if media_block %}
-        <div class="ps-media-wrapper {% if section.settings.enable_floating_image %}is-floating{% endif %}" {{ media_block.shopify_attributes }}>
-          {% if media_block.settings.image %}
-            <img 
-              src="{{ media_block.settings.image | image_url: width: 1000 }}" 
-              alt="{{ media_block.settings.image.alt | escape }}"
-              class="ps-media__image ps-reveal"
-              loading="lazy"
-            >
-          {% else %}
-            {{ 'product-1' | placeholder_svg_tag: 'ps-media__image ps-reveal' }}
-          {% endif %}
-        </div>
-      {% endif %}
+    <!-- System Bar -->
+    <div class="w-full h-8 bg-text-dark flex items-center px-3 border-b-3 border-text-dark justify-between">
+      <span class="font-mono text-xs font-bold text-surface">SYS.STORY_VIEWER</span>
+      <div class="flex gap-2">
+        <div class="w-3 h-3 bg-cyan-accent border-2 border-text-dark"></div>
+        <div class="w-3 h-3 bg-magenta-accent border-2 border-text-dark"></div>
+        <div class="w-3 h-3 bg-primary border-2 border-text-dark"></div>
+      </div>
     </div>
 
-    <!-- Content Column (Scrolls) -->
-    <div class="ps-content-col">
-      
-      {% for block in section.blocks %}
-        {% case block.type %}
-          
-          {% when 'story' %}
-            <div class="ps-story ps-reveal" {{ block.shopify_attributes }}>
-              {% if block.settings.eyebrow != blank %}
-                <div class="ps-story__eyebrow">{{ block.settings.eyebrow | escape }}</div>
-              {% endif %}
-              {% if block.settings.headline != blank %}
-                <h2 class="ps-story__heading font-serif">{{ block.settings.headline | escape }}</h2>
-              {% endif %}
-              {% if block.settings.description != blank %}
-                <div class="ps-story__desc">{{ block.settings.description }}</div>
-              {% endif %}
-              {% if block.settings.btn_text != blank and block.settings.btn_url != blank %}
-                <a href="{{ block.settings.btn_url }}" class="ps-content__btn" style="background-color: var(--ps-text-color); color: var(--ps-bg-color); padding: 16px 32px; border-radius: 100px; display: inline-block; font-weight: 600; margin-top: 16px; align-self: flex-start;">
-                  {{ block.settings.btn_text | escape }}
-                </a>
-              {% endif %}
-            </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2">
+      <!-- Media Area -->
+      <div class="border-b-3 lg:border-b-0 lg:border-r-3 border-text-dark bg-background-light p-6 md:p-12 flex items-center justify-center relative overflow-hidden group">
+        {%- assign media_block = section.blocks | where: "type", "media" | first -%}
+        {%- if media_block -%}
+          {%- if media_block.settings.image != blank -%}
+            <style>
+              #story-{{ section.id }} .story-img {
+                height: {{ media_block.settings.image_height_mobile }}px;
+                object-position: {{ media_block.settings.image_position }};
+              }
+              @media (min-width: 1024px) {
+                #story-{{ section.id }} .story-img {
+                  height: {{ media_block.settings.image_height_desktop }}px;
+                }
+              }
+            </style>
+            <img src="{{ media_block.settings.image | image_url: width: 1000 }}" alt="{{ media_block.settings.image.alt | escape }}" class="story-img w-full object-cover border-3 border-text-dark filter hover:brightness-110 shadow-brutalist group-hover:-translate-y-2 group-hover:translate-x-2 transition-transform" loading="lazy">
+          {%- endif -%}
+        {%- else -%}
+          <div class="w-full h-[400px] border-3 border-text-dark flex items-center justify-center font-mono font-bold text-text-dark bg-yellow-accent shadow-brutalist">
+            NO_MEDIA_MOUNTED
+          </div>
+        {%- endif -%}
+      </div>
 
-          {% when 'feature_list' %}
-            <div class="ps-features ps-reveal" {{ block.shopify_attributes }}>
-              {% for i in (1..6) %}
-                {% assign feature_key = 'feature_' | append: i %}
-                {% assign feature_text = block.settings[feature_key] %}
-                {% if feature_text != blank %}
-                  <div class="ps-feature-chip">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    {{ feature_text | escape }}
+      <!-- Content Area -->
+      <div class="p-8 md:p-12 flex flex-col gap-8 justify-center bg-white">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'header' -%}
+              <div {{ block.shopify_attributes }}>
+                {%- if block.settings.eyebrow != blank -%}
+                  <span class="font-mono text-xs font-bold uppercase tracking-widest border-2 border-text-dark px-3 py-1 bg-yellow-accent text-text-dark inline-block mb-4">[{{ block.settings.eyebrow | escape }}]</span>
+                {%- endif -%}
+                <h2 class="font-display font-bold text-4xl md:text-6xl uppercase leading-none text-text-dark tracking-tight">
+                  {{ block.settings.title | escape }}
+                </h2>
+              </div>
+              
+            {%- when 'text' -%}
+              <div class="font-mono text-sm md:text-base font-bold text-text-dark leading-relaxed border-l-4 border-text-dark pl-4 bg-background-light py-2" {{ block.shopify_attributes }}>
+                >>> {{ block.settings.text | strip_html }}
+              </div>
+              
+            {%- when 'stats' -%}
+              <div class="grid grid-cols-2 md:grid-cols-3 gap-4 border-t-3 border-b-3 border-text-dark py-6 my-4" {{ block.shopify_attributes }}>
+                {%- if block.settings.stat_1_value != blank -%}
+                  <div class="flex flex-col">
+                    <span class="font-display font-bold text-3xl text-text-dark">{{ block.settings.stat_1_value | escape }}</span>
+                    <span class="font-mono text-xs font-bold uppercase text-text-dark">{{ block.settings.stat_1_label | escape }}</span>
                   </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-
-          {% when 'metrics_container' %}
-            <div class="ps-metrics ps-reveal" {{ block.shopify_attributes }}>
-              {% for i in (1..4) %}
-                {% assign emoji_key = 'metric_emoji_' | append: i %}
-                {% assign val_key = 'metric_val_' | append: i %}
-                {% assign label_key = 'metric_label_' | append: i %}
-                
-                {% if block.settings[val_key] != blank %}
-                  <div class="ps-metric-card">
-                    <div class="ps-metric__icon">{{ block.settings[emoji_key] }}</div>
-                    <div class="ps-metric__value font-serif">{{ block.settings[val_key] | escape }}</div>
-                    <div class="ps-metric__label">{{ block.settings[label_key] | escape }}</div>
+                {%- endif -%}
+                {%- if block.settings.stat_2_value != blank -%}
+                  <div class="flex flex-col">
+                    <span class="font-display font-bold text-3xl text-text-dark">{{ block.settings.stat_2_value | escape }}</span>
+                    <span class="font-mono text-xs font-bold uppercase text-text-dark">{{ block.settings.stat_2_label | escape }}</span>
                   </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-
-          {% when 'process_timeline' %}
-            <div class="ps-process ps-reveal" {{ block.shopify_attributes }}>
-              {% for i in (1..5) %}
-                {% assign title_key = 'step_title_' | append: i %}
-                {% assign desc_key = 'step_desc_' | append: i %}
-                
-                {% if block.settings[title_key] != blank %}
-                  <div class="ps-process-step">
-                    <div class="ps-process-step__title">{{ block.settings[title_key] | escape }}</div>
-                    {% if block.settings[desc_key] != blank %}
-                      <div class="ps-process-step__desc">{{ block.settings[desc_key] | escape }}</div>
-                    {% endif %}
+                {%- endif -%}
+                {%- if block.settings.stat_3_value != blank -%}
+                  <div class="flex flex-col">
+                    <span class="font-display font-bold text-3xl text-text-dark">{{ block.settings.stat_3_value | escape }}</span>
+                    <span class="font-mono text-xs font-bold uppercase text-text-dark">{{ block.settings.stat_3_label | escape }}</span>
                   </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-
-        {% endcase %}
-      {% endfor %}
-
+                {%- endif -%}
+              </div>
+              
+            {%- when 'button' -%}
+              <a href="{{ block.settings.link | default: '#' }}" class="btn-brutalist inline-block border-3 border-text-dark shadow-brutalist rounded-sm px-6 py-4 font-display font-bold text-lg uppercase tracking-wider text-text-dark bg-cyan-accent hover:bg-surface w-fit mt-4 transition-colors" {{ block.shopify_attributes }}>
+                {{ block.settings.label | escape }} &rarr;
+              </a>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
     </div>
   </div>
-</product-story-section>
-
-<script>
-  if (!customElements.get('product-story-section')) {
-    class ProductStorySection extends HTMLElement {
-      constructor() {
-        super();
-        this.reveals = Array.from(this.querySelectorAll('.ps-reveal'));
-        this.mediaWrapper = this.querySelector('.ps-media-wrapper');
-        this.parallaxEnabled = this.dataset.parallax === 'true';
-        this.init();
-      }
-      
-      init() {
-        // Intersection Observer for scroll animations
-        if ('IntersectionObserver' in window) {
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target); // Reveal only once
-              }
-            });
-          }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-          
-          this.reveals.forEach(el => observer.observe(el));
-        } else {
-          this.reveals.forEach(el => el.classList.add('is-visible'));
-        }
-
-        // Mouse Parallax Effect
-        if (this.parallaxEnabled && this.mediaWrapper && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          this.addEventListener('mousemove', (e) => {
-            const rect = this.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width - 0.5;
-            const y = (e.clientY - rect.top) / rect.height - 0.5;
-            
-            this.mediaWrapper.style.transform = `translate(${x * -30}px, ${y * -30}px) rotate(${x * 5}deg)`;
-          });
-          
-          this.addEventListener('mouseleave', () => {
-            this.mediaWrapper.style.transform = `translate(0, 0) rotate(0deg)`;
-          });
-        }
-      }
-    }
-    customElements.define('product-story-section', ProductStorySection);
-  }
-</script>
+</section>
 
 {% schema %}
 {
   "name": "Product Story",
-  "settings": [
-    {
-      "type": "select",
-      "id": "container_width",
-      "label": "Container Width",
-      "options": [
-        { "value": "standard", "label": "Standard (1440px)" },
-        { "value": "narrow", "label": "Narrow (1000px)" },
-        { "value": "full", "label": "Full Width" }
-      ],
-      "default": "standard"
-    },
-    {
-      "type": "checkbox",
-      "id": "border_radius",
-      "label": "Enable Border Radius",
-      "default": false
-    },
-    {
-      "type": "range",
-      "id": "padding_y",
-      "label": "Vertical Padding",
-      "min": 40,
-      "max": 160,
-      "step": 8,
-      "default": 80,
-      "unit": "px"
-    },
-    {
-      "type": "header",
-      "content": "Theme Colors"
-    },
-    {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Background Color",
-      "default": "#fbf2eb"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Accent Color",
-      "default": "#e1d8d2"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#1f1b17"
-    },
-    {
-      "type": "header",
-      "content": "Background & Decorations"
-    },
-    {
-      "type": "select",
-      "id": "bg_type",
-      "label": "Background Type",
-      "options": [
-        { "value": "solid", "label": "Solid" },
-        { "value": "gradient", "label": "Gradient" },
-        { "value": "mesh", "label": "Animated Mesh" },
-        { "value": "noise", "label": "Noise Texture" }
-      ],
-      "default": "solid"
-    },
-    {
-      "type": "select",
-      "id": "decoration_style",
-      "label": "Decoration Style",
-      "options": [
-        { "value": "none", "label": "None" },
-        { "value": "circle", "label": "Blurred Circle" },
-        { "value": "grid", "label": "Blueprint Grid" }
-      ],
-      "default": "none"
-    },
-    {
-      "type": "header",
-      "content": "Animations"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_scroll_animations",
-      "label": "Enable Scroll Reveal Animations",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_floating_image",
-      "label": "Enable Floating Media",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_mouse_parallax",
-      "label": "Enable Mouse Parallax on Media",
-      "default": true
-    }
-  ],
+  "settings": [],
   "blocks": [
     {
       "type": "media",
-      "name": "Product Media",
+      "name": "Media (Image/Video)",
       "limit": 1,
       "settings": [
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image (Transparent PNG recommended)"
+          "label": "Image"
+        },
+        {
+          "type": "header",
+          "content": "Image Controls"
+        },
+        {
+          "type": "range",
+          "id": "image_height_desktop",
+          "label": "Desktop Image Height",
+          "min": 200,
+          "max": 1000,
+          "step": 10,
+          "default": 500
+        },
+        {
+          "type": "range",
+          "id": "image_height_mobile",
+          "label": "Mobile Image Height",
+          "min": 200,
+          "max": 800,
+          "step": 10,
+          "default": 400
+        },
+        {
+          "type": "select",
+          "id": "image_position",
+          "label": "Image Position",
+          "options": [
+            { "value": "top left", "label": "Top Left" },
+            { "value": "top center", "label": "Top Center" },
+            { "value": "top right", "label": "Top Right" },
+            { "value": "center left", "label": "Center Left" },
+            { "value": "center center", "label": "Center Center" },
+            { "value": "center right", "label": "Center Right" },
+            { "value": "bottom left", "label": "Bottom Left" },
+            { "value": "bottom center", "label": "Bottom Center" },
+            { "value": "bottom right", "label": "Bottom Right" }
+          ],
+          "default": "center center"
         }
       ]
     },
     {
-      "type": "story",
-      "name": "Story Content",
-      "limit": 1,
+      "type": "header",
+      "name": "Header Block",
       "settings": [
         {
           "type": "text",
           "id": "eyebrow",
           "label": "Eyebrow Text",
-          "default": "Design Philosophy"
+          "default": "Feature"
         },
         {
           "type": "text",
-          "id": "headline",
-          "label": "Headline",
-          "default": "Form Meets Function"
-        },
-        {
-          "type": "richtext",
-          "id": "description",
-          "label": "Short Description",
-          "default": "<p>A timeless creation that blends modern aesthetics with functional durability.</p>"
-        },
-        {
-          "type": "text",
-          "id": "btn_text",
-          "label": "Button Text"
-        },
-        {
-          "type": "url",
-          "id": "btn_url",
-          "label": "Button Link"
+          "id": "title",
+          "label": "Title",
+          "default": "Design Story"
         }
       ]
     },
     {
-      "type": "feature_list",
-      "name": "Feature Chips",
-      "limit": 1,
+      "type": "text",
+      "name": "Text Block",
       "settings": [
-        { "type": "text", "id": "feature_1", "label": "Feature 1", "default": "Hand Finished" },
-        { "type": "text", "id": "feature_2", "label": "Feature 2", "default": "Precision Printed" },
-        { "type": "text", "id": "feature_3", "label": "Feature 3", "default": "Lightweight" },
-        { "type": "text", "id": "feature_4", "label": "Feature 4", "default": "Eco Friendly" },
-        { "type": "text", "id": "feature_5", "label": "Feature 5" },
-        { "type": "text", "id": "feature_6", "label": "Feature 6" }
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text Content",
+          "default": "Every curve and angle is deliberate."
+        }
       ]
     },
     {
-      "type": "metrics_container",
-      "name": "Metric Cards",
+      "type": "stats",
+      "name": "Stats Row",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "metric_emoji_1", "label": "Icon 1", "default": "⚡" },
-        { "type": "text", "id": "metric_val_1", "label": "Value 1", "default": "4 Hrs" },
-        { "type": "text", "id": "metric_label_1", "label": "Label 1", "default": "Print Time" },
-        
-        { "type": "text", "id": "metric_emoji_2", "label": "Icon 2", "default": "📐" },
-        { "type": "text", "id": "metric_val_2", "label": "Value 2", "default": "0.02 mm" },
-        { "type": "text", "id": "metric_label_2", "label": "Label 2", "default": "Layer Height" },
-        
-        { "type": "text", "id": "metric_emoji_3", "label": "Icon 3", "default": "🧱" },
-        { "type": "text", "id": "metric_val_3", "label": "Value 3", "default": "PLA+" },
-        { "type": "text", "id": "metric_label_3", "label": "Label 3", "default": "Material" },
-        
-        { "type": "text", "id": "metric_emoji_4", "label": "Icon 4" },
-        { "type": "text", "id": "metric_val_4", "label": "Value 4" },
-        { "type": "text", "id": "metric_label_4", "label": "Label 4" }
+        { "type": "text", "id": "stat_1_value", "label": "Stat 1 Value", "default": "12" },
+        { "type": "text", "id": "stat_1_label", "label": "Stat 1 Label", "default": "Hours to Print" },
+        { "type": "text", "id": "stat_2_value", "label": "Stat 2 Value", "default": "0.1" },
+        { "type": "text", "id": "stat_2_label", "label": "Stat 2 Label", "default": "mm Layer Height" },
+        { "type": "text", "id": "stat_3_value", "label": "Stat 3 Value" },
+        { "type": "text", "id": "stat_3_label", "label": "Stat 3 Label" }
       ]
     },
     {
-      "type": "process_timeline",
-      "name": "Manufacturing Process",
+      "type": "button",
+      "name": "Button CTA",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "step_title_1", "label": "Step 1 Title", "default": "Concept" },
-        { "type": "text", "id": "step_desc_1", "label": "Step 1 Description" },
-        { "type": "text", "id": "step_title_2", "label": "Step 2 Title", "default": "3D Modeling" },
-        { "type": "text", "id": "step_desc_2", "label": "Step 2 Description" },
-        { "type": "text", "id": "step_title_3", "label": "Step 3 Title", "default": "Precision Printing" },
-        { "type": "text", "id": "step_desc_3", "label": "Step 3 Description" },
-        { "type": "text", "id": "step_title_4", "label": "Step 4 Title", "default": "Hand Finishing" },
-        { "type": "text", "id": "step_desc_4", "label": "Step 4 Description" },
-        { "type": "text", "id": "step_title_5", "label": "Step 5 Title" },
-        { "type": "text", "id": "step_desc_5", "label": "Step 5 Description" }
+        { "type": "text", "id": "label", "label": "Button Label", "default": "Read More" },
+        { "type": "url", "id": "link", "label": "Button Link" }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Product Story",
+      "name": "Product Story Brutal",
       "blocks": [
         { "type": "media" },
-        { "type": "story" },
-        { "type": "feature_list" },
-        { "type": "metrics_container" },
-        { "type": "process_timeline" }
+        { "type": "header" },
+        { "type": "text" },
+        { "type": "stats" },
+        { "type": "button" }
       ]
     }
   ]

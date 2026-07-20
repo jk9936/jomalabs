@@ -1,53 +1,63 @@
-<section class="section-print-carousel page-section">
-  <div class="print-carousel__inner">
+<section class="max-w-7xl mx-auto px-4 py-16 md:py-24">
+  <div class="flex flex-col items-center gap-12">
     {% if section.settings.heading != blank %}
-      <h2 class="print-carousel__heading font-serif text-center" style="text-align: center;">{{ section.settings.heading | escape }}</h2>
+      <div class="w-full h-8 bg-text-dark flex items-center px-3 border-b-3 border-text-dark justify-between max-w-[800px]">
+        <span class="font-mono text-xs font-bold text-surface">SYS.CAROUSEL_VIEWER</span>
+        <div class="flex gap-2">
+          <div class="w-3 h-3 bg-cyan-accent border-2 border-text-dark"></div>
+          <div class="w-3 h-3 bg-magenta-accent border-2 border-text-dark"></div>
+          <div class="w-3 h-3 bg-primary border-2 border-text-dark"></div>
+        </div>
+      </div>
+      <h2 class="font-display font-bold text-4xl md:text-6xl uppercase leading-none text-text-dark text-center -mt-8">
+        {{ section.settings.heading | escape }}
+      </h2>
     {% endif %}
 
-    <print-carousel class="print-carousel" data-blocks-count="{{ section.blocks.size }}">
+    <print-carousel class="w-full max-w-[800px] flex flex-col items-center gap-8" data-blocks-count="{{ section.blocks.size }}">
       
       <!-- Main Highlight Frame -->
-      <div class="print-carousel__frame-wrapper">
-        <div class="print-carousel__frame">
-          <div class="print-carousel__main-image-container">
+      <div class="w-full flex flex-col items-center gap-6">
+        <div class="print-carousel__frame w-full aspect-square max-w-[500px] border-3 border-text-dark bg-background-light p-4 md:p-6 shadow-brutalist relative overflow-hidden">
+          <div class="w-full h-full relative border-3 border-text-dark bg-surface overflow-hidden">
             {%- for block in section.blocks -%}
               {%- assign product = block.settings.product -%}
               {%- if product != blank -%}
                 <img 
                   src="{{ product.featured_image | image_url: width: 800 }}" 
                   alt="{{ product.title | escape }}"
-                  class="print-carousel__main-image {% if forloop.first %}is-active{% endif %}"
+                  class="absolute inset-0 w-full h-full object-cover opacity-0 invisible transition-all duration-300 print-carousel__main-image {% if forloop.first %}is-active opacity-100 visible filter hover:brightness-110{% endif %}"
                   data-index="{{ forloop.index0 }}"
                   loading="lazy"
                 >
               {%- endif -%}
             {%- endfor -%}
             {%- if section.blocks.size == 0 -%}
-              <div class="print-carousel__placeholder">
-                {{ 'product-1' | placeholder_svg_tag }}
+              <div class="w-full h-full flex items-center justify-center bg-surface">
+                {{ 'product-1' | placeholder_svg_tag: 'w-1/2 h-1/2 opacity-20' }}
               </div>
             {%- endif -%}
           </div>
           {% if section.blocks.size > 1 %}
-            <button class="print-carousel__arrow print-carousel__arrow--prev" aria-label="Previous">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            <button class="print-carousel__arrow print-carousel__arrow--prev absolute top-1/2 -translate-y-1/2 left-0 -ml-4 md:ml-4 w-12 h-12 bg-yellow-accent border-3 border-text-dark flex items-center justify-center text-text-dark hover:bg-surface shadow-[4px_4px_0px_#111] hover:shadow-[0px_0px_0px_#111] hover:translate-x-1 hover:translate-y-1 transition-all z-10" aria-label="Previous">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </button>
-            <button class="print-carousel__arrow print-carousel__arrow--next" aria-label="Next">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            <button class="print-carousel__arrow print-carousel__arrow--next absolute top-1/2 -translate-y-1/2 right-0 -mr-4 md:mr-4 w-12 h-12 bg-yellow-accent border-3 border-text-dark flex items-center justify-center text-text-dark hover:bg-surface shadow-[4px_4px_0px_#111] hover:shadow-[0px_0px_0px_#111] hover:translate-x-1 hover:translate-y-1 transition-all z-10" aria-label="Next">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
           {% endif %}
         </div>
         
         <!-- Active Print Name -->
-        <div class="print-carousel__info text-center" style="text-align: center;">
+        <div class="print-carousel__info text-center bg-text-dark text-white border-3 border-text-dark px-6 py-3 w-full max-w-[500px] shadow-brutalist">
           {%- for block in section.blocks -%}
             {%- assign product = block.settings.product -%}
             {%- if product != blank -%}
               <h3 
-                class="print-carousel__title font-serif {% if forloop.first %}is-active{% endif %}"
+                class="print-carousel__title font-mono text-sm md:text-base font-bold uppercase tracking-widest hidden {% if forloop.first %}!block{% endif %}"
                 data-index="{{ forloop.index0 }}"
               >
-                {{ product.title | escape }}
+                >>> {{ product.title | escape }}
               </h3>
             {%- endif -%}
           {%- endfor -%}
@@ -57,156 +67,6 @@
     </print-carousel>
   </div>
 </section>
-
-{% style %}
-  .section-print-carousel {
-    background-color: var(--color-surface-container-low);
-    padding: 96px var(--space-margin-mobile);
-  }
-  @media (min-width: 768px) {
-    .section-print-carousel {
-      padding: 120px var(--space-margin-desktop);
-    }
-  }
-
-  .print-carousel__heading {
-    margin: 0 0 48px 0;
-    font-size: var(--text-display-lg);
-    color: var(--color-primary);
-  }
-  
-  .print-carousel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .print-carousel__frame-wrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 32px;
-  }
-
-  .print-carousel__frame {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    max-width: 500px;
-    background-color: var(--color-surface);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: var(--shadow-modal);
-    border: 1px solid rgba(24, 36, 27, 0.05);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .print-carousel__main-image-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    border-radius: 4px;
-    overflow: hidden;
-    background-color: var(--color-surface-dim);
-  }
-
-  .print-carousel__main-image {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-  }
-  .print-carousel__main-image.is-active {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .print-carousel__placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .print-carousel__placeholder svg {
-    width: 50%;
-    height: 50%;
-    fill: rgba(0,0,0,0.1);
-  }
-
-  .print-carousel__arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 44px;
-    height: 44px;
-    background-color: rgba(255, 255, 255, 0.95);
-    border: none;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(24, 36, 27, 0.1);
-    color: var(--color-primary);
-    z-index: 10;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-  }
-  .print-carousel__arrow:hover {
-    background-color: #fff;
-    transform: translateY(-50%) scale(1.05);
-  }
-  .print-carousel__arrow--prev {
-    left: 32px;
-  }
-  .print-carousel__arrow--next {
-    right: 32px;
-  }
-
-  .print-carousel__title {
-    font-size: 28px;
-    color: var(--color-primary);
-    margin: 0;
-    display: none;
-    font-style: italic;
-  }
-  .print-carousel__title.is-active {
-    display: block;
-    animation: fadeIn 0.5s ease;
-  }
-
-  @media (max-width: 767px) {
-    .print-carousel__heading {
-      font-size: var(--text-headline-lg);
-    }
-    .print-carousel__frame {
-      aspect-ratio: 4 / 5;
-      padding: 12px;
-    }
-    .print-carousel__title {
-      font-size: 24px;
-    }
-    .print-carousel__arrow {
-      width: 36px;
-      height: 36px;
-      box-shadow: 0 2px 8px rgba(24, 36, 27, 0.15);
-    }
-    .print-carousel__arrow--prev {
-      left: 20px;
-    }
-    .print-carousel__arrow--next {
-      right: 20px;
-    }
-  }
-{% endstyle %}
 
 <script>
   if (!customElements.get('print-carousel')) {
@@ -265,11 +125,19 @@
       }
       
       updateView() {
-        this.images.forEach(el => el.classList.remove('is-active'));
-        this.titles.forEach(el => el.classList.remove('is-active'));
+        this.images.forEach(el => {
+          el.classList.remove('is-active', 'opacity-100', 'visible', 'filter', 'hover:brightness-110');
+          el.classList.add('opacity-0', 'invisible');
+        });
+        this.titles.forEach(el => el.classList.remove('!block'));
         
-        if (this.images[this.currentIndex]) this.images[this.currentIndex].classList.add('is-active');
-        if (this.titles[this.currentIndex]) this.titles[this.currentIndex].classList.add('is-active');
+        if (this.images[this.currentIndex]) {
+          this.images[this.currentIndex].classList.remove('opacity-0', 'invisible');
+          this.images[this.currentIndex].classList.add('is-active', 'opacity-100', 'visible', 'filter', 'hover:brightness-110');
+        }
+        if (this.titles[this.currentIndex]) {
+          this.titles[this.currentIndex].classList.add('!block');
+        }
       }
     }
     customElements.define('print-carousel', PrintCarousel);

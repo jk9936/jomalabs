@@ -4,8 +4,8 @@
   assign gallery_layout = section.settings.gallery_layout
   assign gallery_aspect_ratio = section.settings.gallery_aspect_ratio
   
-  assign bg_color = section.settings.bg_color | default: 'var(--color-background)'
-  assign text_color = section.settings.text_color | default: 'var(--color-on-surface)'
+  assign bg_color = section.settings.bg_color | default: 'var(--color-surface)'
+  assign text_color = section.settings.text_color | default: 'var(--color-text-dark)'
 -%}
 
 {%- style -%}
@@ -18,11 +18,11 @@
 
   .product-page-wrapper {
     width: 100%;
-    padding: 48px var(--space-margin-mobile) 96px;
+    padding: 32px 16px 96px;
   }
   @media (min-width: 768px) {
     .product-page-wrapper {
-      padding: 64px var(--space-margin-desktop) 128px;
+      padding: 48px 32px 128px;
     }
   }
 
@@ -37,24 +37,24 @@
   .product-page__grid {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 32px;
   }
   
   @media (min-width: 1024px) {
     .product-page__grid {
       flex-direction: row;
-      gap: 6%;
+      gap: 32px;
       align-items: flex-start;
     }
     
     .product-page__grid--5050 .product-gallery-col { width: 50%; }
-    .product-page__grid--5050 .product-info-col { width: 44%; }
+    .product-page__grid--5050 .product-info-col { width: 50%; }
     
     .product-page__grid--6040 .product-gallery-col { width: 60%; }
-    .product-page__grid--6040 .product-info-col { width: 34%; }
+    .product-page__grid--6040 .product-info-col { width: 40%; }
     
     .product-page__grid--6535 .product-gallery-col { width: 65%; }
-    .product-page__grid--6535 .product-info-col { width: 29%; }
+    .product-page__grid--6535 .product-info-col { width: 35%; }
     
     .product-gallery-col {
       position: sticky;
@@ -62,12 +62,30 @@
     }
   }
 
-  /* Gallery Media */
+  /* Gallery Media Brutalist */
   .product-media-item {
     width: 100%;
-    border-radius: var(--radius);
+    border: 3px solid #111;
     overflow: hidden;
-    background: rgba(0,0,0,0.03);
+    background: #fff;
+    box-shadow: 6px 6px 0px #111;
+    position: relative;
+  }
+  
+  /* System Bar on Images */
+  .product-media-item::before {
+    content: "IMAGE_DATA.RAW";
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    width: 100%;
+    height: 32px;
+    background: #111;
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: bold;
+    border-bottom: 3px solid #111;
   }
   
   .product-media-item img {
@@ -76,6 +94,7 @@
     max-width: 100%;
     object-fit: cover;
     display: block;
+    filter: drop-shadow(4px 4px 0px rgba(0,0,0,1)); /* Hard shadow on object if PNG */
   }
   
   .aspect--square img { aspect-ratio: 1 / 1; height: 100%; }
@@ -87,7 +106,7 @@
   .gallery-layout--stacked {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 32px;
   }
 
   /* Carousel Gallery */
@@ -97,76 +116,94 @@
   }
   .carousel__track {
     display: flex;
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: transform 0s; /* Brutalist Snap */
+  }
+  .carousel__track.is-animating {
+    transition: transform 0.2s cubic-bezier(0,0,0,1);
   }
   .carousel__slide {
     min-width: 100%;
     width: 100%;
     flex-shrink: 0;
+    padding-right: 16px;
   }
   .carousel__nav {
     display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 16px;
+    gap: 12px;
+    margin-top: 24px;
     flex-wrap: wrap;
   }
   .carousel__thumb {
-    width: 60px;
-    height: 60px;
-    border-radius: 8px;
-    border: 2px solid transparent;
+    width: 64px;
+    height: 64px;
+    border: 3px solid #111;
+    background: #fff;
     cursor: pointer;
     overflow: hidden;
-    transition: border-color 0.2s, opacity 0.2s;
-    opacity: 0.6;
     padding: 0;
-    background: transparent;
+    box-shadow: 2px 2px 0px #111;
   }
   .carousel__thumb img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-  .carousel__thumb.is-active, .carousel__thumb:hover {
-    border-color: var(--color-primary);
-    opacity: 1;
+  .carousel__thumb.is-active, .carousel__thumb:active {
+    box-shadow: 0px 0px 0px #111;
+    transform: translate(2px, 2px);
+    border-color: var(--color-cyan-accent, #00ffff);
   }
 
-  /* Info Column */
+  /* Info Column Brutalist */
   .product-info-col {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 24px;
+    border: 3px solid #111;
+    padding: 32px;
+    background: #fff;
+    box-shadow: 6px 6px 0px #111;
   }
   
   .product-block {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
   }
   
   .product__vendor {
-    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    font-weight: 600;
-    opacity: 0.7;
-    margin-bottom: -16px;
+    font-weight: 700;
+    color: #111;
+    border: 2px solid #111;
+    padding: 4px 8px;
+    display: inline-block;
+    align-self: flex-start;
   }
   
   .product__title {
-    font-family: var(--font-serif);
-    font-size: clamp(32px, 4vw, 48px);
-    line-height: 1.1;
-    font-weight: 600;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(32px, 4vw, 56px);
+    line-height: 1;
+    font-weight: 700;
+    text-transform: uppercase;
     margin: 0;
+    color: #111;
   }
   
   .product__price {
-    font-size: 24px;
-    font-weight: 500;
-    color: var(--color-primary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 32px;
+    font-weight: 700;
+    color: #111;
+    background: var(--color-cyan-accent, #0ff);
+    padding: 8px 16px;
+    border: 3px solid #111;
+    display: inline-block;
+    align-self: flex-start;
   }
   
   .product__badges {
@@ -175,31 +212,40 @@
     gap: 8px;
   }
   .product__badge {
-    background: rgba(100, 100, 100, 0.1);
-    padding: 6px 12px;
-    border-radius: 100px;
+    background: #111;
+    color: #fff;
+    padding: 4px 12px;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
   }
   
   .product__desc {
-    font-size: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
     line-height: 1.6;
-    opacity: 0.85;
+    font-weight: 500;
+    color: #111;
+    border-left: 4px solid #111;
+    padding-left: 16px;
+    background: #f4f4f4;
+    padding: 16px;
   }
 
-  /* Variant Pills */
+  /* Variant Pills Brutalist */
   .variant-fieldset {
     border: none;
     padding: 0;
     margin: 0 0 24px 0;
   }
   .variant-fieldset legend {
+    font-family: 'JetBrains Mono', monospace;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
+    text-transform: uppercase;
     margin-bottom: 12px;
+    color: #111;
   }
   .variant-pills {
     display: flex;
@@ -214,71 +260,84 @@
   }
   .variant-pill label {
     display: inline-block;
-    padding: 10px 20px;
-    border: 1px solid rgba(100, 100, 100, 0.3);
-    border-radius: 100px;
+    padding: 12px 24px;
+    border: 3px solid #111;
+    background: #fff;
     cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s ease;
+    font-weight: 700;
+    text-transform: uppercase;
+    box-shadow: 4px 4px 0px #111;
+    transition: all 0.1s;
   }
   .variant-pill input[type="radio"]:checked + label {
-    background: var(--color-primary);
-    color: var(--color-on-primary);
-    border-color: var(--color-primary);
+    background: #111;
+    color: #fff;
+    box-shadow: 0px 0px 0px #111;
+    transform: translate(4px, 4px);
   }
   .variant-pill input[type="radio"]:focus-visible + label {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
+    outline: 2px dashed #111;
+    outline-offset: 4px;
   }
 
   .add-to-cart-wrapper {
-    margin-top: 8px;
+    margin-top: 16px;
   }
   .btn-cart {
     width: 100%;
-    padding: 18px 24px;
-    background: var(--color-primary);
-    color: var(--color-on-primary);
-    border-radius: var(--radius);
-    font-size: 16px;
-    font-weight: 600;
-    border: none;
+    padding: 20px 24px;
+    background: var(--color-magenta-accent, #f0f);
+    color: #111;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: 3px solid #111;
+    box-shadow: 6px 6px 0px #111;
     cursor: pointer;
-    transition: opacity 0.3s, transform 0.2s;
+    transition: all 0.1s;
   }
-  .btn-cart:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
+  .btn-cart:active {
+    box-shadow: 0px 0px 0px #111;
+    transform: translate(6px, 6px);
   }
   .btn-cart:disabled {
     background: #ccc;
+    color: #666;
+    box-shadow: 0px 0px 0px #111;
+    transform: translate(6px, 6px);
     cursor: not-allowed;
-    transform: none;
   }
 
-  /* Specifications */
+  /* Specifications Brutalist */
   .product__specs {
-    border-top: 1px solid rgba(100, 100, 100, 0.2);
+    border-top: 3px solid #111;
     padding-top: 24px;
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
   .spec-row {
     display: flex;
     justify-content: space-between;
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(100, 100, 100, 0.1);
+    padding: 12px;
+    background: #111;
+    color: #fff;
   }
   .spec-label {
-    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    opacity: 0.7;
-    font-weight: 600;
+    font-weight: 700;
   }
   .spec-value {
-    font-family: var(--font-serif);
-    font-size: 16px;
-    font-weight: 500;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-yellow-accent, #ff0);
   }
 {%- endstyle -%}
 
@@ -327,13 +386,22 @@
 
       <!-- INFO COLUMN -->
       <div class="product-info-col">
+        <div class="w-full h-8 bg-text-dark flex items-center px-3 justify-between -mt-8 -mx-8 mb-4 shrink-0" style="width: calc(100% + 64px);">
+          <span class="font-mono text-xs font-bold text-surface">PRODUCT_SYS.EXE</span>
+          <div class="flex gap-2">
+            <div class="w-3 h-3 bg-cyan-accent border-2 border-text-dark"></div>
+            <div class="w-3 h-3 bg-magenta-accent border-2 border-text-dark"></div>
+            <div class="w-3 h-3 bg-primary border-2 border-text-dark"></div>
+          </div>
+        </div>
+
         {% for block in section.blocks %}
           <div class="product-block product-block--{{ block.type }}" {{ block.shopify_attributes }}>
             
             {% case block.type %}
               
               {% when 'vendor' %}
-                <div class="product__vendor">{{ product.vendor | escape }}</div>
+                <div class="product__vendor">MFR: {{ product.vendor | escape }}</div>
               
               {% when 'title' %}
                 <h1 class="product__title">{{ product.title | escape }}</h1>
@@ -347,13 +415,14 @@
                 {% if product.tags.size > 0 %}
                   <div class="product__badges">
                     {% for tag in product.tags limit: 4 %}
-                      <span class="product__badge">{{ tag | escape }}</span>
+                      <span class="product__badge">[{{ tag | escape }}]</span>
                     {% endfor %}
                   </div>
                 {% endif %}
                 
               {% when 'description' %}
                 <div class="product__desc">
+                  <span class="font-bold mb-2 block">>>> SYSTEM_LOG:</span>
                   {{ product.description }}
                 </div>
                 
@@ -366,7 +435,7 @@
                     {%- unless product.has_only_default_variant -%}
                       {%- for option in product.options_with_values -%}
                         <fieldset class="variant-fieldset">
-                          <legend>{{ option.name }}</legend>
+                          <legend>SELECT {{ option.name }}</legend>
                           <div class="variant-pills">
                             {%- for value in option.values -%}
                               <div class="variant-pill">
@@ -396,9 +465,9 @@
                         {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}
                       >
                         {%- if product.selected_or_first_available_variant.available -%}
-                          Add to Cart
+                          EXECUTE [ADD TO CART]
                         {%- else -%}
-                          Sold Out
+                          ERR: OUT_OF_STOCK
                         {%- endif -%}
                       </button>
                     </div>
@@ -450,7 +519,10 @@
         thumb.addEventListener('click', (e) => {
           const index = e.currentTarget.dataset.index;
           const slideWidth = track.parentElement.clientWidth;
+          
+          track.classList.add('is-animating');
           track.style.transform = `translateX(-${index * slideWidth}px)`;
+          setTimeout(() => track.classList.remove('is-animating'), 200);
           
           thumbs.forEach(t => t.classList.remove('is-active'));
           e.currentTarget.classList.add('is-active');
@@ -503,14 +575,14 @@
           
           if (matchedVariant.available) {
             submitBtn.disabled = false;
-            submitBtn.textContent = 'Add to Cart';
+            submitBtn.textContent = 'EXECUTE [ADD TO CART]';
           } else {
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Sold Out';
+            submitBtn.textContent = 'ERR: OUT_OF_STOCK';
           }
         } else {
           submitBtn.disabled = true;
-          submitBtn.textContent = 'Unavailable';
+          submitBtn.textContent = 'ERR: UNAVAILABLE';
         }
       });
     });
@@ -581,13 +653,13 @@
       "type": "color",
       "id": "bg_color",
       "label": "Background Color",
-      "default": "#fbf2eb"
+      "default": "#f4f4f4"
     },
     {
       "type": "color",
       "id": "text_color",
       "label": "Text Color",
-      "default": "#1f1b17"
+      "default": "#111111"
     }
   ],
   "blocks": [
