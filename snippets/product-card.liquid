@@ -33,7 +33,7 @@
     <a href="{{ product_url }}" class="block brutalist-border rounded-sm overflow-hidden mb-3 aspect-square md:aspect-video bg-background-light relative group" aria-label="{{ product_title }}">
       {%- if featured_image -%}
         <img
-          class="w-full h-full object-cover threshold-filter transition-transform duration-300 group-hover:scale-105"
+          class="w-full h-full object-cover {% if template.name == 'index' %}threshold-filter{% endif %} transition-transform duration-300 group-hover:scale-105"
           src="{{ featured_image | image_url: width: 600 }}"
           alt="{{ featured_image.alt | default: product_title | escape }}"
           width="600"
