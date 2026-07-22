@@ -41,7 +41,23 @@
                 }
               }
             </style>
-            <img src="{{ media_block.settings.image | image_url: width: 1000 }}" alt="{{ media_block.settings.image.alt | escape }}" class="story-img w-full object-cover border-3 border-text-dark filter hover:brightness-110 shadow-brutalist group-hover:-translate-y-2 group-hover:translate-x-2 transition-transform" loading="lazy">
+            <img
+              srcset="
+                {{ media_block.settings.image | image_url: width: 400 }} 400w,
+                {{ media_block.settings.image | image_url: width: 600 }} 600w,
+                {{ media_block.settings.image | image_url: width: 800 }} 800w,
+                {{ media_block.settings.image | image_url: width: 1000 }} 1000w,
+                {{ media_block.settings.image | image_url: width: 1200 }} 1200w,
+                {{ media_block.settings.image | image_url: width: 1600 }} 1600w
+              "
+              src="{{ media_block.settings.image | image_url: width: 1000 }}"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              alt="{{ media_block.settings.image.alt | default: '' | escape }}"
+              width="{{ media_block.settings.image.width | default: 1000 }}"
+              height="{{ media_block.settings.image.height | default: 750 }}"
+              class="story-img w-full object-cover border-3 border-text-dark filter hover:brightness-110 shadow-brutalist group-hover:-translate-y-2 group-hover:translate-x-2 transition-transform"
+              loading="lazy"
+            >
           {%- endif -%}
         {%- else -%}
           <div class="w-full h-[400px] border-3 border-text-dark flex items-center justify-center font-mono font-bold text-text-dark bg-yellow-accent shadow-brutalist">

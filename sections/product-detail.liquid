@@ -355,7 +355,7 @@
                 {% for media in product.media %}
                   <div class="carousel__slide">
                     <div class="product-media-item aspect--{{ gallery_aspect_ratio }}">
-                      {{ media | image_url: width: 1400 | image_tag: loading: 'eager' }}
+                      {{ media | image_url: width: 1400 | image_tag: loading: 'eager', widths: '375, 550, 750, 1100, 1400, 1800', sizes: '(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 50vw' }}
                     </div>
                   </div>
                 {% endfor %}
@@ -366,7 +366,7 @@
               <div class="carousel__nav" id="carousel-nav">
                 {% for media in product.media %}
                   <button class="carousel__thumb {% if forloop.first %}is-active{% endif %}" data-index="{{ forloop.index0 }}" aria-label="Go to slide {{ forloop.index }}">
-                    {{ media | image_url: width: 150 | image_tag: loading: 'lazy' }}
+                    {{ media | image_url: width: 150 | image_tag: loading: 'lazy', widths: '100, 150, 200, 300', sizes: '100px' }}
                   </button>
                 {% endfor %}
               </div>
@@ -376,7 +376,7 @@
             <!-- Stacked Layout -->
             {% for media in product.media %}
               <div class="product-media-item aspect--{{ gallery_aspect_ratio }}">
-                {{ media | image_url: width: 1400 | image_tag: loading: 'lazy' }}
+                {{ media | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '375, 550, 750, 1100, 1400, 1800', sizes: '(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 50vw' }}
               </div>
             {% endfor %}
           {% endif %}

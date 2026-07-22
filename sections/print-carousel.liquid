@@ -37,8 +37,17 @@
               {%- assign product = block.settings.product -%}
               {%- if product != blank -%}
                 <img 
+                  srcset="
+                    {{ product.featured_image | image_url: width: 350 }} 350w,
+                    {{ product.featured_image | image_url: width: 500 }} 500w,
+                    {{ product.featured_image | image_url: width: 750 }} 750w,
+                    {{ product.featured_image | image_url: width: 1000 }} 1000w
+                  "
                   src="{{ product.featured_image | image_url: width: 800 }}" 
+                  sizes="(max-width: 640px) 90vw, 500px"
                   alt="{{ product.title | escape }}"
+                  width="{{ product.featured_image.width | default: 800 }}"
+                  height="{{ product.featured_image.height | default: 800 }}"
                   class="absolute inset-0 w-full h-full object-cover opacity-0 invisible transition-all duration-300 print-carousel__main-image {% if forloop.first %}is-active opacity-100 visible filter hover:brightness-110{% endif %}"
                   data-index="{{ forloop.index0 }}"
                   loading="lazy"

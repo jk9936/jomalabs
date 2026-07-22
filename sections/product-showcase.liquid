@@ -52,10 +52,19 @@
               </style>
               <img
                 class="showcase-img w-full object-cover filter hover:brightness-110 transition-all"
+                srcset="
+                  {{ image | image_url: width: 400 }} 400w,
+                  {{ image | image_url: width: 600 }} 600w,
+                  {{ image | image_url: width: 800 }} 800w,
+                  {{ image | image_url: width: 1000 }} 1000w,
+                  {{ image | image_url: width: 1200 }} 1200w,
+                  {{ image | image_url: width: 1600 }} 1600w
+                "
                 src="{{ image | image_url: width: 1200 }}"
+                sizes="(max-width: 768px) 100vw, 50vw"
                 alt="{{ image.alt | default: title | escape }}"
-                width="1200"
-                height="900"
+                width="{{ image.width | default: 1200 }}"
+                height="{{ image.height | default: 900 }}"
                 loading="lazy"
               >
             {%- endif -%}

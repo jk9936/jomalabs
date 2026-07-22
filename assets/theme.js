@@ -153,6 +153,7 @@
     }
 
     var html = cart.items.map(function (item) {
+      var itemImg = getSizedImageUrl(item.image, 200);
       return [
         '<div class="stack-item bg-surface brutalist-border rounded-sm shadow-brutalist flex flex-col overflow-hidden m-4">',
         '  <div class="bg-text-dark text-surface px-2 py-1 flex justify-between items-center border-b-3 border-text-dark">',
@@ -160,7 +161,7 @@
         '  </div>',
         '  <div class="p-3 flex gap-4">',
         '    <div class="brutalist-border rounded-sm overflow-hidden w-20 h-20 shrink-0 bg-background-light">',
-        '      <img class="w-full h-full object-cover threshold-filter" src="' + escapeHtml(item.image || '') + '" alt="' + escapeHtml(item.product_title) + '" loading="lazy">',
+        '      <img class="w-full h-full object-cover threshold-filter" src="' + escapeHtml(itemImg) + '" alt="' + escapeHtml(item.product_title) + '" width="80" height="80" loading="lazy">',
         '    </div>',
         '    <div class="flex flex-col flex-1">',
         '      <h4 class="font-display font-bold uppercase leading-tight">' + escapeHtml(item.product_title) + '</h4>',
@@ -180,6 +181,15 @@
     });
 
     itemsWrap.innerHTML = html.join('');
+  }
+
+  function getSizedImageUrl(url, width) {
+    if (!url) return '';
+    width = width || 200;
+    if (url.indexOf('?') !== -1) {
+      return url + '&width=' + width;
+    }
+    return url + '?width=' + width;
   }
 
   function formatMoney(cents) {

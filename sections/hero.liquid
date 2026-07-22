@@ -83,9 +83,24 @@
           <!-- Image Graphic Block -->
           {%- if block.settings.image != blank -%}
             <div class="px-4 sm:px-8 py-4 flex" style="justify-content: {% if block.settings.alignment == 'center' %}center{% elsif block.settings.alignment == 'right' %}flex-end{% else %}flex-start{% endif %};" {{ block.shopify_attributes }}>
-              <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.image.alt | escape }}" 
-                   style="max-width: {{ block.settings.image_width }}%;"
-                   class="object-contain {% if block.settings.add_border %}brutalist-border rounded-sm shadow-brutalist{% endif %}">
+              <img
+                srcset="
+                  {{ block.settings.image | image_url: width: 350 }} 350w,
+                  {{ block.settings.image | image_url: width: 550 }} 550w,
+                  {{ block.settings.image | image_url: width: 750 }} 750w,
+                  {{ block.settings.image | image_url: width: 950 }} 950w,
+                  {{ block.settings.image | image_url: width: 1200 }} 1200w,
+                  {{ block.settings.image | image_url: width: 1600 }} 1600w
+                "
+                src="{{ block.settings.image | image_url: width: 800 }}"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                alt="{{ block.settings.image.alt | default: '' | escape }}" 
+                width="{{ block.settings.image.width | default: 800 }}"
+                height="{{ block.settings.image.height | default: 600 }}"
+                loading="lazy"
+                style="max-width: {{ block.settings.image_width }}%;"
+                class="object-contain {% if block.settings.add_border %}brutalist-border rounded-sm shadow-brutalist{% endif %}"
+              >
             </div>
           {%- endif -%}
 

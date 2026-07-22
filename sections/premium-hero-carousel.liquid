@@ -319,8 +319,20 @@
               <div class="phc-stage__product" style="--phc-image-scale: {{ block.settings.image_scale | divided_by: 100.0 }}; --phc-pos-x-desktop: {{ block.settings.pos_x }}px; --phc-pos-y-desktop: {{ block.settings.pos_y }}px; --phc-pos-x-mobile: {{ block.settings.pos_x_mobile }}px; --phc-pos-y-mobile: {{ block.settings.pos_y_mobile }}px; rotate: {{ block.settings.rotation }}deg;">
                 {% if block.settings.product_image %}
                   <img 
+                    srcset="
+                      {{ block.settings.product_image | image_url: width: 400 }} 400w,
+                      {{ block.settings.product_image | image_url: width: 600 }} 600w,
+                      {{ block.settings.product_image | image_url: width: 800 }} 800w,
+                      {{ block.settings.product_image | image_url: width: 1000 }} 1000w,
+                      {{ block.settings.product_image | image_url: width: 1200 }} 1200w,
+                      {{ block.settings.product_image | image_url: width: 1600 }} 1600w,
+                      {{ block.settings.product_image | image_url: width: 2000 }} 2000w
+                    "
                     src="{{ block.settings.product_image | image_url: width: 1200 }}" 
+                    sizes="(max-width: 768px) 90vw, (max-width: 1200px) 60vw, 50vw"
                     alt="{{ block.settings.heading | escape }}"
+                    width="{{ block.settings.product_image.width | default: 1200 }}"
+                    height="{{ block.settings.product_image.height | default: 1200 }}"
                     class="phc-stage__product-img threshold-filter"
                     loading="lazy"
                   >
