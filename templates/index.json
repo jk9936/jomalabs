@@ -114,16 +114,16 @@
             "desc_size_mobile": 14,
             "btn_text": "Discover More",
             "btn_url": "shopify://products/air-pods-case-x-the-great-wave",
-            "product_image": "shopify://shop_images/IMG_0299.png",
+            "product_image": "shopify://shop_images/ChatGPT_Image_Jul_23_2026_12_46_54_AM.png",
             "bg_color": "#2f8dff",
-            "accent_color": "#fcfcfc",
+            "accent_color": "#FAD263",
             "text_color": "#0b0b0b",
-            "image_scale": 200,
+            "image_scale": 85,
             "rotation": 4,
             "pos_x": -40,
-            "pos_y": -40,
+            "pos_y": 30,
             "pos_x_mobile": -5,
-            "pos_y_mobile": 25
+            "pos_y_mobile": 100
           }
         },
         "slide-1": {
