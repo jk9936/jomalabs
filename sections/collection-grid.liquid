@@ -11,21 +11,22 @@
   }
 </style>
 
-<div class="max-w-7xl mx-auto px-4 section-{{ section.id }}-padding">
-  <header class="border-b-3 border-text-dark pb-8 mb-12 flex flex-col items-start gap-4">
-    <span class="font-mono text-xs font-bold uppercase tracking-widest border-2 border-text-dark px-3 py-1 bg-background-light">SYSTEM.DIR // {{ section.settings.eyebrow | default: 'COLLECTION' | escape }}</span>
-    <h1 class="font-display font-bold text-5xl md:text-7xl uppercase leading-none tracking-tight text-text-dark">
-      {%- if collection.title != blank -%}
-        {{ collection.title | escape }}
-      {%- else -%}
-        {{ section.settings.title | escape }}
+<div class="w-full section-{{ section.id }}-padding" style="background-color: {{ section.settings.bg_color }};">
+  <div class="max-w-7xl mx-auto px-4">
+    <header class="border-b-3 pb-8 mb-12 flex flex-col items-start gap-4" style="border-color: {{ section.settings.text_color | default: '#111' }};">
+      <span class="font-mono text-xs font-bold uppercase tracking-widest border-2 px-3 py-1" style="background-color: {{ section.settings.accent_color }}; border-color: {{ section.settings.text_color | default: '#111' }}; color: #111;">SYSTEM.DIR // {{ section.settings.eyebrow | default: 'COLLECTION' | escape }}</span>
+      <h1 class="font-display font-bold text-5xl md:text-7xl uppercase leading-none tracking-tight" style="color: {{ section.settings.text_color }};">
+        {%- if collection.title != blank -%}
+          {{ collection.title | escape }}
+        {%- else -%}
+          {{ section.settings.title | escape }}
+        {%- endif -%}
+      </h1>
+      {%- assign coll_desc = collection.description | strip_html | truncate: 200 | default: section.settings.description -%}
+      {%- if coll_desc != blank -%}
+        <p class="font-mono text-sm md:text-base font-bold max-w-2xl mt-4" style="color: {{ section.settings.text_color }};">>>> {{ coll_desc | escape }}</p>
       {%- endif -%}
-    </h1>
-    {%- assign coll_desc = collection.description | strip_html | truncate: 200 | default: section.settings.description -%}
-    {%- if coll_desc != blank -%}
-      <p class="font-mono text-sm md:text-base font-bold text-text-dark max-w-2xl mt-4">>>> {{ coll_desc | escape }}</p>
-    {%- endif -%}
-  </header>
+    </header>
 
   {%- if collection.products.size > 0 -%}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="collection-grid">
@@ -52,11 +53,12 @@
       </nav>
     {%- endif -%}
   {%- else -%}
-    <div class="border-3 border-text-dark bg-yellow-accent p-12 text-center shadow-brutalist mt-12">
-      <p class="font-mono text-xl font-bold uppercase tracking-widest text-text-dark">ERR: NO_RECORDS_FOUND</p>
-      <p class="font-mono text-sm font-bold mt-2">No products exist in this directory.</p>
+    <div class="border-3 p-12 text-center shadow-brutalist mt-12" style="background-color: {{ section.settings.accent_color }}; border-color: {{ section.settings.text_color | default: '#111' }};">
+      <p class="font-mono text-xl font-bold uppercase tracking-widest" style="color: #111;">ERR: NO_RECORDS_FOUND</p>
+      <p class="font-mono text-sm font-bold mt-2" style="color: #111;">No products exist in this directory.</p>
     </div>
   {%- endif -%}
+  </div>
 </div>
 
 {% schema %}
@@ -85,6 +87,28 @@
       "id": "show_price",
       "label": "Show Price",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "transparent"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text & Border Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color (Badges/Errors)",
+      "default": "#ffdd57"
     },
     {
       "type": "select",
