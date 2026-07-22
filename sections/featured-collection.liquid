@@ -62,14 +62,14 @@
       <div class="flex lg:grid overflow-x-auto lg:overflow-x-visible snap-x snap-mandatory lg:snap-none gap-4 lg:gap-6 pb-6 lg:pb-0 hide-scrollbar desktop-grid">
         {%- if collection != blank and collection.products_count > 0 -%}
           {%- for product in collection.products limit: section.settings.products_to_show -%}
-            <div class="w-[calc(50%-8px)] md:w-[calc(33.333%-11px)] lg:w-auto flex-none snap-start relative">
+            <div class="w-[85%] sm:w-[calc(50%-8px)] md:w-[calc(33.333%-11px)] lg:w-auto flex-none snap-start relative">
               {% render 'product-card', product: product, image_position_x: section.settings.image_position_x, image_position_y: section.settings.image_position_y %}
             </div>
           {%- endfor -%}
         {%- else -%}
           <!-- Placeholder State -->
           {%- for i in (1..section.settings.products_to_show) -%}
-            <div class="w-[calc(50%-8px)] md:w-[calc(33.333%-11px)] lg:w-auto flex-none snap-start border-3 border-text-dark bg-surface shadow-brutalist flex flex-col">
+            <div class="w-[85%] sm:w-[calc(50%-8px)] md:w-[calc(33.333%-11px)] lg:w-auto flex-none snap-start border-3 border-text-dark bg-surface shadow-brutalist flex flex-col">
               <div class="w-full h-6 border-b-3 border-text-dark flex items-center justify-between px-2 bg-text-dark">
                 <span class="font-mono text-[10px] text-white">KEYBOARD.EXE</span>
               </div>
