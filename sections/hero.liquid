@@ -79,6 +79,25 @@
             </div>
           </div>
 
+        {%- when 'image' -%}
+          <!-- Image Graphic Block -->
+          {%- if block.settings.image != blank -%}
+            <div class="px-4 sm:px-8 py-4 flex" style="justify-content: {% if block.settings.alignment == 'center' %}center{% elsif block.settings.alignment == 'right' %}flex-end{% else %}flex-start{% endif %};" {{ block.shopify_attributes }}>
+              <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.image.alt | escape }}" 
+                   style="max-width: {{ block.settings.image_width }}%;"
+                   class="object-contain {% if block.settings.add_border %}brutalist-border rounded-sm shadow-brutalist{% endif %}">
+            </div>
+          {%- endif -%}
+
+        {%- when 'ascii' -%}
+          <!-- ASCII Art Block -->
+          <div class="px-4 sm:px-8 py-4 flex overflow-hidden" style="justify-content: {% if block.settings.alignment == 'center' %}center{% elsif block.settings.alignment == 'right' %}flex-end{% else %}flex-start{% endif %};" {{ block.shopify_attributes }}>
+            <pre class="font-mono leading-none whitespace-pre" style="color: {{ block.settings.text_color }}; font-size: {{ block.settings.size_mobile }}px;">
+              {{- block.settings.ascii_text -}}
+            </pre>
+          </div>
+
+
       {%- endcase -%}
     {%- endfor -%}
 
@@ -439,6 +458,82 @@
           "id": "text_color",
           "label": "Text Color",
           "default": "#111111"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image / Graphic",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "range",
+          "id": "image_width",
+          "label": "Max Width (%)",
+          "min": 10,
+          "max": 100,
+          "step": 5,
+          "default": 100
+        },
+        {
+          "type": "checkbox",
+          "id": "add_border",
+          "label": "Add Brutalist Border",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "center"
+        }
+      ]
+    },
+    {
+      "type": "ascii",
+      "name": "ASCII Art Divider",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "ascii_text",
+          "label": "ASCII Art",
+          "default": "  ___ ___ ___ \n |___|___|___|\n |___|___|___|\n |___|___|___|"
+        },
+        {
+          "type": "range",
+          "id": "size_mobile",
+          "min": 4,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "label": "Font Size",
+          "default": 10
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Color",
+          "default": "#111111"
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "center"
         }
       ]
     }
