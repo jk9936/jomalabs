@@ -9,9 +9,29 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+  .collection-grid-wrapper-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+    position: relative;
+    z-index: 1;
+  }
+  {%- if section.settings.bg_image != blank -%}
+  .collection-grid-wrapper-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('{{ section.settings.bg_image | image_url: width: 2000 }}');
+    background-size: cover;
+    background-position: center;
+    opacity: {{ section.settings.bg_image_opacity | divided_by: 100.0 }};
+    z-index: -1;
+  }
+  {%- endif -%}
 </style>
 
-<div class="w-full section-{{ section.id }}-padding" style="background-color: {{ section.settings.bg_color }};">
+<div class="w-full section-{{ section.id }}-padding collection-grid-wrapper-{{ section.id }}">
   <div class="max-w-7xl mx-auto px-4">
     <header class="border-b-3 pb-8 mb-12 flex flex-col items-start gap-4" style="border-color: {{ section.settings.text_color | default: '#111' }};">
       <span class="font-mono text-xs font-bold uppercase tracking-widest border-2 px-3 py-1" style="background-color: {{ section.settings.accent_color }}; border-color: {{ section.settings.text_color | default: '#111' }}; color: #111;">SYSTEM.DIR // {{ section.settings.eyebrow | default: 'COLLECTION' | escape }}</span>
@@ -98,6 +118,21 @@
       "id": "bg_color",
       "label": "Background Color",
       "default": "transparent"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "range",
+      "id": "bg_image_opacity",
+      "label": "Background Image Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
     },
     {
       "type": "color",
