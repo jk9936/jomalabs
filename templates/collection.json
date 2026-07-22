@@ -1,12 +1,34 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "collection-grid",
       "settings": {
         "eyebrow": "The Gallery",
-        "show_price": true
+        "title": "All Products",
+        "description": "",
+        "show_price": true,
+        "bg_color": "rgba(0,0,0,0)",
+        "bg_image": "shopify://shop_images/graffiti-on-red-wall.jpg",
+        "bg_image_opacity": 90,
+        "text_color": "#FAF5F8",
+        "accent_color": "#FFDD57",
+        "image_position_x": 16,
+        "image_position_y": 53,
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
