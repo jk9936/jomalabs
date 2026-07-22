@@ -1,15 +1,45 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "product-detail",
       "blocks": {
-        "vendor": { "type": "vendor" },
-        "title": { "type": "title" },
-        "price": { "type": "price" },
-        "badges": { "type": "badges" },
-        "form": { "type": "form" },
-        "description": { "type": "description" },
-        "specs": { "type": "specs" }
+        "vendor": {
+          "type": "vendor",
+          "settings": {}
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "badges": {
+          "type": "badges",
+          "settings": {}
+        },
+        "form": {
+          "type": "form",
+          "settings": {}
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "specs": {
+          "type": "specs",
+          "settings": {}
+        }
       },
       "block_order": [
         "vendor",
@@ -25,10 +55,12 @@
         "layout_split": "6040",
         "gallery_layout": "carousel",
         "gallery_aspect_ratio": "square",
-        "bg_color": "#fbf2eb",
-        "text_color": "#1f1b17"
+        "bg_color": "#F59ED2",
+        "text_color": "#FFDD57"
       }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }

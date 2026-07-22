@@ -22,6 +22,8 @@
           "type": "subheading",
           "settings": {
             "text": "LIMITED RUN",
+            "size_desktop": 12,
+            "size_mobile": 10,
             "alignment": "left"
           }
         },
@@ -29,6 +31,8 @@
           "type": "headline",
           "settings": {
             "text": "Manifesting\nIdeas in\nreal time,",
+            "size_desktop": 72,
+            "size_mobile": 48,
             "text_color": "#111111",
             "alignment": "left"
           }
@@ -38,6 +42,8 @@
           "settings": {
             "text": "Bring main charecter engery to your life with custom and limited 3D prints",
             "show_prefix": true,
+            "size_desktop": 16,
+            "size_mobile": 14,
             "alignment": "left"
           }
         },
@@ -45,6 +51,8 @@
           "type": "marquee",
           "settings": {
             "text": "WARNING // STOCK EXTREMELY LOW //",
+            "size_desktop": 20,
+            "size_mobile": 18,
             "bg_color": "#ffdd57",
             "text_color": "#111111"
           }
@@ -83,10 +91,11 @@
         "window_width": 1200,
         "border_color": "#111111",
         "border_width": 0,
-        "shadow_color": "#0C0B0B",
+        "shadow_color": "#0c0b0b",
         "header_bg": "#111111",
         "header_text": "#fbf2eb",
         "transparent_window": false,
+        "padding_bottom": 0,
         "window_rotation": 0
       }
     },
@@ -136,20 +145,21 @@
         "slide_hWeRUg": {
           "type": "slide",
           "settings": {
-            "subheading": "Introducing",
-            "heading": "The New Standard.",
-            "description": "<p>A premium design experience built seamlessly into your store.</p>",
+            "subheading": "Cute",
+            "heading": "Hang in there Kitto!",
+            "description": "",
             "btn_text": "Discover More",
-            "btn_url": "",
-            "bg_color": "#f4f4f4",
-            "accent_color": "#e1e1e1",
+            "btn_url": "shopify://products/hanging-in-there-kitto",
+            "product_image": "shopify://shop_images/IMG_4791.heic",
+            "bg_color": "#FFDD57",
+            "accent_color": "#F59ED2",
             "text_color": "#111111",
             "image_scale": 100,
             "rotation": 0,
             "pos_x": 0,
             "pos_y": 0,
             "pos_x_mobile": 0,
-            "pos_y_mobile": 0
+            "pos_y_mobile": 50
           }
         },
         "slide_KXfDg3": {
@@ -162,7 +172,7 @@
             "btn_url": "",
             "product_image": "shopify://shop_images/IMG_4679.png",
             "bg_color": "#83169c",
-            "accent_color": "#E83EA4",
+            "accent_color": "#e83ea4",
             "text_color": "#ffcf10",
             "image_scale": 100,
             "rotation": 0,
