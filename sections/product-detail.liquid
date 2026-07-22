@@ -426,6 +426,16 @@
                   {{ product.description }}
                 </div>
                 
+              {% when 'whatsapp_request' %}
+                <div class="product__whatsapp">
+                  {%- assign wa_num = block.settings.whatsapp_number | replace: ' ', '' | replace: '+', '' | replace: '-', '' -%}
+                  {%- capture default_wa_link -%}https://wa.me/{{ wa_num }}?text=I'm%20interested%20in%20{{ product.title | url_param_escape }}%20-%20{{ shop.url }}{{ product.url }}{%- endcapture -%}
+                  
+                  <a href="{% if wa_num != blank %}{{ default_wa_link }}{% else %}#{% endif %}" class="btn-brutalist block w-full text-center bg-yellow-accent border-3 border-text-dark shadow-brutalist rounded-sm py-3 font-display font-bold uppercase tracking-wider text-text-dark hover:bg-surface transition-colors" target="_blank" rel="noopener noreferrer">
+                    {{ block.settings.button_text | default: 'Request This' }}
+                  </a>
+                </div>
+                
               {% when 'form' %}
                 <div class="product__form-block">
                   {%- form 'product', product, id: 'product-form-main', class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
@@ -698,6 +708,25 @@
       "name": "Description",
       "limit": 1,
       "settings": []
+    },
+    {
+      "type": "whatsapp_request",
+      "name": "WhatsApp Request Button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "REQUEST THIS"
+        },
+        {
+          "type": "text",
+          "id": "whatsapp_number",
+          "label": "WhatsApp Business Number",
+          "info": "Include country code without '+' (e.g., 1234567890)"
+        }
+      ]
     },
     {
       "type": "specs",
