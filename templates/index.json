@@ -95,8 +95,8 @@
         "header_bg": "#111111",
         "header_text": "#fbf2eb",
         "transparent_window": false,
-        "padding_bottom": 0,
-        "window_rotation": 0
+        "padding_bottom": 76,
+        "window_rotation": -4
       }
     },
     "premium-hero": {
@@ -107,7 +107,11 @@
           "settings": {
             "subheading": "",
             "heading": "Air Pods X TheGreatWave",
+            "heading_size_desktop": 64,
+            "heading_size_mobile": 32,
             "description": "<p>Snappy and Snug fit designed for all airpod pro version, accepting custom request as well.</p>",
+            "desc_size_desktop": 14,
+            "desc_size_mobile": 14,
             "btn_text": "Discover More",
             "btn_url": "shopify://products/air-pods-case-x-the-great-wave",
             "product_image": "shopify://shop_images/IMG_0299.png",
@@ -127,7 +131,11 @@
           "settings": {
             "subheading": "The Fossil Collection",
             "heading": "DF-1 : TREX",
+            "heading_size_desktop": 64,
+            "heading_size_mobile": 32,
             "description": "<p>Scaled from real skull of a TREX to fit in your home space, clean and crisp print</p>",
+            "desc_size_desktop": 14,
+            "desc_size_mobile": 14,
             "btn_text": "Discover More",
             "btn_url": "shopify://products/fossil-t-rex-skull",
             "product_image": "shopify://shop_images/IMG_4663.png",
@@ -147,12 +155,16 @@
           "settings": {
             "subheading": "Cute",
             "heading": "Hang in there Kitto!",
+            "heading_size_desktop": 64,
+            "heading_size_mobile": 32,
             "description": "",
+            "desc_size_desktop": 14,
+            "desc_size_mobile": 14,
             "btn_text": "Discover More",
             "btn_url": "shopify://products/hanging-in-there-kitto",
             "product_image": "shopify://shop_images/IMG_4791.heic",
-            "bg_color": "#FFDD57",
-            "accent_color": "#F59ED2",
+            "bg_color": "#ffdd57",
+            "accent_color": "#f59ed2",
             "text_color": "#111111",
             "image_scale": 100,
             "rotation": 0,
@@ -167,7 +179,11 @@
           "settings": {
             "subheading": "",
             "heading": "DA1 : The Kraken Holder",
+            "heading_size_desktop": 64,
+            "heading_size_mobile": 32,
             "description": "<p>Your controller deserves respect and a special place to be! Level up your desk setup, more designs coming soon!</p>",
+            "desc_size_desktop": 14,
+            "desc_size_mobile": 14,
             "btn_text": "Discover More",
             "btn_url": "",
             "product_image": "shopify://shop_images/IMG_4679.png",
@@ -207,6 +223,8 @@
         "products_to_show": 4,
         "columns_desktop": 4,
         "show_view_all": true,
+        "image_position_x": 50,
+        "image_position_y": 50,
         "padding_top": 52,
         "padding_bottom": 0
       }
