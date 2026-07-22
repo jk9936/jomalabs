@@ -53,23 +53,25 @@
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
         @media (min-width: 1024px) {
-          #collection-{{ section.id }} .desktop-grid {
-            grid-template-columns: repeat({{ desktop_cols }}, minmax(0, 1fr));
+          #collection-{{ section.id }} .desktop-slider > div {
+            width: calc((100% / {{ desktop_cols }}) - ((1.5rem * ({{ desktop_cols }} - 1)) / {{ desktop_cols }}));
           }
         }
+        .drag-scroll { cursor: grab; }
+        .drag-scroll:active { cursor: grabbing; }
       </style>
 
-      <div class="flex lg:grid overflow-x-auto lg:overflow-x-visible snap-x snap-mandatory lg:snap-none gap-4 lg:gap-6 pb-6 lg:pb-0 hide-scrollbar desktop-grid">
+      <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 lg:gap-6 pb-6 hide-scrollbar desktop-slider drag-scroll" id="slider-{{ section.id }}">
         {%- if collection != blank and collection.products_count > 0 -%}
           {%- for product in collection.products limit: section.settings.products_to_show -%}
-            <div class="w-[85%] sm:w-[calc(50%-8px)] md:w-[calc(33.333%-11px)] lg:w-auto flex-none snap-start relative">
+            <div class="w-[85%] sm:w-[calc(50%-8px)] md:w-[calc(33.333%-11px)] lg:w-auto flex-none snap-start relative pointer-events-auto">
               {% render 'product-card', product: product, image_position_x: section.settings.image_position_x, image_position_y: section.settings.image_position_y %}
             </div>
           {%- endfor -%}
         {%- else -%}
           <!-- Placeholder State -->
           {%- for i in (1..section.settings.products_to_show) -%}
-            <div class="w-[85%] sm:w-[calc(50%-8px)] md:w-[calc(33.333%-11px)] lg:w-auto flex-none snap-start border-3 border-text-dark bg-surface shadow-brutalist flex flex-col">
+            <div class="w-[85%] sm:w-[calc(50%-8px)] md:w-[calc(33.333%-11px)] lg:w-auto flex-none snap-start border-3 border-text-dark bg-surface shadow-brutalist flex flex-col pointer-events-auto">
               <div class="w-full h-6 border-b-3 border-text-dark flex items-center justify-between px-2 bg-text-dark">
                 <span class="font-mono text-[10px] text-white">KEYBOARD.EXE</span>
               </div>
@@ -88,6 +90,49 @@
     </div>
   </div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const slider = document.getElementById('slider-{{ section.id }}');
+    if (!slider) return;
+    
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    let isDragging = false;
+
+    slider.addEventListener('mousedown', (e) => {
+      isDown = true;
+      isDragging = false;
+      slider.style.scrollSnapType = 'none';
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+    });
+    slider.addEventListener('mouseleave', () => {
+      isDown = false;
+      slider.style.scrollSnapType = 'x mandatory';
+    });
+    slider.addEventListener('mouseup', () => {
+      isDown = false;
+      slider.style.scrollSnapType = 'x mandatory';
+    });
+    slider.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX) * 2;
+      if (Math.abs(walk) > 5) isDragging = true;
+      slider.scrollLeft = scrollLeft - walk;
+    });
+    
+    // Prevent clicking links if we were dragging
+    slider.addEventListener('click', (e) => {
+      if (isDragging) {
+        e.preventDefault();
+      }
+    });
+  });
+</script>
 
 {% schema %}
 {
