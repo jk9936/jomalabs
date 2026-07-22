@@ -35,7 +35,7 @@
     <a href="{{ product_url }}" class="block brutalist-border rounded-sm overflow-hidden mb-3 aspect-square md:aspect-video bg-background-light relative group" aria-label="{{ product_title }}">
       {%- if featured_image -%}
         <img
-          class="w-full h-full object-cover {% if template.name == 'index' %}threshold-filter{% endif %} transition-transform duration-300 group-hover:scale-105"
+          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           style="object-position: {{ img_pos_x }}% {{ img_pos_y }}%;"
           src="{{ featured_image | image_url: width: 600 }}"
           alt="{{ featured_image.alt | default: product_title | escape }}"
@@ -49,9 +49,9 @@
     </a>
 
     <!-- Details -->
-    <div class="flex justify-between items-start mb-4 gap-4 flex-1">
-      <div>
-        <h3 class="font-display font-bold text-lg uppercase leading-tight">
+    <div class="flex justify-between items-start mb-4 gap-2 flex-1 w-full">
+      <div class="flex-1 min-w-0 pr-2">
+        <h3 class="font-display font-bold text-base md:text-lg uppercase leading-tight break-words">
           <a href="{{ product_url }}" class="hover:underline">{{ product_title }}</a>
         </h3>
         <p class="font-mono text-xs mt-1 {% if stock_status == 'OUT_OF_STOCK' %}text-error{% else %}text-text-dark{% endif %}">
@@ -60,7 +60,7 @@
       </div>
       
       {%- if show_price -%}
-        <span class="font-mono font-bold text-lg shrink-0">
+        <span class="font-mono font-bold text-base md:text-lg shrink-0 text-right">
           {%- if card_product.price_varies -%}
             From {{ card_product.price_min | money }}
           {%- else -%}
