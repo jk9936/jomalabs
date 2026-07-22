@@ -32,7 +32,8 @@
       {%- for product in collection.products -%}
         {%- render 'product-card',
           product: product,
-          show_price: section.settings.show_price
+          show_price: section.settings.show_price,
+          image_position: section.settings.image_position
         -%}
       {%- endfor -%}
     </div>
@@ -84,6 +85,19 @@
       "id": "show_price",
       "label": "Show Price",
       "default": true
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Crop Position",
+      "options": [
+        { "value": "object-top", "label": "Top" },
+        { "value": "object-center", "label": "Center" },
+        { "value": "object-bottom", "label": "Bottom" },
+        { "value": "object-left", "label": "Left" },
+        { "value": "object-right", "label": "Right" }
+      ],
+      "default": "object-center"
     },
     {
       "type": "header",

@@ -8,6 +8,7 @@
 {%- liquid
   assign card_product = product
   assign show_price = show_price | default: true
+  assign img_pos = image_position | default: 'object-center'
   assign featured_image = card_product.featured_image
   assign product_url = card_product.url | within: collection
   assign product_title = card_product.title | escape
@@ -33,7 +34,7 @@
     <a href="{{ product_url }}" class="block brutalist-border rounded-sm overflow-hidden mb-3 aspect-square md:aspect-video bg-background-light relative group" aria-label="{{ product_title }}">
       {%- if featured_image -%}
         <img
-          class="w-full h-full object-cover {% if template.name == 'index' %}threshold-filter{% endif %} transition-transform duration-300 group-hover:scale-105"
+          class="w-full h-full object-cover {{ img_pos }} {% if template.name == 'index' %}threshold-filter{% endif %} transition-transform duration-300 group-hover:scale-105"
           src="{{ featured_image | image_url: width: 600 }}"
           alt="{{ featured_image.alt | default: product_title | escape }}"
           width="600"

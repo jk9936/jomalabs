@@ -63,7 +63,7 @@
         {%- if collection != blank and collection.products_count > 0 -%}
           {%- for product in collection.products limit: section.settings.products_to_show -%}
             <div class="w-[calc(50%-8px)] md:w-[calc(33.333%-11px)] lg:w-auto flex-none snap-start relative">
-              {% render 'product-card', product: product %}
+              {% render 'product-card', product: product, image_position: section.settings.image_position %}
             </div>
           {%- endfor -%}
         {%- else -%}
@@ -133,6 +133,19 @@
       "id": "show_view_all",
       "label": "Enable 'View All' button if collection has more products than shown",
       "default": true
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Crop Position",
+      "options": [
+        { "value": "object-top", "label": "Top" },
+        { "value": "object-center", "label": "Center" },
+        { "value": "object-bottom", "label": "Bottom" },
+        { "value": "object-left", "label": "Left" },
+        { "value": "object-right", "label": "Right" }
+      ],
+      "default": "object-center"
     },
     {
       "type": "header",
