@@ -31,6 +31,7 @@
     var isScrolled = false;
     var isHovered = false;
     var hideTimeout;
+    var lastScrollY = window.scrollY || 0;
 
     function updateHeader() {
       if (isScrolled && !isHovered) {
@@ -41,7 +42,18 @@
     }
 
     var onScroll = function () {
-      isScrolled = window.scrollY > 80; // hide after scrolling past 80px
+      var currentScrollY = window.scrollY;
+      var scrollingDown = currentScrollY > lastScrollY;
+      
+      if (currentScrollY <= 80) {
+        isScrolled = false; // Always show at the top
+      } else if (scrollingDown) {
+        isScrolled = true; // Hide when scrolling down past 80px
+      } else if (window.innerWidth < 768) {
+        isScrolled = false; // Reveal when scrolling up on mobile
+      }
+      
+      lastScrollY = currentScrollY;
       updateHeader();
     };
 
