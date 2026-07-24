@@ -1,0 +1,514 @@
+<section class="py-12 md:py-24 px-4 custom-bundle-section" style="background-color: {{ section.settings.bg_color }};" data-section-id="{{ section.id }}">
+  <div class="max-w-[1600px] mx-auto">
+    
+    <div class="flex flex-col-reverse lg:flex-row gap-8 items-start">
+      
+      <!-- Left Column: The Console -->
+      <div class="w-full lg:w-1/3 flex flex-col gap-6 sticky top-28 z-30">
+        
+        <div class="bundle-console brutalist-border border-3 bg-surface shadow-brutalist flex flex-col relative">
+          <!-- OS Top Bar -->
+          <div class="w-full h-8 flex items-center px-3 justify-between shrink-0 bg-text-dark text-background-light border-b-3 border-text-dark">
+            <span class="font-mono text-xs font-bold tracking-widest">BUILD_BUNDLE.EXE</span>
+            <div class="flex gap-2">
+              <div class="w-3 h-3 bg-cyan-accent border-2 border-text-dark"></div>
+              <div class="w-3 h-3 bg-magenta-accent border-2 border-text-dark"></div>
+              <div class="w-3 h-3 bg-primary border-2 border-text-dark"></div>
+            </div>
+          </div>
+          
+          <div class="p-6 flex flex-col">
+            <h2 class="font-display font-bold text-4xl uppercase text-text-dark leading-tight mb-2">{{ section.settings.title | escape }}</h2>
+            {%- if section.settings.description != blank -%}
+              <div class="font-mono text-sm text-text-dark mb-6">
+                {{ section.settings.description }}
+              </div>
+            {%- endif -%}
+
+            <div class="border-y-3 border-text-dark py-4 my-4 flex flex-col gap-2 min-h-[150px]" id="cbb-item-list">
+              <!-- JS will populate selected items here -->
+              <p class="font-mono text-sm text-text-dark/60 italic" id="cbb-empty-state">No items selected yet. Click nodes on the canvas to add items.</p>
+            </div>
+
+            <div class="pt-2 mt-auto">
+              <div class="flex justify-between items-end mb-4 font-mono font-bold">
+                <span class="text-sm">TOTAL VALUE:</span>
+                <span class="text-3xl text-magenta-accent" id="cbb-total-price">{{ 0 | money }}</span>
+              </div>
+              
+              <button type="button" id="cbb-submit-btn" class="w-full btn-brutalist bg-cyan-accent text-text-dark border-3 border-text-dark shadow-brutalist rounded-sm px-6 py-4 font-display font-bold text-xl uppercase tracking-wider transition-colors hover:bg-magenta-accent flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                <span class="material-symbols-outlined">rocket_launch</span>
+                INITIALIZE BUNDLE
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: The Canvas -->
+      <div class="w-full lg:w-2/3 brutalist-border border-3 shadow-brutalist relative overflow-hidden" style="background-color: {{ section.settings.canvas_bg }}; min-height: 600px;">
+        
+        <!-- Main Image -->
+        {%- if section.settings.main_image != blank -%}
+          <div class="absolute inset-0 flex items-center justify-center p-8 pointer-events-none">
+            <img 
+              src="{{ section.settings.main_image | image_url: width: 1200 }}" 
+              alt="Bundle Canvas" 
+              class="w-full h-full object-contain object-center opacity-90"
+              loading="lazy">
+          </div>
+        {%- else -%}
+          <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 font-display text-4xl">
+            UPLOAD MAIN IMAGE
+          </div>
+        {%- endif -%}
+
+        <!-- Interactive Product Nodes -->
+        {%- for block in section.blocks -%}
+          {%- assign product = block.settings.product -%}
+          {%- if product != blank -%}
+            
+            <style>
+              .cbb-node-{{ block.id }} {
+                left: {{ block.settings.pos_x_mobile }}%;
+                top: {{ block.settings.pos_y_mobile }}%;
+              }
+              @media(min-width: 1024px) {
+                .cbb-node-{{ block.id }} {
+                  left: {{ block.settings.pos_x_desktop }}%;
+                  top: {{ block.settings.pos_y_desktop }}%;
+                }
+              }
+            </style>
+
+            <div class="absolute transform -translate-x-1/2 -translate-y-1/2 z-20 group cbb-node-{{ block.id }}" {{ block.shopify_attributes }}>
+              
+              <!-- Node Button (Icon/Image) -->
+              <button type="button" class="cbb-node-btn w-16 h-16 md:w-20 md:h-20 rounded-full brutalist-border border-3 border-text-dark bg-surface shadow-brutalist flex items-center justify-center overflow-hidden hover:scale-110 transition-transform relative focus:outline-none" aria-label="Add {{ product.title | escape }}">
+                {%- if product.featured_image -%}
+                  <img src="{{ product.featured_image | image_url: width: 150 }}" class="w-full h-full object-cover" alt="{{ product.title | escape }}">
+                {%- else -%}
+                  <span class="font-display font-bold text-2xl">{{ forloop.index }}</span>
+                {%- endif -%}
+                <div class="absolute inset-0 bg-cyan-accent/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <span class="material-symbols-outlined text-text-dark font-bold text-3xl shadow-sm">add</span>
+                </div>
+              </button>
+
+              <!-- Tooltip / Variant Picker (Hidden by default, shown on click via JS or hover) -->
+              <div class="cbb-node-tooltip absolute top-full left-1/2 transform -translate-x-1/2 mt-4 w-64 bg-surface brutalist-border border-3 border-text-dark shadow-brutalist p-3 hidden flex-col gap-2 z-50 transition-all opacity-0 pointer-events-none">
+                <!-- Arrow -->
+                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[10px] border-text-dark"></div>
+                
+                <h4 class="font-mono font-bold text-xs leading-tight uppercase border-b-2 border-text-dark pb-1">{{ product.title }}</h4>
+                <div class="flex justify-between items-center font-mono text-xs font-bold text-magenta-accent">
+                   <span class="cbb-node-price" data-base-price="{{ product.price }}">{{ product.price | money }}</span>
+                </div>
+
+                <div class="flex flex-col gap-2 mt-1">
+                  {%- if product.has_only_default_variant == false -%}
+                    <select class="cbb-variant-select font-mono text-xs border-2 border-text-dark p-1 bg-white cursor-pointer brutalist-border outline-none w-full">
+                      {%- for variant in product.variants -%}
+                        <option value="{{ variant.id }}" data-price="{{ variant.price }}" data-title="{{ variant.title | escape }}" {% unless variant.available %}disabled{% endunless %}>
+                          {{ variant.title }} {% unless variant.available %}(SOLD OUT){% endunless %}
+                        </option>
+                      {%- endfor -%}
+                    </select>
+                  {%- else -%}
+                    <input type="hidden" class="cbb-variant-select" value="{{ product.first_available_variant.id }}" data-price="{{ product.price }}" data-title="Default">
+                  {%- endif -%}
+
+                  <button type="button" class="cbb-add-item-btn w-full btn-brutalist bg-primary text-text-dark border-2 border-text-dark text-xs py-2 font-bold font-mono uppercase hover:bg-cyan-accent transition-colors">
+                    ADD TO BUNDLE
+                  </button>
+                </div>
+              </div>
+
+              <!-- Product Data JSON -->
+              <script type="application/json" class="cbb-product-data">
+                {
+                  "id": {{ product.id | json }},
+                  "title": {{ product.title | json }},
+                  "handle": {{ product.handle | json }},
+                  "image": {% if product.featured_image %}{{ product.featured_image | image_url: width: 100 | json }}{% else %}null{% endif %}
+                }
+              </script>
+
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom Bundle Builder",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "transparent"
+    },
+    {
+      "type": "header",
+      "content": "Console (Left Side)"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "BUILD YOUR KIT."
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Select items from the canvas to construct your custom bundle. Discounts apply automatically at checkout.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Canvas (Right Side)"
+    },
+    {
+      "type": "color",
+      "id": "canvas_bg",
+      "label": "Canvas Background",
+      "default": "#f4f4f4"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Main Canvas Image",
+      "info": "This acts as the backdrop for your interactive nodes."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bundle_item",
+      "name": "Product Node",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "header",
+          "content": "Desktop Positioning"
+        },
+        {
+          "type": "range",
+          "id": "pos_x_desktop",
+          "label": "Horizontal Position (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "pos_y_desktop",
+          "label": "Vertical Position (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50
+        },
+        {
+          "type": "header",
+          "content": "Mobile Positioning"
+        },
+        {
+          "type": "range",
+          "id": "pos_x_mobile",
+          "label": "Horizontal Position (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "pos_y_mobile",
+          "label": "Vertical Position (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Bundle Builder",
+      "blocks": [
+        { "type": "bundle_item" },
+        { "type": "bundle_item" },
+        { "type": "bundle_item" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+/* Utilities for showing tooltips */
+.cbb-node-tooltip.is-open {
+  display: flex !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+.cbb-node-tooltip {
+  display: flex;
+}
+/* Ensure sticky console stays within view */
+@media(min-width: 1024px) {
+  .bundle-console {
+    max-height: calc(100vh - 120px);
+  }
+  #cbb-item-list {
+    overflow-y: auto;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  
+  const section = document.querySelector('.custom-bundle-section');
+  if(!section) return;
+
+  // State
+  let bundleItems = []; // Array of { id: uniqueId, variantId, productId, title, variantTitle, price, image }
+  
+  // DOM Elements
+  const nodes = section.querySelectorAll('.group');
+  const itemList = section.getElementById('cbb-item-list');
+  const emptyState = section.getElementById('cbb-empty-state');
+  const totalPriceDisplay = section.getElementById('cbb-total-price');
+  const submitBtn = section.getElementById('cbb-submit-btn');
+
+  // Helper: Format Money
+  function formatMoney(cents) {
+    return Shopify.formatMoney ? Shopify.formatMoney(cents, '{{ shop.money_format }}') : '$' + (cents / 100).toFixed(2);
+  }
+
+  // Generate Unique ID for line items in console
+  function generateId() {
+    return Math.random().toString(36).substr(2, 9);
+  }
+
+  // 1. Handle Node Clicks (Toggle Tooltip)
+  nodes.forEach(node => {
+    const btn = node.querySelector('.cbb-node-btn');
+    const tooltip = node.querySelector('.cbb-node-tooltip');
+    const variantSelect = node.querySelector('.cbb-variant-select');
+    const priceDisplay = node.querySelector('.cbb-node-price');
+    const addBtn = node.querySelector('.cbb-add-item-btn');
+    const productDataEl = node.querySelector('.cbb-product-data');
+    
+    if(!btn || !tooltip || !productDataEl) return;
+    
+    const productData = JSON.parse(productDataEl.textContent);
+
+    // Toggle Tooltip on button click
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation(); // prevent document click from closing immediately
+      
+      // Close all other tooltips
+      document.querySelectorAll('.cbb-node-tooltip').forEach(t => {
+        if(t !== tooltip) t.classList.remove('is-open');
+      });
+
+      tooltip.classList.toggle('is-open');
+    });
+
+    // Update Price on variant change
+    if(variantSelect && variantSelect.tagName === 'SELECT') {
+      variantSelect.addEventListener('change', () => {
+        const option = variantSelect.options[variantSelect.selectedIndex];
+        if(option && priceDisplay) {
+          const priceCents = parseInt(option.getAttribute('data-price') || 0);
+          priceDisplay.textContent = formatMoney(priceCents);
+        }
+      });
+    }
+
+    // Add to Bundle Click
+    if(addBtn) {
+      addBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        let variantId = null;
+        let variantTitle = '';
+        let priceCents = 0;
+
+        if(variantSelect.tagName === 'SELECT') {
+          const option = variantSelect.options[variantSelect.selectedIndex];
+          if(!option || option.disabled) return;
+          variantId = option.value;
+          variantTitle = option.getAttribute('data-title');
+          priceCents = parseInt(option.getAttribute('data-price') || 0);
+        } else {
+          variantId = variantSelect.value;
+          variantTitle = variantSelect.getAttribute('data-title');
+          priceCents = parseInt(variantSelect.getAttribute('data-price') || 0);
+        }
+
+        if(variantId) {
+          const newItem = {
+            id: generateId(), // unique id for removal
+            variantId: variantId,
+            productId: productData.id,
+            title: productData.title,
+            variantTitle: variantTitle !== 'Default Title' ? variantTitle : '',
+            price: priceCents,
+            image: productData.image
+          };
+
+          bundleItems.push(newItem);
+          renderConsole();
+          
+          // Flash animation on the node to show success
+          btn.classList.add('bg-primary');
+          setTimeout(() => btn.classList.remove('bg-primary'), 300);
+          
+          // Close tooltip
+          tooltip.classList.remove('is-open');
+        }
+      });
+    }
+  });
+
+  // Close tooltips when clicking outside
+  document.addEventListener('click', (e) => {
+    if(!e.target.closest('.group')) {
+      document.querySelectorAll('.cbb-node-tooltip').forEach(t => t.classList.remove('is-open'));
+    }
+  });
+
+  // 2. Render Console Items
+  function renderConsole() {
+    if(bundleItems.length === 0) {
+      emptyState.style.display = 'block';
+      submitBtn.disabled = true;
+      // Remove all item DOMs
+      Array.from(itemList.children).forEach(child => {
+        if(child !== emptyState) child.remove();
+      });
+      totalPriceDisplay.textContent = formatMoney(0);
+      return;
+    }
+
+    emptyState.style.display = 'none';
+    submitBtn.disabled = false;
+
+    // Clear existing (excluding empty state)
+    Array.from(itemList.children).forEach(child => {
+        if(child !== emptyState) child.remove();
+    });
+
+    let totalCents = 0;
+
+    bundleItems.forEach(item => {
+      totalCents += item.price;
+      
+      const itemEl = document.createElement('div');
+      itemEl.className = 'flex justify-between items-center gap-2 font-mono text-xs border-b border-text-dark/20 pb-2 mb-2 last:border-0 last:mb-0 last:pb-0';
+      
+      itemEl.innerHTML = `
+        <div class="flex items-center gap-2 grow">
+          ${item.image ? `<img src="${item.image}" class="w-8 h-8 object-cover brutalist-border border border-text-dark bg-white">` : ''}
+          <div class="flex flex-col">
+            <span class="font-bold text-text-dark truncate max-w-[150px] md:max-w-[200px]" title="${item.title}">${item.title}</span>
+            ${item.variantTitle && item.variantTitle !== 'Default' ? `<span class="text-[10px] text-text-dark/70">${item.variantTitle}</span>` : ''}
+          </div>
+        </div>
+        <div class="flex items-center gap-3 shrink-0">
+          <span class="font-bold">${formatMoney(item.price)}</span>
+          <button class="cbb-remove-item hover:text-magenta-accent transition-colors" data-id="${item.id}" aria-label="Remove item">
+            <span class="material-symbols-outlined text-sm font-bold">close</span>
+          </button>
+        </div>
+      `;
+      
+      itemList.appendChild(itemEl);
+    });
+
+    totalPriceDisplay.textContent = formatMoney(totalCents);
+
+    // Attach remove event listeners
+    const removeBtns = itemList.querySelectorAll('.cbb-remove-item');
+    removeBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idToRemove = btn.getAttribute('data-id');
+        bundleItems = bundleItems.filter(i => i.id !== idToRemove);
+        renderConsole();
+      });
+    });
+  }
+
+  // 3. Submit Custom Bundle to Cart
+  submitBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if(bundleItems.length === 0) return;
+
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> INITIALIZING...';
+    submitBtn.disabled = true;
+
+    // Map bundle items to Shopify cart AJAX format
+    const itemsToAdd = bundleItems.map(item => ({
+      id: parseInt(item.variantId),
+      quantity: 1,
+      properties: {
+        '_bundle_type': 'Custom Builder' // Hidden line item property
+      }
+    }));
+
+    // Group identical variant IDs and sum quantities (optional, but cleaner for the API request)
+    const groupedItems = itemsToAdd.reduce((acc, curr) => {
+       const existing = acc.find(i => i.id === curr.id);
+       if(existing) {
+         existing.quantity += curr.quantity;
+       } else {
+         acc.push(curr);
+       }
+       return acc;
+    }, []);
+
+    fetch(window.Shopify.routes.root + 'cart/add.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ items: groupedItems })
+    })
+    .then(response => response.json())
+    .then(data => {
+       submitBtn.innerHTML = originalText;
+       submitBtn.disabled = false;
+       
+       // Clear bundle state on success
+       bundleItems = [];
+       renderConsole();
+       
+       // Trigger cart update (theme.js listens for this)
+       document.dispatchEvent(new CustomEvent('cart:updated'));
+    })
+    .catch(error => {
+       console.error('Error adding custom bundle:', error);
+       submitBtn.innerHTML = originalText;
+       submitBtn.disabled = false;
+       alert('Error adding bundle to cart. Please try again.');
+    });
+  });
+
+});
+</script>
