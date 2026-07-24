@@ -15,7 +15,7 @@
         "window_header": {
           "type": "window_header",
           "settings": {
-            "title": "JOMA_OS.EXE"
+            "title": "Notice_Board.exe"
           }
         },
         "subheading": {
@@ -116,7 +116,7 @@
             "btn_url": "shopify://products/air-pods-case-x-the-great-wave",
             "product_image": "shopify://shop_images/ChatGPT_Image_Jul_23_2026_12_46_54_AM.png",
             "bg_color": "#2f8dff",
-            "accent_color": "#FAD263",
+            "accent_color": "#fad263",
             "text_color": "#0b0b0b",
             "image_scale": 85,
             "rotation": 4,
