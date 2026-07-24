@@ -49,7 +49,7 @@
           
         {%- when 'headline' -%}
           <!-- Headline Block -->
-          <div class="px-4 sm:px-8 pt-6 sm:pt-8 pb-4" {{ block.shopify_attributes }}>
+          <div class="px-3 sm:px-6 pt-4 pb-1" {{ block.shopify_attributes }}>
             <h2 class="block-{{ block.id }} font-display font-bold uppercase leading-none tracking-tight" style="color: {{ block.settings.text_color }}; text-align: {{ block.settings.alignment }};">
               {{ block.settings.text | newline_to_br }}
             </h2>
@@ -57,7 +57,7 @@
 
         {%- when 'subheading' -%}
           <!-- Subheading Block -->
-          <div class="px-4 sm:px-8 py-2 flex" style="justify-content: {% if block.settings.alignment == 'center' %}center{% elsif block.settings.alignment == 'right' %}flex-end{% else %}flex-start{% endif %};" {{ block.shopify_attributes }}>
+          <div class="px-3 sm:px-6 py-1 flex" style="justify-content: {% if block.settings.alignment == 'center' %}center{% elsif block.settings.alignment == 'right' %}flex-end{% else %}flex-start{% endif %};" {{ block.shopify_attributes }}>
             <span class="block-{{ block.id }} font-mono font-bold uppercase tracking-widest border-2 border-text-dark px-2 sm:px-3 py-1 bg-background-light">
               {{ block.settings.text | escape }}
             </span>
@@ -65,7 +65,7 @@
 
         {%- when 'text' -%}
           <!-- Text Block -->
-          <div class="px-4 sm:px-8 py-2" {{ block.shopify_attributes }}>
+          <div class="px-3 sm:px-6 py-1" {{ block.shopify_attributes }}>
             <p class="block-{{ block.id }} font-mono font-bold text-text-dark" style="text-align: {{ block.settings.alignment }};">
               {% if block.settings.show_prefix %}>>> {% endif %}{{ block.settings.text | escape }}
             </p>
@@ -73,7 +73,7 @@
 
         {%- when 'marquee' -%}
           <!-- Marquee Block -->
-          <div class="w-full overflow-hidden border-y-3 border-text-dark py-2 my-2 sm:my-4 flex whitespace-nowrap shrink-0" style="background-color: {{ block.settings.bg_color }}; color: {{ block.settings.text_color }};" {{ block.shopify_attributes }}>
+          <div class="w-full overflow-hidden border-y-3 border-text-dark py-1 my-1 sm:my-2 flex whitespace-nowrap shrink-0" style="background-color: {{ block.settings.bg_color }}; color: {{ block.settings.text_color }};" {{ block.shopify_attributes }}>
             <div class="block-{{ block.id }} animate-marquee inline-block font-display font-bold uppercase tracking-wider shrink-0">
               {{ block.settings.text | escape }} &nbsp;&bull;&nbsp; {{ block.settings.text | escape }} &nbsp;&bull;&nbsp; {{ block.settings.text | escape }} &nbsp;&bull;&nbsp; {{ block.settings.text | escape }} &nbsp;&bull;&nbsp;
             </div>
@@ -82,7 +82,7 @@
         {%- when 'image' -%}
           <!-- Image Graphic Block -->
           {%- if block.settings.image != blank -%}
-            <div class="px-4 sm:px-8 py-4 flex" style="justify-content: {% if block.settings.alignment == 'center' %}center{% elsif block.settings.alignment == 'right' %}flex-end{% else %}flex-start{% endif %};" {{ block.shopify_attributes }}>
+            <div class="px-3 sm:px-6 py-2 flex" style="justify-content: {% if block.settings.alignment == 'center' %}center{% elsif block.settings.alignment == 'right' %}flex-end{% else %}flex-start{% endif %};" {{ block.shopify_attributes }}>
               <img
                 srcset="
                   {{ block.settings.image | image_url: width: 350 }} 350w,
@@ -106,7 +106,7 @@
 
         {%- when 'ascii' -%}
           <!-- ASCII Art Block -->
-          <div class="px-4 sm:px-8 py-4 flex overflow-hidden" style="justify-content: {% if block.settings.alignment == 'center' %}center{% elsif block.settings.alignment == 'right' %}flex-end{% else %}flex-start{% endif %};" {{ block.shopify_attributes }}>
+          <div class="px-3 sm:px-6 py-2 flex overflow-hidden" style="justify-content: {% if block.settings.alignment == 'center' %}center{% elsif block.settings.alignment == 'right' %}flex-end{% else %}flex-start{% endif %};" {{ block.shopify_attributes }}>
             <pre class="font-mono leading-none whitespace-pre" style="color: {{ block.settings.text_color }}; font-size: {{ block.settings.size_mobile }}px;">
               {{- block.settings.ascii_text -}}
             </pre>
@@ -119,7 +119,7 @@
     <!-- Buttons Container (Group all button blocks together at the bottom if present) -->
     {%- assign button_blocks = section.blocks | where: "type", "button" -%}
     {%- if button_blocks.size > 0 -%}
-      <div class="px-4 sm:px-8 pb-6 sm:pb-8 pt-4 flex flex-wrap gap-2 sm:gap-4 mt-auto">
+      <div class="px-3 sm:px-6 pb-4 sm:pb-6 pt-2 flex flex-wrap gap-2 mt-auto">
         {%- for block in button_blocks -%}
           <a href="{{ block.settings.link }}" class="btn-brutalist block sm:inline-block w-full sm:w-auto text-center border-3 border-text-dark shadow-brutalist rounded-sm px-6 py-3 font-display font-bold uppercase tracking-wider transition-colors hover:brightness-90"
              style="background-color: {{ block.settings.bg_color }}; color: {{ block.settings.text_color }};"
