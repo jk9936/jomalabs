@@ -1,0 +1,185 @@
+<section class="py-12 md:py-24 px-4 overflow-hidden" style="background-color: {{ section.settings.bg_color }};">
+  <div class="max-w-[1600px] mx-auto">
+    
+    {%- if section.settings.title != blank -%}
+      <div class="flex items-center justify-between mb-8 md:mb-12 border-b-4 border-text-dark pb-4">
+        <h2 class="font-display font-bold text-4xl md:text-6xl uppercase tracking-tighter" style="color: {{ section.settings.title_color }};">
+          {{ section.settings.title | escape }}
+        </h2>
+        {%- if section.settings.collection != blank -%}
+          <a href="{{ section.settings.collection.url }}" class="hidden md:flex font-mono text-sm font-bold uppercase tracking-widest hover:text-magenta-accent transition-colors">
+            VIEW_ALL.EXE <span class="material-symbols-outlined ml-1 text-sm">arrow_forward</span>
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="relative group">
+      <!-- Carousel Container -->
+      <div class="brutalist-carousel flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory hide-scrollbar relative z-10" id="carousel-{{ section.id }}">
+        
+        {%- assign collection = section.settings.collection -%}
+        
+        {%- if collection != blank and collection.products_count > 0 -%}
+          {%- for product in collection.products limit: section.settings.product_limit -%}
+            
+            <a href="{{ product.url }}" class="flex-none w-[280px] md:w-[350px] snap-start brutalist-border border-3 bg-surface shadow-brutalist flex flex-col group/card hover:-translate-y-2 transition-transform duration-300">
+              
+              <!-- Card Header -->
+              <div class="w-full h-8 flex items-center px-3 justify-between shrink-0 bg-text-dark text-background-light border-b-3 border-text-dark">
+                <span class="font-mono text-[10px] font-bold tracking-widest truncate max-w-[180px]">{{ product.handle | upcase }}.STL</span>
+                <div class="flex gap-2 shrink-0">
+                  <div class="w-2.5 h-2.5 bg-cyan-accent border border-background-light"></div>
+                  <div class="w-2.5 h-2.5 bg-magenta-accent border border-background-light"></div>
+                </div>
+              </div>
+              
+              <!-- Card Image -->
+              <div class="relative w-full aspect-square border-b-3 border-text-dark bg-white overflow-hidden p-4">
+                {%- if product.featured_image -%}
+                  <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title | escape }}" class="w-full h-full object-contain group-hover/card:scale-105 transition-transform duration-500" loading="lazy">
+                {%- else -%}
+                  <div class="w-full h-full bg-background-light flex items-center justify-center font-mono text-sm">NO_IMAGE</div>
+                {%- endif -%}
+
+                {%- if product.compare_at_price > product.price -%}
+                  <div class="absolute top-2 right-2 bg-primary text-text-dark font-mono font-bold text-xs px-2 py-1 brutalist-border border-2 rotate-3 shadow-brutalist">
+                    SALE
+                  </div>
+                {%- endif -%}
+              </div>
+              
+              <!-- Card Footer / Info -->
+              <div class="p-4 flex flex-col grow justify-between bg-background-light">
+                <h3 class="font-display font-bold text-2xl uppercase text-text-dark leading-tight mb-2 group-hover/card:text-cyan-accent transition-colors">{{ product.title }}</h3>
+                
+                <div class="flex items-center justify-between mt-4 border-t-2 border-text-dark pt-3">
+                  <div class="font-mono font-bold text-lg text-magenta-accent">
+                    {{ product.price | money }}
+                    {%- if product.compare_at_price > product.price -%}
+                      <span class="text-xs text-text-dark/50 line-through ml-1">{{ product.compare_at_price | money }}</span>
+                    {%- endif -%}
+                  </div>
+                  
+                  <button type="button" class="btn-brutalist w-10 h-10 rounded-full border-2 border-text-dark bg-surface flex items-center justify-center hover:bg-cyan-accent transition-colors shadow-sm" aria-label="Quick Add">
+                    <span class="material-symbols-outlined text-text-dark text-xl">shopping_cart</span>
+                  </button>
+                </div>
+              </div>
+              
+            </a>
+            
+          {%- endfor -%}
+        {%- else -%}
+          <!-- Placeholder states if no collection is selected -->
+          {%- for i in (1..5) -%}
+            <div class="flex-none w-[280px] md:w-[350px] snap-start brutalist-border border-3 bg-surface shadow-brutalist flex flex-col opacity-50 grayscale">
+               <div class="w-full h-8 bg-text-dark border-b-3 border-text-dark"></div>
+               <div class="w-full aspect-square bg-gray-200 border-b-3 border-text-dark flex items-center justify-center font-mono text-sm">PLACEHOLDER.STL</div>
+               <div class="p-4 bg-background-light h-32">
+                 <div class="h-6 bg-gray-300 w-3/4 mb-4"></div>
+                 <div class="h-4 bg-gray-300 w-1/4"></div>
+               </div>
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+        
+      </div>
+
+      <!-- Navigation Arrows (Desktop mostly) -->
+      <button id="prev-{{ section.id }}" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-8 w-12 h-12 bg-surface brutalist-border border-3 border-text-dark shadow-brutalist flex items-center justify-center hover:bg-cyan-accent transition-colors z-20 opacity-0 group-hover:opacity-100 focus:opacity-100 hidden md:flex">
+        <span class="material-symbols-outlined font-bold">arrow_back</span>
+      </button>
+      <button id="next-{{ section.id }}" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-8 w-12 h-12 bg-surface brutalist-border border-3 border-text-dark shadow-brutalist flex items-center justify-center hover:bg-magenta-accent transition-colors z-20 opacity-0 group-hover:opacity-100 focus:opacity-100 hidden md:flex">
+        <span class="material-symbols-outlined font-bold">arrow_forward</span>
+      </button>
+
+    </div>
+
+    {%- if section.settings.collection != blank -%}
+      <div class="mt-8 text-center md:hidden">
+        <a href="{{ section.settings.collection.url }}" class="btn-brutalist inline-block border-3 border-text-dark bg-primary text-text-dark px-6 py-3 font-mono font-bold text-sm uppercase shadow-brutalist hover:bg-cyan-accent transition-colors">
+          VIEW ALL PRODUCTS
+        </a>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<style>
+/* Hide scrollbar for a cleaner look while maintaining scrollability */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const carousel = document.getElementById('carousel-{{ section.id }}');
+  const prevBtn = document.getElementById('prev-{{ section.id }}');
+  const nextBtn = document.getElementById('next-{{ section.id }}');
+
+  if(carousel && prevBtn && nextBtn) {
+    const scrollAmount = 350 + 24; // card width + gap
+
+    prevBtn.addEventListener('click', () => {
+      carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+
+    nextBtn.addEventListener('click', () => {
+      carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Brutalist Carousel",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "EXPLORE.DIR"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Heading Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "transparent"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection to Display"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "label": "Maximum products to show",
+      "min": 4,
+      "max": 16,
+      "step": 1,
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brutalist Collection Carousel",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}
