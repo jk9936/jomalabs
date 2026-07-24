@@ -244,9 +244,48 @@
     "178424473202d0d67b": {
       "type": "_blocks",
       "settings": {}
+    },
+    "header_6wirRA": {
+      "type": "header",
+      "blocks": {
+        "nav_link_bBRPcW": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Hardware",
+            "url": "#hardware",
+            "accent": false
+          }
+        },
+        "nav_link_FHnV8d": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Apparel",
+            "url": "#apparel",
+            "accent": false
+          }
+        },
+        "nav_link_iW48ih": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Workspace",
+            "url": "#workspace",
+            "accent": true
+          }
+        }
+      },
+      "block_order": [
+        "nav_link_bBRPcW",
+        "nav_link_FHnV8d",
+        "nav_link_iW48ih"
+      ],
+      "name": "Header",
+      "settings": {
+        "logo_text": "JOMA_LABS"
+      }
     }
   },
   "order": [
+    "header_6wirRA",
     "hero",
     "premium-hero",
     "featured_collection",
