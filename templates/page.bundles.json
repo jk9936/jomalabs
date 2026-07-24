@@ -1,12 +1,72 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "bundles-showcase",
       "settings": {
+        "title": "Available Bundles",
+        "subtitle": "Select a bundle below to initialize your workspace upgrade."
+      }
+    },
+    "custom_bundle_builder_qTPEfm": {
+      "type": "custom-bundle-builder",
+      "blocks": {
+        "bundle_item_eJ8xCR": {
+          "type": "bundle_item",
+          "settings": {
+            "product": "",
+            "pos_x_desktop": 50,
+            "pos_y_desktop": 50,
+            "pos_x_mobile": 50,
+            "pos_y_mobile": 50
+          }
+        },
+        "bundle_item_keCjnb": {
+          "type": "bundle_item",
+          "settings": {
+            "product": "",
+            "pos_x_desktop": 50,
+            "pos_y_desktop": 50,
+            "pos_x_mobile": 50,
+            "pos_y_mobile": 50
+          }
+        },
+        "bundle_item_QYm7kN": {
+          "type": "bundle_item",
+          "settings": {
+            "product": "",
+            "pos_x_desktop": 50,
+            "pos_y_desktop": 50,
+            "pos_x_mobile": 50,
+            "pos_y_mobile": 50
+          }
+        }
+      },
+      "block_order": [
+        "bundle_item_eJ8xCR",
+        "bundle_item_keCjnb",
+        "bundle_item_QYm7kN"
+      ],
+      "name": "Custom Bundle Builder",
+      "settings": {
+        "bg_color": "transparent",
+        "title": "BUILD YOUR KIT.",
+        "description": "<p>Select items from the canvas to construct your custom bundle. Discounts apply automatically at checkout.</p>",
+        "canvas_style": "image",
+        "canvas_bg": "#f4f4f4"
       }
     }
   },
   "order": [
-    "main"
+    "main",
+    "custom_bundle_builder_qTPEfm"
   ]
 }
