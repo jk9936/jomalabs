@@ -63,10 +63,22 @@
         "canvas_style": "image",
         "canvas_bg": "#f4f4f4"
       }
+    },
+    "brutalist_collection_carousel_bfkYFE": {
+      "type": "brutalist-collection-carousel",
+      "name": "Brutalist Collection Carousel",
+      "settings": {
+        "title": "EXPLORE.DIR",
+        "title_color": "#111111",
+        "bg_color": "transparent",
+        "collection": "test1",
+        "product_limit": 8
+      }
     }
   },
   "order": [
     "main",
-    "custom_bundle_builder_qTPEfm"
+    "custom_bundle_builder_qTPEfm",
+    "brutalist_collection_carousel_bfkYFE"
   ]
 }
