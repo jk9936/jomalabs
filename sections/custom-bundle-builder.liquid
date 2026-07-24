@@ -49,20 +49,45 @@
       <!-- Right Column: The Canvas -->
       <div class="w-full lg:w-2/3 brutalist-border border-3 shadow-brutalist relative overflow-hidden" style="background-color: {{ section.settings.canvas_bg }}; min-height: 600px;">
         
-        <!-- Main Image -->
-        {%- if section.settings.main_image != blank -%}
-          <div class="absolute inset-0 flex items-center justify-center p-8 pointer-events-none">
-            <img 
-              src="{{ section.settings.main_image | image_url: width: 1200 }}" 
-              alt="Bundle Canvas" 
-              class="w-full h-full object-contain object-center opacity-90"
-              loading="lazy">
-          </div>
-        {%- else -%}
-          <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 font-display text-4xl">
-            UPLOAD MAIN IMAGE
-          </div>
-        {%- endif -%}
+        <!-- Canvas Background Styles -->
+        {%- case section.settings.canvas_style -%}
+          {%- when 'image' -%}
+            {%- if section.settings.main_image != blank -%}
+              <div class="absolute inset-0 flex items-center justify-center p-8 pointer-events-none">
+                <img 
+                  src="{{ section.settings.main_image | image_url: width: 1200 }}" 
+                  alt="Bundle Canvas" 
+                  class="w-full h-full object-contain object-center opacity-90"
+                  loading="lazy">
+              </div>
+            {%- else -%}
+              <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 font-display text-4xl">
+                UPLOAD MAIN IMAGE
+              </div>
+            {%- endif -%}
+
+          {%- when 'gradient' -%}
+            <div class="absolute inset-0 pointer-events-none opacity-80" style="background: linear-gradient(135deg, {{ section.settings.canvas_bg }}, #ff00ff, #00ffff);"></div>
+            
+          {%- when 'comic' -%}
+            <div class="absolute inset-0 pointer-events-none opacity-30" style="background-image: radial-gradient(#111 20%, transparent 20%), radial-gradient(#111 20%, transparent 20%); background-color: {{ section.settings.canvas_bg }}; background-position: 0 0, 10px 10px; background-size: 20px 20px;"></div>
+
+          {%- when 'brutalist' -%}
+            <div class="absolute inset-0 flex flex-col p-4 md:p-8 pointer-events-none z-0">
+              <!-- Top Bar -->
+              <div class="w-full h-10 md:h-12 shrink-0 bg-text-dark flex items-center px-4 justify-between border-4 border-text-dark shadow-brutalist">
+                <span class="font-mono text-xs md:text-sm font-bold text-background-light tracking-widest">Notice_Board.exe</span>
+                <div class="flex gap-2">
+                  <div class="w-3 h-3 md:w-4 md:h-4 bg-cyan-accent border-2 border-text-dark"></div>
+                  <div class="w-3 h-3 md:w-4 md:h-4 bg-magenta-accent border-2 border-text-dark"></div>
+                  <div class="w-3 h-3 md:w-4 md:h-4 bg-primary border-2 border-text-dark"></div>
+                </div>
+              </div>
+              <!-- Body -->
+              <div class="w-full grow bg-white border-x-4 border-b-4 border-text-dark shadow-brutalist"></div>
+            </div>
+
+        {%- endcase -%}
 
         <!-- Interactive Product Nodes -->
         {%- for block in section.blocks -%}
@@ -175,16 +200,28 @@
       "content": "Canvas (Right Side)"
     },
     {
+      "type": "select",
+      "id": "canvas_style",
+      "label": "Canvas Background Style",
+      "options": [
+        { "value": "image", "label": "Main Image" },
+        { "value": "gradient", "label": "Vaporwave Gradient" },
+        { "value": "comic", "label": "Comic Strip (Halftone)" },
+        { "value": "brutalist", "label": "Brutalist Notice Board" }
+      ],
+      "default": "image"
+    },
+    {
       "type": "color",
       "id": "canvas_bg",
-      "label": "Canvas Background",
+      "label": "Canvas Background Base Color",
       "default": "#f4f4f4"
     },
     {
       "type": "image_picker",
       "id": "main_image",
       "label": "Main Canvas Image",
-      "info": "This acts as the backdrop for your interactive nodes."
+      "info": "Only visible if 'Canvas Background Style' is set to 'Main Image'."
     }
   ],
   "blocks": [
