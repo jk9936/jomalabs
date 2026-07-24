@@ -138,6 +138,11 @@
     on(closeBtn, 'click', closeCart);
     on(overlay, 'click', closeCart);
 
+    // Global event listener to open cart from external scripts (e.g. Bundles page)
+    document.addEventListener('cart:updated', function() {
+      openCart();
+    });
+
     // Trap ESC key
     on(document, 'keydown', function (e) {
       if (e.key === 'Escape' && drawer.classList.contains('open')) closeCart();

@@ -1,0 +1,257 @@
+<section class="py-12 md:py-24 px-4 bg-transparent">
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-12 text-center">
+      <h1 class="font-display font-bold text-5xl md:text-7xl uppercase text-text-dark tracking-tighter">{{ section.settings.title | escape }}</h1>
+      {%- if section.settings.subtitle != blank -%}
+      <p class="mt-4 font-mono text-lg text-text-dark">{{ section.settings.subtitle | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {%- for block in section.blocks -%}
+        <div class="bundle-card brutalist-border border-3 bg-surface shadow-brutalist flex flex-col relative" {{ block.shopify_attributes }}>
+          <!-- OS Top Bar -->
+          <div class="w-full h-8 flex items-center px-3 justify-between shrink-0 bg-text-dark text-background-light border-b-3 border-text-dark">
+            <span class="font-mono text-xs font-bold tracking-widest">{{ block.settings.title | escape | upcase | default: 'BUNDLE.EXE' }}</span>
+            <div class="flex gap-2">
+              <div class="w-3 h-3 bg-cyan-accent border-2 border-text-dark"></div>
+              <div class="w-3 h-3 bg-magenta-accent border-2 border-text-dark"></div>
+              <div class="w-3 h-3 bg-primary border-2 border-text-dark"></div>
+            </div>
+          </div>
+          
+          <div class="p-6 flex flex-col grow">
+            {%- if block.settings.highlight_tag != blank -%}
+            <span class="absolute -top-4 -right-4 bg-primary text-text-dark font-mono font-bold text-sm px-3 py-1 brutalist-border border-2 shadow-brutalist rotate-3 z-10">{{ block.settings.highlight_tag }}</span>
+            {%- endif -%}
+
+            {%- if block.settings.description != blank -%}
+              <div class="font-mono text-sm mb-6 text-text-dark">
+                {{ block.settings.description }}
+              </div>
+            {%- endif -%}
+
+            <!-- Products List -->
+            <div class="flex flex-col gap-4 mb-8 grow bundle-products-container">
+              {%- assign bundle_products = block.settings.bundle_products -%}
+              {%- if bundle_products.count > 0 -%}
+                {%- for product in bundle_products -%}
+                  <div class="flex gap-4 items-center p-3 border-2 border-text-dark bg-background-light brutalist-border bundle-item" data-product-id="{{ product.id }}">
+                    {%- if product.featured_image -%}
+                      <img src="{{ product.featured_image | image_url: width: 100 }}" class="w-16 h-16 object-cover border-2 border-text-dark brutalist-border bg-white" alt="{{ product.title | escape }}">
+                    {%- endif -%}
+                    <div class="flex flex-col grow">
+                      <span class="font-display font-bold uppercase text-text-dark leading-tight">{{ product.title }}</span>
+                      
+                      {%- if product.has_only_default_variant == false -%}
+                        <!-- Variant Selector -->
+                        <select class="bundle-variant-selector mt-2 font-mono text-xs border-2 border-text-dark p-1 bg-white cursor-pointer brutalist-border outline-none focus:bg-yellow-100 w-full max-w-xs">
+                          {%- for variant in product.variants -%}
+                            <option value="{{ variant.id }}" data-price="{{ variant.price }}" {% unless variant.available %}disabled{% endunless %}>
+                              {{ variant.title }} - {{ variant.price | money }}
+                            </option>
+                          {%- endfor -%}
+                        </select>
+                      {%- else -%}
+                        <!-- Default Variant (Hidden Input) -->
+                        <input type="hidden" class="bundle-variant-selector" value="{{ product.first_available_variant.id }}" data-price="{{ product.price }}">
+                        <span class="font-mono text-xs mt-1">{{ product.price | money }}</span>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endfor -%}
+              {%- else -%}
+                <p class="font-mono text-sm">Select products in theme editor to build this bundle.</p>
+              {%- endif -%}
+            </div>
+
+            <div class="border-t-3 border-text-dark pt-6 mt-auto">
+              <div class="flex justify-between items-center mb-4 font-mono font-bold">
+                <span>TOTAL:</span>
+                <span class="bundle-total-price text-xl text-magenta-accent">Calculating...</span>
+              </div>
+              
+              <button type="button" class="btn-bundle-add w-full btn-brutalist bg-cyan-accent text-text-dark border-3 border-text-dark shadow-brutalist rounded-sm px-6 py-4 font-display font-bold text-xl uppercase tracking-wider transition-colors hover:bg-magenta-accent flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined">add_box</span>
+                Initialize Bundle
+              </button>
+            </div>
+
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bundles Showcase",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Available Bundles"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Select a bundle below to initialize your workspace upgrade."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bundle",
+      "name": "Bundle",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Bundle Title",
+          "default": "Starter Kit.exe"
+        },
+        {
+          "type": "text",
+          "id": "highlight_tag",
+          "label": "Highlight Tag (Optional)",
+          "default": "SAVE 15%"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Essential tools for the aspiring 10x developer.</p>"
+        },
+        {
+          "type": "product_list",
+          "id": "bundle_products",
+          "label": "Products in Bundle",
+          "limit": 10
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundles Showcase",
+      "blocks": [
+        {
+          "type": "bundle"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Format money helper
+  function formatMoney(cents) {
+    return Shopify.formatMoney ? Shopify.formatMoney(cents, '{{ shop.money_format }}') : '$' + (cents / 100).toFixed(2);
+  }
+
+  // Update bundle total price dynamically when variants change
+  const bundleCards = document.querySelectorAll('.bundle-card');
+  
+  bundleCards.forEach(card => {
+    const selectors = card.querySelectorAll('.bundle-variant-selector');
+    const priceDisplay = card.querySelector('.bundle-total-price');
+    const addButton = card.querySelector('.btn-bundle-add');
+    
+    function updatePrice() {
+      let total = 0;
+      let allSelected = true;
+      
+      selectors.forEach(selector => {
+        let price = 0;
+        if(selector.tagName === 'SELECT') {
+           const option = selector.options[selector.selectedIndex];
+           if(option) price = parseInt(option.getAttribute('data-price') || 0);
+           else allSelected = false;
+        } else {
+           price = parseInt(selector.getAttribute('data-price') || 0);
+        }
+        total += price;
+      });
+      
+      if(allSelected && priceDisplay) {
+        priceDisplay.innerHTML = formatMoney(total);
+      }
+    }
+    
+    // Listen for changes on selects
+    selectors.forEach(selector => {
+      if(selector.tagName === 'SELECT') {
+        selector.addEventListener('change', updatePrice);
+      }
+    });
+    
+    // Initial calculation
+    updatePrice();
+
+    // Handle "Initialize Bundle" button click
+    if (addButton) {
+      addButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Disable button to prevent double-clicks
+        const originalText = this.innerHTML;
+        this.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> Processing...';
+        this.disabled = true;
+
+        const itemsToAdd = [];
+        selectors.forEach(selector => {
+          let variantId = null;
+          if(selector.tagName === 'SELECT') {
+             const option = selector.options[selector.selectedIndex];
+             if(option) variantId = option.value;
+          } else {
+             variantId = selector.value;
+          }
+          if (variantId) {
+            itemsToAdd.push({ id: variantId, quantity: 1 });
+          }
+        });
+
+        if (itemsToAdd.length > 0) {
+          // Use Shopify AJAX API to add all items
+          fetch(window.Shopify.routes.root + 'cart/add.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ items: itemsToAdd })
+          })
+          .then(response => response.json())
+          .then(data => {
+             // Reset button
+             this.innerHTML = originalText;
+             this.disabled = false;
+             
+             // Trigger cart update (dispatch global event for theme.js)
+             document.dispatchEvent(new CustomEvent('cart:updated'));
+             
+             // Optionally open the cart drawer if your theme has a hook for it
+             const cartDrawer = document.querySelector('.site-cart-drawer');
+             if (cartDrawer) {
+                cartDrawer.classList.remove('translate-x-full');
+             }
+          })
+          .catch(error => {
+             console.error('Error adding bundle:', error);
+             this.innerHTML = originalText;
+             this.disabled = false;
+             alert('Error adding bundle to cart. Please try again.');
+          });
+        } else {
+          this.innerHTML = originalText;
+          this.disabled = false;
+        }
+      });
+    }
+  });
+});
+</script>
