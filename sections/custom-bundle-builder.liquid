@@ -1,177 +1,233 @@
 <section class="pt-12 pb-4 md:pt-24 md:pb-8 px-4 custom-bundle-section" style="background-color: {{ section.settings.bg_color }};" data-section-id="{{ section.id }}">
-  <div class="max-w-[1600px] mx-auto">
+  <div class="max-w-[1600px] mx-auto brutalist-border border-4 bg-surface shadow-brutalist flex flex-col overflow-hidden">
     
-    <div class="flex flex-col-reverse lg:flex-row gap-8 items-start">
+    <!-- APP TOP BAR -->
+    <div class="w-full h-10 md:h-12 flex items-center px-4 justify-between shrink-0 bg-text-dark text-background-light border-b-4 border-text-dark">
+      <span class="font-mono text-sm font-bold tracking-widest">BUNDLE.EXE</span>
+      <div class="flex gap-2">
+         <div class="w-4 h-4 bg-cyan-accent border-2 border-text-dark"></div>
+         <div class="w-4 h-4 bg-magenta-accent border-2 border-text-dark"></div>
+         <div class="w-4 h-4 bg-primary border-2 border-text-dark"></div>
+      </div>
+    </div>
+
+    <!-- APP BODY -->
+    <div class="flex flex-col lg:flex-row w-full bg-surface">
       
-      <!-- Left Column: The Console -->
-      <div class="w-full lg:w-1/3 flex flex-col gap-6 sticky top-28 z-30">
-        
-        <div class="bundle-console brutalist-border border-3 bg-surface shadow-brutalist flex flex-col relative">
-          <!-- OS Top Bar -->
-          <div class="w-full h-8 flex items-center px-3 justify-between shrink-0 bg-text-dark text-background-light border-b-3 border-text-dark">
-            <span class="font-mono text-xs font-bold tracking-widest">BUILD_BUNDLE.EXE</span>
-            <div class="flex gap-2">
-              <div class="w-3 h-3 bg-cyan-accent border-2 border-text-dark"></div>
-              <div class="w-3 h-3 bg-magenta-accent border-2 border-text-dark"></div>
-              <div class="w-3 h-3 bg-primary border-2 border-text-dark"></div>
-            </div>
+      <!-- LEFT CONSOLE -->
+      <div class="w-full lg:w-[400px] shrink-0 border-b-4 lg:border-b-0 lg:border-r-4 border-text-dark flex flex-col p-6 bg-surface relative z-30 bundle-console">
+        <h2 class="font-display font-bold text-4xl uppercase text-text-dark leading-tight mb-2">{{ section.settings.title | escape }}</h2>
+        {%- if section.settings.description != blank -%}
+          <div class="font-mono text-sm text-text-dark mb-6">
+            {{ section.settings.description }}
           </div>
-          
-          <div class="p-6 flex flex-col">
-            <h2 class="font-display font-bold text-4xl uppercase text-text-dark leading-tight mb-2">{{ section.settings.title | escape }}</h2>
-            {%- if section.settings.description != blank -%}
-              <div class="font-mono text-sm text-text-dark mb-6">
-                {{ section.settings.description }}
-              </div>
-            {%- endif -%}
+        {%- endif -%}
 
-            <div class="border-y-3 border-text-dark py-4 my-4 flex flex-col gap-2 min-h-[150px]" id="cbb-item-list">
-              <!-- JS will populate selected items here -->
-              <p class="font-mono text-sm text-text-dark/60 italic" id="cbb-empty-state">No items selected yet. Click nodes on the canvas to add items.</p>
-            </div>
-
-            <div class="pt-2 mt-auto">
-              <div class="flex justify-between items-end mb-4 font-mono font-bold">
-                <span class="text-sm">TOTAL VALUE:</span>
-                <span class="text-3xl text-magenta-accent" id="cbb-total-price">{{ 0 | money }}</span>
-              </div>
-              
-              <button type="button" id="cbb-submit-btn" class="w-full btn-brutalist bg-cyan-accent text-text-dark border-3 border-text-dark shadow-brutalist rounded-sm px-6 py-4 font-display font-bold text-xl uppercase tracking-wider transition-colors hover:bg-magenta-accent flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                <span class="material-symbols-outlined">rocket_launch</span>
-                INITIALIZE BUNDLE
-              </button>
-            </div>
-          </div>
+        <div class="border-y-3 border-text-dark py-4 my-4 flex flex-col gap-2 grow overflow-y-auto max-h-[300px] lg:max-h-full" id="cbb-item-list">
+          <p class="font-mono text-sm text-text-dark/60 italic" id="cbb-empty-state">No items selected yet. Add items from the canvas or repository.</p>
         </div>
 
+        <div class="pt-4 mt-auto border-t-3 border-text-dark">
+          <div class="flex justify-between items-end mb-4 font-mono font-bold">
+            <span class="text-sm">TOTAL VALUE:</span>
+            <span class="text-3xl text-magenta-accent" id="cbb-total-price">{{ 0 | money }}</span>
+          </div>
+          
+          <button type="button" id="cbb-submit-btn" class="w-full btn-brutalist bg-cyan-accent text-text-dark border-3 border-text-dark shadow-brutalist rounded-sm px-6 py-4 font-display font-bold text-xl uppercase tracking-wider transition-colors hover:bg-magenta-accent flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+            <span class="material-symbols-outlined">rocket_launch</span>
+            INITIALIZE BUNDLE
+          </button>
+        </div>
       </div>
 
-      <!-- Right Column: The Canvas -->
-      <div class="w-full lg:w-2/3 brutalist-border border-3 shadow-brutalist relative overflow-hidden" style="background-color: {{ section.settings.canvas_bg }}; min-height: 600px;">
-        
-        <!-- Canvas Background Styles -->
-        {%- case section.settings.canvas_style -%}
-          {%- when 'image' -%}
-            {%- if section.settings.main_image != blank -%}
-              <div class="absolute inset-0 flex items-center justify-center p-8 pointer-events-none">
-                <img 
-                  src="{{ section.settings.main_image | image_url: width: 1200 }}" 
-                  alt="Bundle Canvas" 
-                  class="w-full h-full object-contain object-center opacity-90"
-                  loading="lazy">
-              </div>
-            {%- else -%}
-              <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 font-display text-4xl">
-                UPLOAD MAIN IMAGE
-              </div>
-            {%- endif -%}
-
-          {%- when 'gradient' -%}
-            <div class="absolute inset-0 pointer-events-none opacity-80" style="background: linear-gradient(135deg, {{ section.settings.canvas_bg }}, #ff00ff, #00ffff);"></div>
+      <!-- RIGHT WORKSPACE -->
+      <div class="w-full flex flex-col grow relative overflow-hidden bg-background-light min-h-[600px] lg:min-h-[800px]">
+         
+         <!-- CANVAS (TOP) -->
+         <div class="w-full grow relative min-h-[400px] overflow-hidden" style="background-color: {{ section.settings.canvas_bg }};">
             
-          {%- when 'comic' -%}
-            <div class="absolute inset-0 pointer-events-none opacity-30" style="background-image: radial-gradient(#111 20%, transparent 20%), radial-gradient(#111 20%, transparent 20%); background-color: {{ section.settings.canvas_bg }}; background-position: 0 0, 10px 10px; background-size: 20px 20px;"></div>
-
-          {%- when 'brutalist' -%}
-            <div class="absolute inset-0 flex flex-col p-4 md:p-8 pointer-events-none z-0">
-              <!-- Top Bar -->
-              <div class="w-full h-10 md:h-12 shrink-0 bg-text-dark flex items-center px-4 justify-between border-4 border-text-dark shadow-brutalist">
-                <span class="font-mono text-xs md:text-sm font-bold text-background-light tracking-widest">Notice_Board.exe</span>
-                <div class="flex gap-2">
-                  <div class="w-3 h-3 md:w-4 md:h-4 bg-cyan-accent border-2 border-text-dark"></div>
-                  <div class="w-3 h-3 md:w-4 md:h-4 bg-magenta-accent border-2 border-text-dark"></div>
-                  <div class="w-3 h-3 md:w-4 md:h-4 bg-primary border-2 border-text-dark"></div>
-                </div>
-              </div>
-              <!-- Body -->
-              <div class="w-full grow bg-white border-x-4 border-b-4 border-text-dark shadow-brutalist"></div>
-            </div>
-
-        {%- endcase -%}
-
-        <!-- Interactive Product Nodes -->
-        {%- for block in section.blocks -%}
-          {%- assign product = block.settings.product -%}
-          {%- if product != blank -%}
-            
-            <style>
-              .cbb-node-{{ block.id }} {
-                left: {{ block.settings.pos_x_mobile }}%;
-                top: {{ block.settings.pos_y_mobile }}%;
-              }
-              @media(min-width: 1024px) {
-                .cbb-node-{{ block.id }} {
-                  left: {{ block.settings.pos_x_desktop }}%;
-                  top: {{ block.settings.pos_y_desktop }}%;
-                }
-              }
-            </style>
-
-            <div class="absolute transform -translate-x-1/2 -translate-y-1/2 z-20 group cbb-node-{{ block.id }}" {{ block.shopify_attributes }}>
-              
-              <!-- Node Button (Icon/Image) -->
-              <button type="button" class="cbb-node-btn w-16 h-16 md:w-20 md:h-20 rounded-full brutalist-border border-3 border-text-dark bg-surface shadow-brutalist flex items-center justify-center overflow-hidden hover:scale-110 transition-transform relative focus:outline-none" aria-label="Add {{ product.title | escape }}">
-                {%- if product.featured_image -%}
-                  <img src="{{ product.featured_image | image_url: width: 150 }}" class="w-full h-full object-cover" alt="{{ product.title | escape }}">
+            <!-- Canvas Background Styles -->
+            {%- case section.settings.canvas_style -%}
+              {%- when 'image' -%}
+                {%- if section.settings.main_image != blank -%}
+                  <div class="absolute inset-0 flex items-center justify-center p-8 pointer-events-none">
+                    <img 
+                      src="{{ section.settings.main_image | image_url: width: 1200 }}" 
+                      alt="Bundle Canvas" 
+                      class="w-full h-full object-contain object-center opacity-90"
+                      loading="lazy">
+                  </div>
                 {%- else -%}
-                  <span class="font-display font-bold text-2xl">{{ forloop.index }}</span>
+                  <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 font-display text-4xl">
+                    UPLOAD MAIN IMAGE
+                  </div>
                 {%- endif -%}
-                <div class="absolute inset-0 bg-cyan-accent/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <span class="material-symbols-outlined text-text-dark font-bold text-3xl shadow-sm">add</span>
-                </div>
-              </button>
 
-              <!-- Tooltip / Variant Picker (Hidden by default, shown on click via JS or hover) -->
-              <div class="cbb-node-tooltip absolute top-full left-1/2 transform -translate-x-1/2 mt-4 w-64 bg-surface brutalist-border border-3 border-text-dark shadow-brutalist p-3 hidden flex-col gap-2 z-50 transition-all opacity-0 pointer-events-none">
-                <!-- Arrow -->
-                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[10px] border-text-dark"></div>
+              {%- when 'gradient' -%}
+                <div class="absolute inset-0 pointer-events-none opacity-80" style="background: linear-gradient(135deg, {{ section.settings.canvas_bg }}, #ff00ff, #00ffff);"></div>
                 
-                <h4 class="font-mono font-bold text-xs leading-tight uppercase border-b-2 border-text-dark pb-1">{{ product.title }}</h4>
-                <div class="flex justify-between items-center font-mono text-xs font-bold text-magenta-accent">
-                   <span class="cbb-node-price" data-base-price="{{ product.price }}">{{ product.price | money }}</span>
+              {%- when 'comic' -%}
+                <div class="absolute inset-0 pointer-events-none opacity-30" style="background-image: radial-gradient(#111 20%, transparent 20%), radial-gradient(#111 20%, transparent 20%); background-color: {{ section.settings.canvas_bg }}; background-position: 0 0, 10px 10px; background-size: 20px 20px;"></div>
+
+              {%- when 'brutalist' -%}
+                <div class="absolute inset-0 flex flex-col p-4 md:p-8 pointer-events-none z-0">
+                  <div class="w-full h-10 md:h-12 shrink-0 bg-text-dark flex items-center px-4 justify-between border-4 border-text-dark shadow-brutalist">
+                    <span class="font-mono text-xs md:text-sm font-bold text-background-light tracking-widest">Notice_Board.exe</span>
+                    <div class="flex gap-2">
+                      <div class="w-3 h-3 md:w-4 md:h-4 bg-cyan-accent border-2 border-text-dark"></div>
+                      <div class="w-3 h-3 md:w-4 md:h-4 bg-magenta-accent border-2 border-text-dark"></div>
+                      <div class="w-3 h-3 md:w-4 md:h-4 bg-primary border-2 border-text-dark"></div>
+                    </div>
+                  </div>
+                  <div class="w-full grow bg-white border-x-4 border-b-4 border-text-dark shadow-brutalist"></div>
                 </div>
+            {%- endcase -%}
 
-                <div class="flex flex-col gap-2 mt-1">
-                  {%- if product.has_only_default_variant == false -%}
-                    <select class="cbb-variant-select font-mono text-xs border-2 border-text-dark p-1 bg-white cursor-pointer brutalist-border outline-none w-full">
-                      {%- for variant in product.variants -%}
-                        <option value="{{ variant.id }}" data-price="{{ variant.price }}" data-title="{{ variant.title | escape }}" {% unless variant.available %}disabled{% endunless %}>
-                          {{ variant.title }} {% unless variant.available %}(SOLD OUT){% endunless %}
-                        </option>
-                      {%- endfor -%}
-                    </select>
-                  {%- else -%}
-                    <input type="hidden" class="cbb-variant-select" value="{{ product.first_available_variant.id }}" data-price="{{ product.price }}" data-title="Default">
-                  {%- endif -%}
+            <!-- Interactive Product Nodes -->
+            {%- for block in section.blocks -%}
+              {%- assign product = block.settings.product -%}
+              {%- if product != blank -%}
+                
+                <style>
+                  .cbb-node-{{ block.id }} {
+                    left: {{ block.settings.pos_x_mobile }}%;
+                    top: {{ block.settings.pos_y_mobile }}%;
+                  }
+                  @media(min-width: 1024px) {
+                    .cbb-node-{{ block.id }} {
+                      left: {{ block.settings.pos_x_desktop }}%;
+                      top: {{ block.settings.pos_y_desktop }}%;
+                    }
+                  }
+                </style>
 
-                  <button type="button" class="cbb-add-item-btn w-full btn-brutalist bg-primary text-text-dark border-2 border-text-dark text-xs py-2 font-bold font-mono uppercase hover:bg-cyan-accent transition-colors">
-                    ADD TO BUNDLE
+                <div class="absolute transform -translate-x-1/2 -translate-y-1/2 z-20 group cbb-node-{{ block.id }}" {{ block.shopify_attributes }}>
+                  
+                  <button type="button" class="cbb-node-btn w-16 h-16 md:w-20 md:h-20 rounded-full brutalist-border border-3 border-text-dark bg-surface shadow-brutalist flex items-center justify-center overflow-hidden hover:scale-110 transition-transform relative focus:outline-none" aria-label="Add {{ product.title | escape }}">
+                    {%- if product.featured_image -%}
+                      <img src="{{ product.featured_image | image_url: width: 150 }}" class="w-full h-full object-cover" alt="{{ product.title | escape }}">
+                    {%- else -%}
+                      <span class="font-display font-bold text-2xl">{{ forloop.index }}</span>
+                    {%- endif -%}
+                    <div class="absolute inset-0 bg-cyan-accent/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <span class="material-symbols-outlined text-text-dark font-bold text-3xl shadow-sm">add</span>
+                    </div>
                   </button>
+
+                  <div class="cbb-node-tooltip absolute top-full left-1/2 transform -translate-x-1/2 mt-4 w-64 bg-surface brutalist-border border-3 border-text-dark shadow-brutalist p-3 hidden flex-col gap-2 z-50 transition-all opacity-0 pointer-events-none">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[10px] border-text-dark"></div>
+                    
+                    <h4 class="font-mono font-bold text-xs leading-tight uppercase border-b-2 border-text-dark pb-1">{{ product.title }}</h4>
+                    <div class="flex justify-between items-center font-mono text-xs font-bold text-magenta-accent">
+                       <span class="cbb-node-price" data-base-price="{{ product.price }}">{{ product.price | money }}</span>
+                    </div>
+
+                    <div class="flex flex-col gap-2 mt-1">
+                      {%- if product.has_only_default_variant == false -%}
+                        <select class="cbb-variant-select font-mono text-xs border-2 border-text-dark p-1 bg-white cursor-pointer brutalist-border outline-none w-full">
+                          {%- for variant in product.variants -%}
+                            <option value="{{ variant.id }}" data-price="{{ variant.price }}" data-title="{{ variant.title | escape }}" {% unless variant.available %}disabled{% endunless %}>
+                              {{ variant.title }} {% unless variant.available %}(SOLD OUT){% endunless %}
+                            </option>
+                          {%- endfor -%}
+                        </select>
+                      {%- else -%}
+                        <input type="hidden" class="cbb-variant-select" value="{{ product.first_available_variant.id }}" data-price="{{ product.price }}" data-title="Default">
+                      {%- endif -%}
+
+                      <button type="button" class="cbb-add-item-btn w-full btn-brutalist bg-primary text-text-dark border-2 border-text-dark text-xs py-2 font-bold font-mono uppercase hover:bg-cyan-accent transition-colors">
+                        ADD TO BUNDLE
+                      </button>
+                    </div>
+                  </div>
+
+                  <script type="application/json" class="cbb-product-data">
+                    {
+                      "id": {{ product.id | json }},
+                      "title": {{ product.title | json }},
+                      "handle": {{ product.handle | json }},
+                      "image": {% if product.featured_image %}{{ product.featured_image | image_url: width: 100 | json }}{% else %}null{% endif %}
+                    }
+                  </script>
+
                 </div>
-              </div>
+              {%- endif -%}
+            {%- endfor -%}
+         </div>
 
-              <!-- Product Data JSON -->
-              <script type="application/json" class="cbb-product-data">
-                {
-                  "id": {{ product.id | json }},
-                  "title": {{ product.title | json }},
-                  "handle": {{ product.handle | json }},
-                  "image": {% if product.featured_image %}{{ product.featured_image | image_url: width: 100 | json }}{% else %}null{% endif %}
-                }
-              </script>
+         <!-- CAROUSEL (BOTTOM) -->
+         {%- assign collection = section.settings.carousel_collection -%}
+         {%- if collection != blank and collection.products_count > 0 -%}
+         <div class="w-full border-t-4 border-text-dark bg-surface p-4 relative shrink-0">
+             <div class="font-mono text-xs font-bold tracking-widest mb-4 uppercase">PRODUCT_REPOSITORY.DIR</div>
+             
+             <div class="relative group/repo">
+                <div class="brutalist-carousel flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory hide-scrollbar relative z-10" id="carousel-{{ section.id }}">
+                  {%- for product in collection.products limit: section.settings.carousel_limit -%}
+                    
+                    <div class="flex-none w-[220px] md:w-[260px] snap-start brutalist-border border-3 bg-surface shadow-sm flex flex-col group/card hover:-translate-y-1 transition-transform duration-300 relative">
+                      
+                      <div class="w-full h-6 flex items-center px-2 justify-between shrink-0 bg-text-dark text-background-light border-b-3 border-text-dark">
+                        <span class="font-mono text-[9px] font-bold tracking-widest truncate max-w-[120px]">{{ product.handle | upcase }}.STL</span>
+                      </div>
+                      
+                      <div class="relative w-full aspect-square border-b-3 border-text-dark bg-white overflow-hidden p-2">
+                        {%- if product.featured_image -%}
+                          <img src="{{ product.featured_image | image_url: width: 300 }}" alt="{{ product.title | escape }}" class="w-full h-full object-contain group-hover/card:scale-105 transition-transform duration-500" loading="lazy">
+                        {%- else -%}
+                          <div class="w-full h-full bg-background-light flex items-center justify-center font-mono text-sm">NO_IMAGE</div>
+                        {%- endif -%}
+                      </div>
+                      
+                      <div class="p-3 flex flex-col grow justify-between bg-background-light">
+                        <h3 class="font-display font-bold text-lg uppercase text-text-dark leading-tight mb-2 truncate">{{ product.title }}</h3>
+                        
+                        <div class="flex items-center justify-between mt-2 border-t-2 border-text-dark pt-2">
+                          <div class="font-mono font-bold text-sm text-magenta-accent">
+                            {{ product.price | money }}
+                          </div>
+                          
+                          <button type="button" class="cbb-carousel-add-btn btn-brutalist w-8 h-8 rounded-full border-2 border-text-dark bg-surface flex items-center justify-center hover:bg-cyan-accent transition-colors shadow-sm" aria-label="Add to Bundle">
+                            <span class="material-symbols-outlined text-text-dark text-lg">add</span>
+                          </button>
+                        </div>
+                      </div>
 
-            </div>
-          {%- endif -%}
-        {%- endfor -%}
+                      <script type="application/json" class="cbb-carousel-product-data">
+                        {
+                          "id": {{ product.first_available_variant.id | json }},
+                          "productId": {{ product.id | json }},
+                          "title": {{ product.title | json }},
+                          "variantTitle": "",
+                          "price": {{ product.price | json }},
+                          "image": {% if product.featured_image %}{{ product.featured_image | image_url: width: 100 | json }}{% else %}null{% endif %}
+                        }
+                      </script>
+                      
+                    </div>
+                  {%- endfor -%}
+                </div>
 
+                <button id="prev-{{ section.id }}" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 w-8 h-8 bg-surface brutalist-border border-2 border-text-dark shadow-sm flex items-center justify-center hover:bg-cyan-accent transition-colors z-20 opacity-0 group-hover/repo:opacity-100 hidden md:flex">
+                  <span class="material-symbols-outlined font-bold text-sm">arrow_back</span>
+                </button>
+                <button id="next-{{ section.id }}" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 w-8 h-8 bg-surface brutalist-border border-2 border-text-dark shadow-sm flex items-center justify-center hover:bg-magenta-accent transition-colors z-20 opacity-0 group-hover/repo:opacity-100 hidden md:flex">
+                  <span class="material-symbols-outlined font-bold text-sm">arrow_forward</span>
+                </button>
+             </div>
+
+         </div>
+         {%- endif -%}
+         
       </div>
+
     </div>
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Custom Bundle Builder",
+  "name": "Unified Bundle Builder",
   "settings": [
     {
       "type": "color",
@@ -222,6 +278,24 @@
       "id": "main_image",
       "label": "Main Canvas Image",
       "info": "Only visible if 'Canvas Background Style' is set to 'Main Image'."
+    },
+    {
+      "type": "header",
+      "content": "Product Repository (Carousel)"
+    },
+    {
+      "type": "collection",
+      "id": "carousel_collection",
+      "label": "Collection to Display"
+    },
+    {
+      "type": "range",
+      "id": "carousel_limit",
+      "label": "Maximum products to show in carousel",
+      "min": 4,
+      "max": 16,
+      "step": 1,
+      "default": 8
     }
   ],
   "blocks": [
@@ -304,14 +378,12 @@
 .cbb-node-tooltip {
   display: flex;
 }
-/* Ensure sticky console stays within view */
-@media(min-width: 1024px) {
-  .bundle-console {
-    max-height: calc(100vh - 120px);
-  }
-  #cbb-item-list {
-    overflow-y: auto;
-  }
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 </style>
 
@@ -331,6 +403,12 @@ document.addEventListener('DOMContentLoaded', function() {
   const totalPriceDisplay = section.getElementById('cbb-total-price');
   const submitBtn = section.getElementById('cbb-submit-btn');
 
+  // Carousel Elements
+  const carousel = section.querySelector('.brutalist-carousel');
+  const prevBtn = section.querySelector('[id^="prev-"]');
+  const nextBtn = section.querySelector('[id^="next-"]');
+  const carouselAddBtns = section.querySelectorAll('.cbb-carousel-add-btn');
+
   // Helper: Format Money
   function formatMoney(cents) {
     return Shopify.formatMoney ? Shopify.formatMoney(cents, '{{ shop.money_format }}') : '$' + (cents / 100).toFixed(2);
@@ -340,6 +418,39 @@ document.addEventListener('DOMContentLoaded', function() {
   function generateId() {
     return Math.random().toString(36).substr(2, 9);
   }
+
+  // Carousel scroll logic
+  if(carousel && prevBtn && nextBtn) {
+    const scrollAmount = 260 + 16;
+    prevBtn.addEventListener('click', () => carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' }));
+    nextBtn.addEventListener('click', () => carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' }));
+  }
+
+  // Handle Carousel Add Buttons
+  carouselAddBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+       e.preventDefault();
+       const dataEl = btn.closest('.group\\/card').querySelector('.cbb-carousel-product-data');
+       if(dataEl) {
+         const data = JSON.parse(dataEl.textContent);
+         const newItem = {
+            id: generateId(),
+            variantId: data.id,
+            productId: data.productId,
+            title: data.title,
+            variantTitle: data.variantTitle,
+            price: parseInt(data.price || 0),
+            image: data.image
+         };
+         bundleItems.push(newItem);
+         renderConsole();
+         
+         // Flash animation
+         btn.classList.add('bg-primary');
+         setTimeout(() => btn.classList.remove('bg-primary'), 300);
+       }
+    });
+  });
 
   // 1. Handle Node Clicks (Toggle Tooltip)
   nodes.forEach(node => {
@@ -354,19 +465,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const productData = JSON.parse(productDataEl.textContent);
 
-    // Toggle Tooltip on button click
     btn.addEventListener('click', (e) => {
-      e.stopPropagation(); // prevent document click from closing immediately
-      
-      // Close all other tooltips
+      e.stopPropagation();
       document.querySelectorAll('.cbb-node-tooltip').forEach(t => {
         if(t !== tooltip) t.classList.remove('is-open');
       });
-
       tooltip.classList.toggle('is-open');
     });
 
-    // Update Price on variant change
     if(variantSelect && variantSelect.tagName === 'SELECT') {
       variantSelect.addEventListener('change', () => {
         const option = variantSelect.options[variantSelect.selectedIndex];
@@ -377,7 +483,6 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
 
-    // Add to Bundle Click
     if(addBtn) {
       addBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -400,7 +505,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if(variantId) {
           const newItem = {
-            id: generateId(), // unique id for removal
+            id: generateId(),
             variantId: variantId,
             productId: productData.id,
             title: productData.title,
@@ -412,18 +517,14 @@ document.addEventListener('DOMContentLoaded', function() {
           bundleItems.push(newItem);
           renderConsole();
           
-          // Flash animation on the node to show success
           btn.classList.add('bg-primary');
           setTimeout(() => btn.classList.remove('bg-primary'), 300);
-          
-          // Close tooltip
           tooltip.classList.remove('is-open');
         }
       });
     }
   });
 
-  // Close tooltips when clicking outside
   document.addEventListener('click', (e) => {
     if(!e.target.closest('.group')) {
       document.querySelectorAll('.cbb-node-tooltip').forEach(t => t.classList.remove('is-open'));
@@ -435,7 +536,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if(bundleItems.length === 0) {
       emptyState.style.display = 'block';
       submitBtn.disabled = true;
-      // Remove all item DOMs
       Array.from(itemList.children).forEach(child => {
         if(child !== emptyState) child.remove();
       });
@@ -446,7 +546,6 @@ document.addEventListener('DOMContentLoaded', function() {
     emptyState.style.display = 'none';
     submitBtn.disabled = false;
 
-    // Clear existing (excluding empty state)
     Array.from(itemList.children).forEach(child => {
         if(child !== emptyState) child.remove();
     });
@@ -480,7 +579,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     totalPriceDisplay.textContent = formatMoney(totalCents);
 
-    // Attach remove event listeners
     const removeBtns = itemList.querySelectorAll('.cbb-remove-item');
     removeBtns.forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -500,16 +598,14 @@ document.addEventListener('DOMContentLoaded', function() {
     submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> INITIALIZING...';
     submitBtn.disabled = true;
 
-    // Map bundle items to Shopify cart AJAX format
     const itemsToAdd = bundleItems.map(item => ({
       id: parseInt(item.variantId),
       quantity: 1,
       properties: {
-        '_bundle_type': 'Custom Builder' // Hidden line item property
+        '_bundle_type': 'Custom Builder'
       }
     }));
 
-    // Group identical variant IDs and sum quantities (optional, but cleaner for the API request)
     const groupedItems = itemsToAdd.reduce((acc, curr) => {
        const existing = acc.find(i => i.id === curr.id);
        if(existing) {
@@ -531,12 +627,8 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(data => {
        submitBtn.innerHTML = originalText;
        submitBtn.disabled = false;
-       
-       // Clear bundle state on success
        bundleItems = [];
        renderConsole();
-       
-       // Trigger cart update (theme.js listens for this)
        document.dispatchEvent(new CustomEvent('cart:updated'));
     })
     .catch(error => {
