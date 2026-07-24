@@ -21,19 +21,55 @@
   }
 
   /* ============================================================
-     STICKY HEADER — add class on scroll
+     SMART HEADER — hide on scroll, reveal on hover
      ============================================================ */
   function initStickyHeader() {
-    var header = qs('.site-header');
+    var header = qs('#site-header');
+    var hoverZone = qs('#header-hover-zone');
     if (!header) return;
-    var onScroll = function () {
-      if (window.scrollY > 16) {
-        header.classList.add('scrolled');
+
+    var isScrolled = false;
+    var isHovered = false;
+    var hideTimeout;
+
+    function updateHeader() {
+      if (isScrolled && !isHovered) {
+        header.style.transform = 'translateY(-100%)';
       } else {
-        header.classList.remove('scrolled');
+        header.style.transform = 'translateY(0)';
       }
+    }
+
+    var onScroll = function () {
+      isScrolled = window.scrollY > 80; // hide after scrolling past 80px
+      updateHeader();
     };
+
     on(window, 'scroll', onScroll, { passive: true });
+    
+    function handleMouseEnter() {
+      if (window.innerWidth >= 768) { // desktop mode
+        clearTimeout(hideTimeout);
+        isHovered = true;
+        updateHeader();
+      }
+    }
+    
+    function handleMouseLeave() {
+      if (window.innerWidth >= 768) {
+        hideTimeout = setTimeout(function() {
+          isHovered = false;
+          updateHeader();
+        }, 2000); // 2 second delay before hiding
+      }
+    }
+
+    if (hoverZone) {
+      on(hoverZone, 'mouseenter', handleMouseEnter);
+    }
+    on(header, 'mouseenter', handleMouseEnter);
+    on(header, 'mouseleave', handleMouseLeave);
+
     onScroll();
   }
 
